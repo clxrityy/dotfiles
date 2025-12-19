@@ -1,0 +1,43 @@
+# Comments and blank lines are allowed.
+
+RCS
+.+,v
+
+CVS
+\.\#.+       # CVS conflict files / emacs lock files
+\.cvsignore
+
+\.svn
+_darcs
+\.hg
+
+\.git
+\.gitignore
+\.gitmodules
+
+.+~          # emacs backup files
+\#.*\#       # emacs autosave files
+
+^/README.*
+^/LICENSE.*
+^/COPYING
+
+^/Desktop
+^/Documents
+^/Downloads
+^/Music
+^/Pictures
+^/Videos
+^/Templates
+^/Public 
+
+^/\.config
+^/\.local
+^/\.cache
+^/\.CFUserTextEncoding
+^/\.zsh_history
+^/\.bash_history
+^/\.lmstudio*
+^/\.vscode
+^/\.zsh_sessions
+^/\.DS_Store
