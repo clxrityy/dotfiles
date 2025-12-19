@@ -1,3 +1,6 @@
+# This file specifies patterns for files and directories to be ignored by GNU Stow
+# ------------------------------
+
 # Comments and blank lines are allowed
 
 RCS
@@ -23,35 +26,35 @@ _darcs
 ^/COPYING
 
 # Ignore standard user folders
-^/Desktop
-^/Documents
-^/Downloads
-^/Music
-^/Pictures
-^/Videos
-^/Templates
-^/Public
-^/Library
-^/Applications
-^/Movies
+/Desktop
+/Documents
+/Downloads
+/Music
+/Pictures
+/Videos
+/Templates
+/Public
+/Library
+/Applications
+/Movies
 
 # Ignore user-specific and system files
-^/.config
-^/.local
-^/.cache
-^/.CFUserTextEncoding
-^/.zsh_history
-^/.bash_history
-^/.lmstudio*
-^/.vscode
-^/.zsh_sessions
-^/.DS_Store
-^/.Trash
+/.config
+/.local
+/.cache
+/.CFUserTextEncoding
+/.zsh_history
+/.bash_history
+/.lmstudio*
+/.vscode
+/.zsh_sessions
+/.DS_Store
+/.Trash
 
 # Ignore script files
-^/install.sh
-^/.macos
-^/.osx
+install.sh
+.macos
+.osx
 
 # Ignore utility files
-^/.markdownlint.json
+.markdownlint.json
