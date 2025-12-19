@@ -228,9 +228,10 @@ main() {
     # ---- TODOS
     # - User preferences
     # - Homebrew installation/updates (if not skipped)
-    # - Symlink dotfiles
+    # - Symlink dotfiles (stow)
     # - Package installation(s)
     # - Oh My Zsh setup
+    # - powkerlevel10k
     # - macOS settings (or system defaults)
 
     log_success "Installation complete!"
