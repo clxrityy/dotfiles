@@ -216,6 +216,62 @@ run_cmd() {
 }
 
 # =====================================================
+# Homebrew installation/update
+# =====================================================
+setup_homebrew() {
+    if [[ "$SKIP_BREW" == true ]]; then
+        log_info "Skipping Homebrew (--skip-brew flag set)"
+        return 0
+    fi
+
+    if [[ "$OS" != "macos" && "$OS" != "linux" ]]; then
+        log_warning "Homebrew is only supported on macOS and Linux"
+        return 0
+    fi
+
+    if command -v brew &>/dev/null; then
+        log_info "Homebrew already installed, updating..."
+        run_cmd "brew update"
+        run_cmd "brew upgrade"
+        log_success "Homebrew updated"
+    else
+        log_info "Installing Homebrew..."
+        run_cmd '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
+        
+        # Add Homebrew to PATH for Apple Silicon Macs
+        if [[ "$OS" == "macos" && "$ARCH" == "arm64" ]]; then
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+        fi
+        
+        log_success "Homebrew installed"
+    fi
+}
+
+# ==========================================
+# Symlink dotfiles using GNU Stow
+# ==========================================
+symlink_dotfiles() {
+    log_info "Symlinking dotfiles using GNU Stow..."
+    local dotfiles_dir="$SCRIPT_DIR"
+    if [[ ! -d "$dotfiles_dir" ]]; then
+        log_error "Dotfiles directory not found: $dotfiles_dir"
+        exit 1
+    fi
+    cd "$dotfiles_dir" || exit 1
+    log_debug "Changing directory to $dotfiles_dir"
+    # check if stow is installed
+    if ! command -v stow &>/dev/null; then
+        log_error "GNU Stow is not installed. Please install it and rerun the script."
+        exit 1
+    fi
+    run_cmd "cp .stow-local-ignore ~/.stow-local-ignore"
+    run_cmd "cp .stowrc ~/.stowrc"
+    cd ~
+    run_cmd "stow ."
+    log_success "Dotfiles symlinked"
+}
+
+# =====================================================
 # Main script execution
 # =====================================================
 main() {
@@ -226,9 +282,10 @@ main() {
     log_info "Starting installation..."
 
     # ---- TODOS
-    # - User preferences
-    # - Homebrew installation/updates (if not skipped)
-    # - Symlink dotfiles (stow)
+    # - ~~Homebrew installation/updates (if not skipped)~~
+    setup_homebrew
+    # - ~~Symlink dotfiles (stow)~~
+    symlink_dotfiles
     # - Package installation(s)
     # - Oh My Zsh setup
     # - powkerlevel10k
