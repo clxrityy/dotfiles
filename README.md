@@ -1,4 +1,4 @@
-# `.dotfiles/`
+# `dotfiles/`
 
 > - [What are dotfiles?](https://wiki.archlinux.org/title/Dotfiles)
 
