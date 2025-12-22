@@ -331,21 +331,98 @@ setup_powerlevel10k() {
 
     local p10k_dir="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
 
-    if [[ -d "$p10k_dir" ]]; then
-        log_info "Powerlevel10k already installed"
-        return 0
-    fi
-
     # Ensure Oh My Zsh is installed first
     if [[ ! -d "${HOME}/.oh-my-zsh" ]]; then
         log_warning "Oh My Zsh not found. Install it first."
         return 1
     fi
 
-    log_info "Installing Powerlevel10k..."
-    run_cmd "git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $p10k_dir"
-    log_success "Powerlevel10k installed"
-    log_info "Set ZSH_THEME=\"powerlevel10k/powerlevel10k\" in your .zshrc"
+    # Install Powerlevel10k if not present
+    if [[ ! -d "$p10k_dir" ]]; then
+        log_info "Installing Powerlevel10k..."
+        run_cmd "git clone --depth=1 https://github.com/romkatv/powerlevel10k.git '$p10k_dir'"
+        log_success "Powerlevel10k installed"
+    else
+        log_info "Powerlevel10k already installed"
+    fi
+
+    # Determine the actual zshrc file (resolve symlink if needed)
+    local zshrc="$HOME/.zshrc"
+    local zshrc_target="$zshrc"
+    
+    # If .zshrc is a symlink, get the actual file path
+    if [[ -L "$zshrc" ]]; then
+        zshrc_target="$(readlink -f "$zshrc")"
+        log_debug "Resolved .zshrc symlink to: $zshrc_target"
+    fi
+
+    if [[ -f "$zshrc_target" ]]; then
+        # Check if ZSH_THEME is already set to powerlevel10k
+        if grep -q 'ZSH_THEME="powerlevel10k/powerlevel10k"' "$zshrc_target"; then
+            log_debug "Powerlevel10k theme already configured in .zshrc"
+        else
+            log_info "Configuring Powerlevel10k theme in .zshrc..."
+            # Replace existing ZSH_THEME line or add if not present
+            if grep -q '^ZSH_THEME=' "$zshrc_target"; then
+                if [[ "$DRY_RUN" == true ]]; then
+                    log_info "[DRY-RUN] Would update ZSH_THEME in $zshrc_target"
+                else
+                    # Use a temp file approach instead of sed -i for symlink compatibility
+                    local temp_file
+                    temp_file=$(mktemp)
+                    sed 's/^ZSH_THEME=.*/ZSH_THEME="powerlevel10k\/powerlevel10k"/' "$zshrc_target" > "$temp_file"
+                    mv "$temp_file" "$zshrc_target"
+                fi
+            else
+                run_cmd "echo 'ZSH_THEME=\"powerlevel10k/powerlevel10k\"' >> '$zshrc_target'"
+            fi
+            log_success "Powerlevel10k theme configured"
+        fi
+
+        # Add p10k sourcing if not present
+        if ! grep -q 'source ~/.p10k.zsh' "$zshrc_target" && ! grep -q '\[\[ ! -f ~/.p10k.zsh \]\]' "$zshrc_target"; then
+            log_info "Adding Powerlevel10k sourcing to .zshrc..."
+            run_cmd "echo '' >> '$zshrc_target'"
+            run_cmd "echo '# To customize prompt, run \`p10k configure\` or edit ~/.p10k.zsh.' >> '$zshrc_target'"
+            run_cmd "echo '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh' >> '$zshrc_target'"
+            log_success "Powerlevel10k sourcing added"
+        fi
+
+        # Add instant prompt if not present (should be near top of .zshrc)
+        if ! grep -q 'p10k-instant-prompt' "$zshrc_target"; then
+            log_info "Adding Powerlevel10k instant prompt to .zshrc..."
+            local instant_prompt='# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+'
+            # Prepend instant prompt to .zshrc
+            if [[ "$DRY_RUN" == true ]]; then
+                log_info "[DRY-RUN] Would prepend instant prompt to .zshrc"
+            else
+                local temp_file
+                temp_file=$(mktemp)
+                echo "$instant_prompt" > "$temp_file"
+                cat "$zshrc_target" >> "$temp_file"
+                mv "$temp_file" "$zshrc_target"
+            fi
+            log_success "Powerlevel10k instant prompt added"
+        fi
+    fi
+
+    # Copy default p10k config if dotfiles has one and ~/.p10k.zsh doesn't exist
+    local dotfiles_p10k="$SCRIPT_DIR/.p10k.zsh"
+    local home_p10k="$HOME/.p10k.zsh"
+    
+    if [[ -f "$dotfiles_p10k" && ! -f "$home_p10k" ]]; then
+        log_info "Copying Powerlevel10k configuration..."
+        run_cmd "cp '$dotfiles_p10k' '$home_p10k'"
+        log_success "Powerlevel10k configuration copied"
+    elif [[ ! -f "$home_p10k" ]]; then
+        log_warning "No p10k configuration found. Run 'p10k configure' after restarting your shell."
+    fi
 }
 
 # =====================================================
@@ -403,6 +480,28 @@ install_packages() {
 }
 
 # =====================================================
+# Final setup instructions
+# =====================================================
+print_post_install() {
+    echo ""
+    echo -e "${BOLD}╔════════════════════════════════════════╗${RESET}"
+    echo -e "${BOLD}║       Post-Installation Steps          ║${RESET}"
+    echo -e "${BOLD}╚════════════════════════════════════════╝${RESET}"
+    echo ""
+    echo -e "  ${YELLOW}1.${RESET} Restart your terminal or run: ${GREEN}exec zsh${RESET}"
+    echo ""
+    
+    if [[ ! -f "$HOME/.p10k.zsh" ]]; then
+        echo -e "  ${YELLOW}2.${RESET} Configure Powerlevel10k: ${GREEN}p10k configure${RESET}"
+        echo ""
+    fi
+    
+    echo -e "  ${BLUE}Tip:${RESET} If fonts look broken, install a Nerd Font:"
+    echo -e "       ${GREEN}brew install --cask font-meslo-lg-nerd-font${RESET}"
+    echo ""
+}
+
+# =====================================================
 # Main script execution
 # =====================================================
 main() {
@@ -412,23 +511,23 @@ main() {
 
     log_info "Starting installation..."
 
-    # ---- TODOS
-    # - ~~Homebrew installation/updates (if not skipped)~~
+    # Homebrew installation/updates (if not skipped)
     setup_homebrew
-    # - ~~Symlink dotfiles (stow)~~
+    # Symlink dotfiles (stow)
     symlink_dotfiles
-    # - Package installation(s)
-    # - ~~Oh My Zsh setup~~
+    # Oh My Zsh setup
     setup_ohmyzsh
-    # - ~~Powerlevel10k setup~~
+    # Powerlevel10k setup (with automatic configuration)
     setup_powerlevel10k
-    # - ~~macOS settings (or system defaults)~~
+    # macOS settings (or system defaults)
     setup_macos_defaults
-
-    # - ~~Install packages from Brewfile~~
+    # Install packages from Brewfile
     install_packages
 
     log_success "Installation complete!"
+    
+    # Print post-installation instructions
+    print_post_install
 }
 
 # Execute main function
