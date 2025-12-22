@@ -267,9 +267,30 @@ symlink_dotfiles() {
     
     log_debug "Stowing from $dotfiles_dir to $HOME"
     
-    # Copy stow config files if they exist
-    if [[ -f "$dotfiles_dir/.stow-local-ignore" ]]; then
-        run_cmd "cp '$dotfiles_dir/.stow-local-ignore' '$HOME/.stow-local-ignore'"
+    # Backup conflicting files before stowing
+    local backup_dir="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
+    local files_to_check=(".zshrc" ".zprofile" ".bash_profile" ".editorconfig" ".gitconfig")
+    local needs_backup=false
+    
+    for file in "${files_to_check[@]}"; do
+        # Check if file exists and is NOT a symlink
+        if [[ -f "$HOME/$file" && ! -L "$HOME/$file" ]]; then
+            needs_backup=true
+            break
+        fi
+    done
+    
+    if [[ "$needs_backup" == true ]]; then
+        log_info "Backing up existing dotfiles to $backup_dir"
+        run_cmd "mkdir -p '$backup_dir'"
+        
+        for file in "${files_to_check[@]}"; do
+            if [[ -f "$HOME/$file" && ! -L "$HOME/$file" ]]; then
+                log_debug "Backing up $file"
+                run_cmd "mv '$HOME/$file' '$backup_dir/'"
+            fi
+        done
+        log_success "Existing dotfiles backed up"
     fi
     
     # Run stow from the dotfiles directory, targeting home
@@ -361,6 +382,27 @@ setup_macos_defaults() {
 }
 
 # =====================================================
+# Install packages from Brewfile
+# =====================================================
+install_packages() {
+    if [[ "$SKIP_BREW" == true ]]; then
+        log_info "Skipping package installation (--skip-brew flag set)"
+        return 0
+    fi
+
+    local brewfile="$SCRIPT_DIR/Brewfile"
+
+    if [[ ! -f "$brewfile" ]]; then
+        log_warning "Brewfile not found: $brewfile"
+        return 0
+    fi
+
+    log_info "Installing packages from Brewfile..."
+    run_cmd "brew bundle --file='$brewfile'"
+    log_success "Packages installed from Brewfile"
+}
+
+# =====================================================
 # Main script execution
 # =====================================================
 main() {
@@ -382,6 +424,9 @@ main() {
     setup_powerlevel10k
     # - ~~macOS settings (or system defaults)~~
     setup_macos_defaults
+
+    # - ~~Install packages from Brewfile~~
+    install_packages
 
     log_success "Installation complete!"
 }
