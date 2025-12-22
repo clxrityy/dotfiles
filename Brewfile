@@ -11,6 +11,8 @@ brew 'docker'
 brew 'go'
 brew 'rust'
 brew 'java'
+brew 'docker-compose'
+brew 'ffmpeg'
 
 # Applications
 cask 'visual-studio-code'
