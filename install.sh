@@ -272,6 +272,27 @@ symlink_dotfiles() {
 }
 
 # =====================================================
+# Oh My Zsh installation
+# =====================================================
+setup_ohmyzsh() {
+    if [[ "$OS" != "macos" ]]; then
+        log_info "Skipping Oh My Zsh (macOS only)"
+        return 0
+    fi
+
+    local omz_dir="${HOME}/.oh-my-zsh"
+
+    if [[ -d "$omz_dir" ]]; then
+        log_info "Oh My Zsh already installed"
+        return 0
+    fi
+
+    log_info "Installing Oh My Zsh..."
+    run_cmd 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended'
+    log_success "Oh My Zsh installed"
+}
+
+# =====================================================
 # Main script execution
 # =====================================================
 main() {
@@ -287,7 +308,8 @@ main() {
     # - ~~Symlink dotfiles (stow)~~
     symlink_dotfiles
     # - Package installation(s)
-    # - Oh My Zsh setup
+    # - ~~Oh My Zsh setup~~
+    setup_ohmyzsh
     # - powkerlevel10k
     # - macOS settings (or system defaults)
 
