@@ -55,6 +55,7 @@ _darcs
 install.sh
 .macos
 .osx
+Brewfile
 
 # Ignore utility files
 .markdownlint.json
