@@ -253,21 +253,28 @@ setup_homebrew() {
 symlink_dotfiles() {
     log_info "Symlinking dotfiles using GNU Stow..."
     local dotfiles_dir="$SCRIPT_DIR"
+    
     if [[ ! -d "$dotfiles_dir" ]]; then
         log_error "Dotfiles directory not found: $dotfiles_dir"
         exit 1
     fi
-    cd "$dotfiles_dir" || exit 1
-    log_debug "Changing directory to $dotfiles_dir"
+    
     # check if stow is installed
     if ! command -v stow &>/dev/null; then
         log_error "GNU Stow is not installed. Please install it and rerun the script."
         exit 1
     fi
-    run_cmd "cp .stow-local-ignore ~/.stow-local-ignore"
-    run_cmd "cp .stowrc ~/.stowrc"
-    cd ~
-    run_cmd "stow ."
+    
+    log_debug "Stowing from $dotfiles_dir to $HOME"
+    
+    # Copy stow config files if they exist
+    if [[ -f "$dotfiles_dir/.stow-local-ignore" ]]; then
+        run_cmd "cp '$dotfiles_dir/.stow-local-ignore' '$HOME/.stow-local-ignore'"
+    fi
+    
+    # Run stow from the dotfiles directory, targeting home
+    run_cmd "stow -d '$dotfiles_dir' -t '$HOME' ."
+    
     log_success "Dotfiles symlinked"
 }
 
@@ -293,6 +300,67 @@ setup_ohmyzsh() {
 }
 
 # =====================================================
+# Powerlevel10k installation
+# =====================================================
+setup_powerlevel10k() {
+    if [[ "$OS" != "macos" ]]; then
+        log_info "Skipping Powerlevel10k (macOS only)"
+        return 0
+    fi
+
+    local p10k_dir="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
+
+    if [[ -d "$p10k_dir" ]]; then
+        log_info "Powerlevel10k already installed"
+        return 0
+    fi
+
+    # Ensure Oh My Zsh is installed first
+    if [[ ! -d "${HOME}/.oh-my-zsh" ]]; then
+        log_warning "Oh My Zsh not found. Install it first."
+        return 1
+    fi
+
+    log_info "Installing Powerlevel10k..."
+    run_cmd "git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $p10k_dir"
+    log_success "Powerlevel10k installed"
+    log_info "Set ZSH_THEME=\"powerlevel10k/powerlevel10k\" in your .zshrc"
+}
+
+# =====================================================
+# macOS system defaults
+# =====================================================
+setup_macos_defaults() {
+    if [[ "$OS" != "macos" ]]; then
+        log_info "Skipping macOS defaults (macOS only)"
+        return 0
+    fi
+
+    local macos_script="$SCRIPT_DIR/.macos"
+
+    if [[ ! -f "$macos_script" ]]; then
+        log_warning "macOS defaults script not found: $macos_script"
+        return 1
+    fi
+
+    if [[ "$FORCE" != true ]]; then
+        log_warning "Applying macOS defaults will change system settings and require sudo."
+        read -p "Apply macOS defaults? (y/n): " -n 1 -r
+        echo ""
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            log_info "Skipping macOS defaults"
+            return 0
+        fi
+    fi
+
+    log_info "Applying macOS system defaults..."
+    run_cmd "chmod +x '$macos_script'"
+    run_cmd "bash '$macos_script'"
+    log_success "macOS defaults applied"
+    log_warning "Some changes may require a logout/restart to take effect."
+}
+
+# =====================================================
 # Main script execution
 # =====================================================
 main() {
@@ -310,8 +378,10 @@ main() {
     # - Package installation(s)
     # - ~~Oh My Zsh setup~~
     setup_ohmyzsh
-    # - powkerlevel10k
-    # - macOS settings (or system defaults)
+    # - ~~Powerlevel10k setup~~
+    setup_powerlevel10k
+    # - ~~macOS settings (or system defaults)~~
+    setup_macos_defaults
 
     log_success "Installation complete!"
 }
