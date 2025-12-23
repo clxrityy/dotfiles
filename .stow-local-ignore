@@ -39,9 +39,11 @@ _darcs
 /Movies
 
 # Ignore user-specific and system files
-/.config
-/.local
-/.cache
+#
+# Note:
+#   Do NOT ignore `/.config`, `/.local`, or `/.cache` globally.
+#   This repo may stow files into ~/.config (e.g. starship.toml) in the future.
+#   If you want to avoid stowing a specific subtree, ignore it more narrowly.
 /.CFUserTextEncoding
 /.zsh_history
 /.bash_history
@@ -51,12 +53,13 @@ _darcs
 /.DS_Store
 /.Trash
 
-# Ignore script files
-install.sh
-.macos
-.osx
-Brewfile
+# Ignore installation and script files (not meant to be stowed)
+^/install\.sh
+^/scripts
 
-# Ignore utility files
-.markdownlint.json
-.editorconfig
+# Documentation (not meant to be stowed)
+^/README.*
+
+# Note:
+#   Do NOT ignore .editorconfig / .markdownlint.json here.
+#   Those live under the `common/` stow package and should be linked.

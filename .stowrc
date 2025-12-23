@@ -1,1 +1,14 @@
-target=.dotfiles
+# .stowrc
+#
+# Purpose:
+#   Default GNU Stow settings when you run `stow ...` manually.
+#
+# Why target=..:
+#   This repository is intended to live at `~/.dotfiles`.
+#   When you are inside `~/.dotfiles`, the parent directory (`..`) is `$HOME`.
+#   This makes `stow common` behave like `stow -t "$HOME" common`.
+#
+# Reference:
+#   - GNU Stow manual: https://www.gnu.org/software/stow/manual/stow.html
+
+target=..

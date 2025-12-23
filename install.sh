@@ -1,534 +1,117 @@
 #!/usr/bin/env bash
 # 
-# install.sh - Dotfiles installation script
-# Usage: ./install.sh [options]
-# 
-# Options:
-#   -h, --help      Show this help message
-#   -f, --force     Force overwrite existing files
-#   -v, --verbose   Enable verbose output
-#   --dry-run       Simulate installation without making changes
-#   --skip-brew     Skip Homebrew installation/updates
+# install.sh - Dotfiles Installation Orchestrator
+# Detects OS and delegates to environment-specific installers
 # =====================================================
 
-set -euo pipefail # Enable strict error handling
+set -euo pipefail
 
 # =====================================================
 # Script directory resolution
 # =====================================================
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)" # Get the absolute path of the script directory
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # =====================================================
-# Color constants (disabled if not a terminal)
+# Shared libraries
 # =====================================================
-if [[ -t 1 ]]; then
-    RED=$(tput setaf 1)
-    GREEN=$(tput setaf 2)
-    YELLOW=$(tput setaf 3)
-    BLUE=$(tput setaf 4)
-    BOLD=$(tput bold)
-    RESET=$(tput sgr0)
-else
-    RED=""
-    GREEN=""
-    YELLOW=""
-    BLUE=""
-    BOLD=""
-    RESET=""
-fi
+# Purpose:
+#   Keep install scripts DRY by sourcing shared helpers for:
+#   - colors/logging
+#   - flag parsing
+#   - dry-run command execution
+#   - OS detection
+#   - stow orchestration
 
-# =====================================================
-# Logging functions
-# =====================================================
-log_info() { echo -e "${BLUE}[INFO]${RESET} $*"; } # General information
-log_success() { echo -e "${GREEN}[✓]${RESET} $*"; } # Success messages
-log_warning() { echo -e "${YELLOW}[!]${RESET} $*"; } # Warnings
-log_error() { echo -e "${RED}[✗]${RESET} $*"; } # Error messages
-log_debug() {
-    if [[ "${VERBOSE:-false}" == "true" ]]; then
-        echo -e "${BOLD}[DEBUG]${RESET} $*"
-    fi
-} # Debug messages (verbose only)
+LIB_DIR="$REPO_DIR/scripts/lib"
 
-# =====================================================
-# Default flag values
-# =====================================================
-FORCE=false
-VERBOSE=false
-DRY_RUN=false
-SKIP_BREW=false
+# shellcheck source=/dev/null
+source "$LIB_DIR/colors.sh"
+# shellcheck source=/dev/null
+source "$LIB_DIR/log.sh"
+# shellcheck source=/dev/null
+source "$LIB_DIR/args.sh"
+# shellcheck source=/dev/null
+source "$LIB_DIR/run.sh"
+# shellcheck source=/dev/null
+source "$LIB_DIR/os.sh"
+# shellcheck source=/dev/null
+source "$LIB_DIR/stow.sh"
+# shellcheck source=/dev/null
+source "$LIB_DIR/banner.sh"
+# shellcheck source=/dev/null
+source "$LIB_DIR/prompt.sh"
 
-# =====================================================
-# Usage/help function
-# =====================================================
+init_colors
+
 usage() {
-    cat << EOF
-${BOLD}Usage:${RESET} 
-    ${GREEN}$(basename "$0")${RESET} ${BLUE}[options]${RESET}
+  cat << EOF
+${BOLD}Usage:${RESET}
+  ${GREEN}./install.sh${RESET} ${BLUE}[options]${RESET}
+
+${BOLD}Description:${RESET}
+  Root dotfiles installer. Detects OS, runs GNU Stow, then delegates to the
+  OS-specific installer under ${BLUE}./macos${RESET} or ${BLUE}./fedora${RESET}.
 
 ${BOLD}Options:${RESET}
-    ${BLUE}-h, --help${RESET}      Show this help message
-    ${BLUE}-f, --force${RESET}     Force overwrite existing files
-    ${BLUE}-v, --verbose${RESET}   Enable verbose output
-    ${BLUE}--dry-run${RESET}       Simulate installation without making changes
-    ${BLUE}--skip-brew${RESET}     Skip Homebrew installation/updates
+$(print_common_flags_help)
 
-${BOLD}Examples:${RESET}
-    ${GREEN}./install.sh${RESET}  # Interactive installation
-    ${GREEN}./install.sh${RESET} ${BLUE}--force${RESET}  # Force installation
-    ${GREEN}./install.sh${RESET} ${BLUE}--dry-run${RESET}  # Simulate installation
+${BOLD}Notes:${RESET}
+  - OS-specific flags are supported and passed through.
+  - For OS-specific help:
+      ${GREEN}./macos/install.sh --help${RESET}
+      ${GREEN}./fedora/install.sh --help${RESET}
 EOF
 }
 
 # =====================================================
-# Argument parsing
-# =====================================================
-while [[ $# -gt 0 ]]; do
-    case $1 in
-        # Help option
-        -h|--help)
-            usage
-            exit 0
-            ;;
-        # Force option
-        -f|--force)
-            FORCE=true
-            shift
-            ;;
-        # Verbose option
-        -v|--verbose)
-            VERBOSE=true
-            shift
-            ;;
-        # Dry-run option
-        --dry-run)
-            DRY_RUN=true
-            shift
-            ;;
-        # Skip Homebrew option
-        --skip-brew)
-            SKIP_BREW=true
-            shift
-            ;;
-        # End of options
-        --)
-            shift
-            break
-            ;;
-        # Unknown option
-        -*)
-            log_error "Unknown option: $1"
-            usage
-            exit 1
-            ;;
-        # No more options
-        *)
-            break
-            ;;
-    esac
-done
-
-# =====================================================
-# OS detection
-# =====================================================
-detect_os() {
-    case "$OSTYPE" in
-        darwin*)  echo "macos" ;;
-        linux*)   echo "linux" ;;
-        msys*|cygwin*) echo "windows" ;;
-        *)        echo "unknown" ;;
-    esac
-} # Detect operating system
-
-detect_arch() {
-    local arch
-    arch="$(uname -m)"
-    case "$arch" in
-        arm64|aarch64) echo "arm64" ;;
-        x86_64)        echo "x86_64" ;;
-        *)             echo "$arch" ;;
-    esac
-} # Detect system architecture
-
-OS="$(detect_os)"
-ARCH="$(detect_arch)"
-
-# =====================================================
-# Execution context validation
-# =====================================================
-validate_context() {
-    # Check if in the dotfiles directory
-    if [[ ! -f "$SCRIPT_DIR/.zshrc" ]] || [[ ! -f "$SCRIPT_DIR/.macos" ]]; then
-        log_error "Missing expected dotfiles. Are you running from the correct directory?"
-        log_error "Expected: $SCRIPT_DIR"
-        exit 1
-    fi
-
-    # Check for unsupported OS
-    if [[ "$OS" == "unknown" ]]; then
-        log_error "Unsupported operating system: $OSTYPE"
-        exit 1
-    fi
-
-    log_debug "Context validated: $SCRIPT_DIR"
-} # Validate execution context
-
-# =====================================================
-# Startup banner & confirmation
-# =====================================================
-print_banner() {
-    echo ""
-    echo -e "${BOLD}╔════════════════════════════════════════╗${RESET}"
-    echo -e "${BOLD}║       Dotfiles Installation            ║${RESET}"
-    echo -e "${BOLD}║         clxrityy/dotfiles              ║${RESET}"
-    echo -e "${BOLD}╚════════════════════════════════════════╝${RESET}"
-    echo ""
-    echo -e "  ${BOLD}OS:${RESET}          $OS ($ARCH)"
-    echo -e "  ${BOLD}Dotfiles:${RESET}    $SCRIPT_DIR"
-    echo -e "  ${BOLD}Flags:${RESET}       force=$FORCE, verbose=$VERBOSE, dry-run=$DRY_RUN"
-    echo ""
-} # Print startup banner
-
-confirm_proceed() {
-    if [[ "$FORCE" == true ]]; then
-        log_info "Force flag set; proceeding without confirmation."
-        return 0
-    fi
-
-    read -p "Proceed with installation? (y/n): " -n 1 -r
-    echo ""
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        log_info "Installation aborted by user."
-        exit 0
-    fi
-} # Confirm to proceed with installation
-
-# =====================================================
-# Run command (with dry-run support)
-# =====================================================
-run_cmd() {
-    if [[ "$DRY_RUN" == true ]]; then
-        log_info "[DRY-RUN] Would execute: $*"
-    else
-        log_debug "Executing: $*"
-        eval "$@"
-    fi
-}
-
-# =====================================================
-# Homebrew installation/update
-# =====================================================
-setup_homebrew() {
-    if [[ "$SKIP_BREW" == true ]]; then
-        log_info "Skipping Homebrew (--skip-brew flag set)"
-        return 0
-    fi
-
-    if [[ "$OS" != "macos" && "$OS" != "linux" ]]; then
-        log_warning "Homebrew is only supported on macOS and Linux"
-        return 0
-    fi
-
-    if command -v brew &>/dev/null; then
-        log_info "Homebrew already installed, updating..."
-        run_cmd "brew update"
-        run_cmd "brew upgrade"
-        log_success "Homebrew updated"
-    else
-        log_info "Installing Homebrew..."
-        run_cmd '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
-        
-        # Add Homebrew to PATH for Apple Silicon Macs
-        if [[ "$OS" == "macos" && "$ARCH" == "arm64" ]]; then
-            eval "$(/opt/homebrew/bin/brew shellenv)"
-        fi
-        
-        log_success "Homebrew installed"
-    fi
-}
-
-# ==========================================
-# Symlink dotfiles using GNU Stow
-# ==========================================
-symlink_dotfiles() {
-    log_info "Symlinking dotfiles using GNU Stow..."
-    local dotfiles_dir="$SCRIPT_DIR"
-    
-    if [[ ! -d "$dotfiles_dir" ]]; then
-        log_error "Dotfiles directory not found: $dotfiles_dir"
-        exit 1
-    fi
-    
-    # check if stow is installed
-    if ! command -v stow &>/dev/null; then
-        log_error "GNU Stow is not installed. Please install it and rerun the script."
-        exit 1
-    fi
-    
-    log_debug "Stowing from $dotfiles_dir to $HOME"
-    
-    # Backup conflicting files before stowing
-    local backup_dir="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
-    local files_to_check=(".zshrc" ".zprofile" ".bash_profile" ".editorconfig" ".gitconfig")
-    local needs_backup=false
-    
-    for file in "${files_to_check[@]}"; do
-        # Check if file exists and is NOT a symlink
-        if [[ -f "$HOME/$file" && ! -L "$HOME/$file" ]]; then
-            needs_backup=true
-            break
-        fi
-    done
-    
-    if [[ "$needs_backup" == true ]]; then
-        log_info "Backing up existing dotfiles to $backup_dir"
-        run_cmd "mkdir -p '$backup_dir'"
-        
-        for file in "${files_to_check[@]}"; do
-            if [[ -f "$HOME/$file" && ! -L "$HOME/$file" ]]; then
-                log_debug "Backing up $file"
-                run_cmd "mv '$HOME/$file' '$backup_dir/'"
-            fi
-        done
-        log_success "Existing dotfiles backed up"
-    fi
-    
-    # Run stow from the dotfiles directory, targeting home
-    run_cmd "stow -d '$dotfiles_dir' -t '$HOME' ."
-    
-    log_success "Dotfiles symlinked"
-}
-
-# =====================================================
-# Oh My Zsh installation
-# =====================================================
-setup_ohmyzsh() {
-    if [[ "$OS" != "macos" ]]; then
-        log_info "Skipping Oh My Zsh (macOS only)"
-        return 0
-    fi
-
-    local omz_dir="${HOME}/.oh-my-zsh"
-
-    if [[ -d "$omz_dir" ]]; then
-        log_info "Oh My Zsh already installed"
-        return 0
-    fi
-
-    log_info "Installing Oh My Zsh..."
-    run_cmd 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended'
-    log_success "Oh My Zsh installed"
-}
-
-# =====================================================
-# Powerlevel10k installation
-# =====================================================
-setup_powerlevel10k() {
-    if [[ "$OS" != "macos" ]]; then
-        log_info "Skipping Powerlevel10k (macOS only)"
-        return 0
-    fi
-
-    local p10k_dir="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
-
-    # Ensure Oh My Zsh is installed first
-    if [[ ! -d "${HOME}/.oh-my-zsh" ]]; then
-        log_warning "Oh My Zsh not found. Install it first."
-        return 1
-    fi
-
-    # Install Powerlevel10k if not present
-    if [[ ! -d "$p10k_dir" ]]; then
-        log_info "Installing Powerlevel10k..."
-        run_cmd "git clone --depth=1 https://github.com/romkatv/powerlevel10k.git '$p10k_dir'"
-        log_success "Powerlevel10k installed"
-    else
-        log_info "Powerlevel10k already installed"
-    fi
-
-    # Determine the actual zshrc file (resolve symlink if needed)
-    local zshrc="$HOME/.zshrc"
-    local zshrc_target="$zshrc"
-    
-    # If .zshrc is a symlink, get the actual file path
-    if [[ -L "$zshrc" ]]; then
-        zshrc_target="$(readlink -f "$zshrc")"
-        log_debug "Resolved .zshrc symlink to: $zshrc_target"
-    fi
-
-    if [[ -f "$zshrc_target" ]]; then
-        # Check if ZSH_THEME is already set to powerlevel10k
-        if grep -q 'ZSH_THEME="powerlevel10k/powerlevel10k"' "$zshrc_target"; then
-            log_debug "Powerlevel10k theme already configured in .zshrc"
-        else
-            log_info "Configuring Powerlevel10k theme in .zshrc..."
-            # Replace existing ZSH_THEME line or add if not present
-            if grep -q '^ZSH_THEME=' "$zshrc_target"; then
-                if [[ "$DRY_RUN" == true ]]; then
-                    log_info "[DRY-RUN] Would update ZSH_THEME in $zshrc_target"
-                else
-                    # Use a temp file approach instead of sed -i for symlink compatibility
-                    local temp_file
-                    temp_file=$(mktemp)
-                    sed 's/^ZSH_THEME=.*/ZSH_THEME="powerlevel10k\/powerlevel10k"/' "$zshrc_target" > "$temp_file"
-                    mv "$temp_file" "$zshrc_target"
-                fi
-            else
-                run_cmd "echo 'ZSH_THEME=\"powerlevel10k/powerlevel10k\"' >> '$zshrc_target'"
-            fi
-            log_success "Powerlevel10k theme configured"
-        fi
-
-        # Add p10k sourcing if not present
-        if ! grep -q 'source ~/.p10k.zsh' "$zshrc_target" && ! grep -q '\[\[ ! -f ~/.p10k.zsh \]\]' "$zshrc_target"; then
-            log_info "Adding Powerlevel10k sourcing to .zshrc..."
-            run_cmd "echo '' >> '$zshrc_target'"
-            run_cmd "echo '# To customize prompt, run \`p10k configure\` or edit ~/.p10k.zsh.' >> '$zshrc_target'"
-            run_cmd "echo '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh' >> '$zshrc_target'"
-            log_success "Powerlevel10k sourcing added"
-        fi
-
-        # Add instant prompt if not present (should be near top of .zshrc)
-        if ! grep -q 'p10k-instant-prompt' "$zshrc_target"; then
-            log_info "Adding Powerlevel10k instant prompt to .zshrc..."
-            local instant_prompt='# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-'
-            # Prepend instant prompt to .zshrc
-            if [[ "$DRY_RUN" == true ]]; then
-                log_info "[DRY-RUN] Would prepend instant prompt to .zshrc"
-            else
-                local temp_file
-                temp_file=$(mktemp)
-                echo "$instant_prompt" > "$temp_file"
-                cat "$zshrc_target" >> "$temp_file"
-                mv "$temp_file" "$zshrc_target"
-            fi
-            log_success "Powerlevel10k instant prompt added"
-        fi
-    fi
-
-    # Copy default p10k config if dotfiles has one and ~/.p10k.zsh doesn't exist
-    local dotfiles_p10k="$SCRIPT_DIR/.p10k.zsh"
-    local home_p10k="$HOME/.p10k.zsh"
-    
-    if [[ -f "$dotfiles_p10k" && ! -f "$home_p10k" ]]; then
-        log_info "Copying Powerlevel10k configuration..."
-        run_cmd "cp '$dotfiles_p10k' '$home_p10k'"
-        log_success "Powerlevel10k configuration copied"
-    elif [[ ! -f "$home_p10k" ]]; then
-        log_warning "No p10k configuration found. Run 'p10k configure' after restarting your shell."
-    fi
-}
-
-# =====================================================
-# macOS system defaults
-# =====================================================
-setup_macos_defaults() {
-    if [[ "$OS" != "macos" ]]; then
-        log_info "Skipping macOS defaults (macOS only)"
-        return 0
-    fi
-
-    local macos_script="$SCRIPT_DIR/.macos"
-
-    if [[ ! -f "$macos_script" ]]; then
-        log_warning "macOS defaults script not found: $macos_script"
-        return 1
-    fi
-
-    if [[ "$FORCE" != true ]]; then
-        log_warning "Applying macOS defaults will change system settings and require sudo."
-        read -p "Apply macOS defaults? (y/n): " -n 1 -r
-        echo ""
-        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            log_info "Skipping macOS defaults"
-            return 0
-        fi
-    fi
-
-    log_info "Applying macOS system defaults..."
-    run_cmd "chmod +x '$macos_script'"
-    run_cmd "bash '$macos_script'"
-    log_success "macOS defaults applied"
-    log_warning "Some changes may require a logout/restart to take effect."
-}
-
-# =====================================================
-# Install packages from Brewfile
-# =====================================================
-install_packages() {
-    if [[ "$SKIP_BREW" == true ]]; then
-        log_info "Skipping package installation (--skip-brew flag set)"
-        return 0
-    fi
-
-    local brewfile="$SCRIPT_DIR/Brewfile"
-
-    if [[ ! -f "$brewfile" ]]; then
-        log_warning "Brewfile not found: $brewfile"
-        return 0
-    fi
-
-    log_info "Installing packages from Brewfile..."
-    run_cmd "brew bundle --file='$brewfile'"
-    log_success "Packages installed from Brewfile"
-}
-
-# =====================================================
-# Final setup instructions
-# =====================================================
-print_post_install() {
-    echo ""
-    echo -e "${BOLD}╔════════════════════════════════════════╗${RESET}"
-    echo -e "${BOLD}║       Post-Installation Steps          ║${RESET}"
-    echo -e "${BOLD}╚════════════════════════════════════════╝${RESET}"
-    echo ""
-    echo -e "  ${YELLOW}1.${RESET} Restart your terminal or run: ${GREEN}exec zsh${RESET}"
-    echo ""
-    
-    if [[ ! -f "$HOME/.p10k.zsh" ]]; then
-        echo -e "  ${YELLOW}2.${RESET} Configure Powerlevel10k: ${GREEN}p10k configure${RESET}"
-        echo ""
-    fi
-    
-    echo -e "  ${BLUE}Tip:${RESET} If fonts look broken, install a Nerd Font:"
-    echo -e "       ${GREEN}brew install --cask font-meslo-lg-nerd-font${RESET}"
-    echo ""
-}
-
-# =====================================================
-# Main script execution
+# Main execution
 # =====================================================
 main() {
-    validate_context
-    print_banner
-    confirm_proceed
+    parse_common_flags "$@"
 
-    log_info "Starting installation..."
+    if [[ "$SHOW_HELP" == "true" ]]; then
+        usage
+        exit 0
+    fi
 
-    # Homebrew installation/updates (if not skipped)
-    setup_homebrew
-    # Symlink dotfiles (stow)
-    symlink_dotfiles
-    # Oh My Zsh setup
-    setup_ohmyzsh
-    # Powerlevel10k setup (with automatic configuration)
-    setup_powerlevel10k
-    # macOS settings (or system defaults)
-    setup_macos_defaults
-    # Install packages from Brewfile
-    install_packages
+    local os
+    os="$(detect_os_key)"
 
-    log_success "Installation complete!"
-    
-    # Print post-installation instructions
-    print_post_install
+    print_box_banner "       Dotfiles Installation" "         clxrityy/dotfiles"
+    log_info "Detected OS: $os"
+    log_debug "Repo: $REPO_DIR"
+    log_debug "Flags: force=$FORCE, verbose=$VERBOSE, dry-run=$DRY_RUN"
+
+    # Stow dotfiles first (common to all OS).
+    log_info "Symlinking dotfiles using GNU Stow..."
+    ensure_stow_installed "$os"
+    backup_conflicting_dotfiles
+    stow_packages_for_os "$REPO_DIR" "$os"
+
+    # Delegate to OS-specific installer (pass through any remaining args).
+    # Important:
+    #   We pass common flags through explicitly so running `install.sh --dry-run`
+    #   also runs OS installers in dry-run mode.
+    local -a os_common_args=()
+    if [[ "$FORCE" == "true" ]]; then os_common_args+=("--force"); fi
+    if [[ "$VERBOSE" == "true" ]]; then os_common_args+=("--verbose"); fi
+    if [[ "$DRY_RUN" == "true" ]]; then os_common_args+=("--dry-run"); fi
+
+    case "$os" in
+        macos)
+            log_info "Running macOS-specific installation..."
+            bash "$REPO_DIR/macos/install.sh" "${os_common_args[@]}" "${REMAINING_ARGS[@]}"
+            ;;
+        fedora)
+            log_info "Running Fedora-specific installation..."
+            bash "$REPO_DIR/fedora/install.sh" "${os_common_args[@]}" "${REMAINING_ARGS[@]}"
+            ;;
+        *)
+            log_error "Unsupported OS: $os (${OSTYPE:-unknown})"
+            log_error "Supported: macOS, Fedora"
+            exit 1
+            ;;
+    esac
 }
 
-# Execute main function
 main "$@"

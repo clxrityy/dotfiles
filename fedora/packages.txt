@@ -1,0 +1,24 @@
+# Development tools
+git
+stow
+vim
+neovim
+zsh
+util-linux-user
+
+# Programming languages
+nodejs
+python3
+golang
+rust
+cargo
+
+# Containers
+docker
+docker-compose
+podman
+
+# System utilities
+htop
+curl
+ffmpeg

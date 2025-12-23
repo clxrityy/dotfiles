@@ -1,0 +1,30 @@
+# common/.config/starship.toml
+#
+# Purpose:
+#   Shared Starship prompt configuration for all environments.
+#   This file is stowed to ~/.config/starship.toml.
+#
+# Notes:
+#   - Keep this minimal and cross-platform.
+#   - If you want OS-specific prompt differences, override in fedora/ or macos/
+#     with a more specific stow package (or use ~/.config/starship.local.toml).
+#
+# Reference:
+#   - Starship configuration docs: https://starship.rs/config/
+
+# Use Starship's default prompt format.
+# format = "$all"
+
+# Increase command timeout slightly for slower machines (in milliseconds).
+command_timeout = 1000
+
+# Keep prompt clean; show directory truncation for deep paths.
+[directory]
+truncation_length = 4
+truncate_to_repo = true
+
+# Git status is useful on dev machines.
+[git_status]
+disabled = false
+
+# Default language/module behavior is fine; enable as you prefer.
