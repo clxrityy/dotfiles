@@ -1,10 +1,9 @@
 # Development tools
 git
 stow
-vim
-neovim
 zsh
 util-linux-user
+pip
 
 # Programming languages
 nodejs
