@@ -57,6 +57,9 @@ _darcs
 ^/install\.sh
 ^/scripts
 
+# Example configuration files (not meant to be stowed)
+^/example\..*
+
 # Documentation (not meant to be stowed)
 ^/README.*
 
