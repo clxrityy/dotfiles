@@ -1,3 +1,5 @@
 [user]
-	name = username
-	email = 67580224+username@users.noreply.github.com
+	name = username # Set your Git username
+	email = 67580224+username@users.noreply.github.com # Set your Git email
+[core]
+	editor = code # Set VSCode as the default editor
