@@ -1,5 +1,6 @@
-.ignore/ 
+.ignore/
 *.DS_Store
 .ssh/*
 .gnupg/*
 .gitconfig
+common/.config/*/
