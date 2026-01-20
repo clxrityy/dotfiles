@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# 
+#
 # install.sh - Dotfiles Installation Orchestrator
 # Detects OS and delegates to environment-specific installers
 # =====================================================
@@ -100,11 +100,15 @@ main() {
     case "$os" in
         macos)
             log_info "Running macOS-specific installation..."
-            bash "$REPO_DIR/macos/install.sh" "${os_common_args[@]}" "${REMAINING_ARGS[@]}"
+            bash "$REPO_DIR/macos/install.sh" \
+              "${os_common_args[@]+"${os_common_args[@]}"}" \
+              "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"
             ;;
         fedora)
             log_info "Running Fedora-specific installation..."
-            bash "$REPO_DIR/fedora/install.sh" "${os_common_args[@]}" "${REMAINING_ARGS[@]}"
+            bash "$REPO_DIR/fedora/install.sh" \
+              "${os_common_args[@]+"${os_common_args[@]}"}" \
+              "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"
             ;;
         *)
             log_error "Unsupported OS: $os (${OSTYPE:-unknown})"

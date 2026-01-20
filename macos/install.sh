@@ -58,7 +58,7 @@ ARCH="$(get_arch_key)"
 # =====================================================
 usage() {
     cat << EOF
-${BOLD}Usage:${RESET} 
+${BOLD}Usage:${RESET}
     ${GREEN}$(basename "$0")${RESET} ${BLUE}[options]${RESET}
 
 ${BOLD}Description:${RESET}
@@ -80,7 +80,11 @@ EOF
 # =====================================================
 # Parse common flags first, then parse macOS-specific flags from the remainder.
 parse_common_flags "$@"
-set -- "${REMAINING_ARGS[@]}"
+if [[ "${REMAINING_ARGS+x}" ]]; then
+    set -- "${REMAINING_ARGS[@]}"
+else
+    set --
+fi
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -153,12 +157,12 @@ setup_homebrew() {
         # Homebrew install script is the official bootstrap.
         # Ref: https://brew.sh/
         run_cmd /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        
+
         # Add Homebrew to PATH for Apple Silicon Macs
         if [[ "$ARCH" == "arm64" ]]; then
             eval "$(/opt/homebrew/bin/brew shellenv)"
         fi
-        
+
         log_success "Homebrew installed"
     fi
 }
@@ -203,7 +207,7 @@ setup_powerlevel10k() {
     # Determine the actual zshrc file (resolve symlink if needed)
     local zshrc="$HOME/.zshrc"
     local zshrc_target="$zshrc"
-    
+
     # If .zshrc is a symlink, get the actual file path
     if [[ -L "$zshrc" ]]; then
         # macOS' default `readlink` does not support `-f`, so use a portable
@@ -269,7 +273,7 @@ fi
     # Copy default p10k config if dotfiles has one and ~/.p10k.zsh doesn't exist
     local dotfiles_p10k="$SCRIPT_DIR/.p10k.zsh"
     local home_p10k="$HOME/.p10k.zsh"
-    
+
     if [[ -f "$dotfiles_p10k" && ! -f "$home_p10k" ]]; then
         log_info "Copying Powerlevel10k configuration..."
         run_cmd cp "$dotfiles_p10k" "$home_p10k"
@@ -339,12 +343,12 @@ print_post_install() {
     echo ""
     echo -e "  ${YELLOW}1.${RESET} Restart your terminal or run: ${GREEN}exec zsh${RESET}"
     echo ""
-    
+
     if [[ ! -f "$HOME/.p10k.zsh" ]]; then
         echo -e "  ${YELLOW}2.${RESET} Configure Powerlevel10k: ${GREEN}p10k configure${RESET}"
         echo ""
     fi
-    
+
     echo -e "  ${BLUE}Tip:${RESET} If fonts look broken, install a Nerd Font:"
     echo -e "       ${GREEN}brew install --cask font-meslo-lg-nerd-font${RESET}"
     echo ""
