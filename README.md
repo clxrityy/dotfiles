@@ -11,8 +11,10 @@ A comprehensive repository containing all files and configurations to restore an
 ## Clone the repository
 
 ```bash
-# Clone the repository
+# Clone the repository (HTTPS)
 git clone https://github.com/clxrityy/dotfiles.git ~/.dotfiles
+# OR: Clone the repository (SSH)
+# git clone git@github.com:clxrityy/dotfiles.git ~/.dotfiles
 # Navigate to the dotfiles directory
 cd ~/.dotfiles
 ```
