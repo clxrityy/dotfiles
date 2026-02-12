@@ -118,3 +118,11 @@ export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 export PATH="$PATH:/Users/clarity/.lmstudio/bin"
 # End of LM Studio CLI section
 
+
+# pnpm
+export PNPM_HOME="/Users/clarity/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
