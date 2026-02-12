@@ -17,6 +17,5 @@ brew 'ffmpeg'
 # Applications
 cask 'visual-studio-code'
 cask 'iterm2'
-cask 'arc'
 cask 'spotify'
-cask 'rectangle'
+cask 'nikitabobko/tap/aerospace'
