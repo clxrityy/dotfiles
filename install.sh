@@ -63,39 +63,6 @@ ${BOLD}Notes:${RESET}
 EOF
 }
 
-# ...existing code...
-
-# =====================================================
-# VS Code settings copy
-# =====================================================
-link_vscode_settings() {
-    local src="$REPO_DIR/macos/.vscode/settings.json"
-    local dest_dir="$HOME/Library/Application Support/Code/User"
-    local dest="$dest_dir/settings.json"
-
-    if [[ ! -f "$src" ]]; then
-        log_warning ".vscode/settings.json not found in repo — skipping"
-        return
-    fi
-
-    run_cmd mkdir -p "$dest_dir"
-
-    # Copy instead of symlink — prevents VS Code from writing
-    # resolved absolute paths back into the repo
-    if [[ -f "$dest" && "$FORCE" != "true" ]]; then
-        log_info "VS Code settings.json already exists (use --force to overwrite)"
-        return
-    fi
-
-    if [[ -f "$dest" ]]; then
-        log_info "Backing up existing VS Code settings.json"
-        run_cmd mv "$dest" "$dest.bak.$(date +%s)"
-    fi
-
-    run_cmd cp "$src" "$dest"
-    log_info "Copied VS Code settings.json into place"
-}
-
 # =====================================================
 # Main execution
 # =====================================================
@@ -133,7 +100,6 @@ main() {
     case "$os" in
         macos)
             log_info "Running macOS-specific installation..."
-            link_vscode_settings
             bash "$REPO_DIR/macos/install.sh" \
               "${os_common_args[@]+"${os_common_args[@]}"}" \
               "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"

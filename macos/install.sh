@@ -333,6 +333,59 @@ install_packages() {
 }
 
 # =====================================================
+# VS Code settings copy
+# =====================================================
+link_vscode_settings() {
+
+    log_debug "Checking for VSCode installation..."
+    if ! command -v code &>/dev/null; then
+        log_warning "VSCode not found in PATH; skipping VSCode settings setup"
+        return 0
+    fi
+    log_debug "VSCode detected"
+
+    local src="$REPO_DIR/macos/.vscode/settings.json"
+    local dest_dir="$HOME/Library/Application Support/Code/User"
+    local dest="$dest_dir/settings.json"
+
+    if [[ ! -f "$src" ]]; then
+        log_warning ".vscode/settings.json not found in repo — skipping"
+        return
+    fi
+
+    log_debug "Preparing to link VSCode settings.json"
+    run_cmd mkdir -p "$dest_dir"
+
+    # If already symlinked to the correct target, nothing to do
+    log_debug "Checking existing VS Code symlink for settings.json"
+    if [[ -L "$dest" && "$(readlink "$dest")" == "$src" ]]; then
+        log_info "VS Code settings.json already symlinked to repo"
+        return 0
+    fi
+
+    # Back up any existing file (real file or stale symlink)
+    if [[ -e "$dest" || -L "$dest" ]]; then
+        log_debug "Existing VSCode settings.json found; preparing to back up"
+        if [[ "$FORCE" != "true" ]]; then
+            log_debug "Prompting user for confirmation to overwrite existing settings.json"
+            log_info "An existing VSCode settings.json was found at $dest"
+            read -p "Overwrite existing VSCode settings? (y/n): " -n 1 -r
+            echo ""
+            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+                log_info "Skipping VSCode settings setup"
+                return 0
+            fi
+        fi
+        log_info "Backing up existing VSCode settings.json"
+        run_cmd mv "$dest" "$dest.bak.$(date +%s)"
+    fi
+
+    # Symlink so edits in VSCode and edits in the repo are the same file
+    run_cmd ln -s "$src" "$dest"
+    log_success "VSCode settings.json symlinked to repo"
+}
+
+# =====================================================
 # Final setup instructions
 # =====================================================
 print_post_install() {
@@ -352,6 +405,10 @@ print_post_install() {
     echo -e "  ${BLUE}Tip:${RESET} If fonts look broken, install a Nerd Font:"
     echo -e "       ${GREEN}brew install --cask font-meslo-lg-nerd-font${RESET}"
     echo ""
+        echo -e "  ${BLUE}Note:${RESET} VSCode settings.json is symlinked and hidden from git status."
+    echo -e "       To commit settings changes:"
+    echo -e "       ${GREEN}git update-index --no-assume-unchanged macos/.vscode/settings.json${RESET}"
+    echo ""
 }
 
 # =====================================================
@@ -365,7 +422,8 @@ main() {
     log_info "Starting macOS installation..."
 
     setup_homebrew
-    # symlink_dotfiles
+    link_vscode_settings
+    # symlink_dotfiles # (Handled in root install.sh)
     setup_ohmyzsh
     setup_powerlevel10k
     setup_macos_defaults
