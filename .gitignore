@@ -4,3 +4,5 @@
 .gnupg/*
 .gitconfig
 common/.config/*/
+*/.vscode/**
+!*.vscode/settings.json
