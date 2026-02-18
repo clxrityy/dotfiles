@@ -20,7 +20,7 @@ command_timeout = 1000
 
 # Keep prompt clean; show directory truncation for deep paths.
 [directory]
-truncation_length = 4
+truncation_length = 2
 truncate_to_repo = true
 
 # Git status is useful on dev machines.
