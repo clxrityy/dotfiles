@@ -63,6 +63,41 @@ ${BOLD}Notes:${RESET}
 EOF
 }
 
+# ...existing code...
+
+# =====================================================
+# VS Code settings symlink
+# =====================================================
+# Stow can't handle "Application Support" (spaces in path),
+# so we symlink the settings.json directly.
+link_vscode_settings() {
+    local src="$REPO_DIR/macos/vscode/settings.json"
+    local dest_dir="$HOME/Library/Application Support/Code/User"
+    local dest="$dest_dir/settings.json"
+
+    if [[ ! -f "$src" ]]; then
+        log_warn "vscode/settings.json not found in repo — skipping"
+        return
+    fi
+
+    # Ensure target directory exists (VS Code may not have been opened yet)
+    run_cmd mkdir -p "$dest_dir"
+
+    if [[ -L "$dest" ]]; then
+        log_info "VS Code settings symlink already exists"
+        return
+    fi
+
+    # Back up existing settings if present
+    if [[ -f "$dest" ]]; then
+        log_info "Backing up existing VS Code settings.json"
+        run_cmd mv "$dest" "$dest.bak.$(date +%s)"
+    fi
+
+    run_cmd ln -s "$src" "$dest"
+    log_info "Symlinked VS Code settings.json"
+}
+
 # =====================================================
 # Main execution
 # =====================================================
@@ -100,6 +135,7 @@ main() {
     case "$os" in
         macos)
             log_info "Running macOS-specific installation..."
+            link_vscode_settings
             bash "$REPO_DIR/macos/install.sh" \
               "${os_common_args[@]+"${os_common_args[@]}"}" \
               "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"
