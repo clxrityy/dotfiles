@@ -1,8 +1,8 @@
 {
   "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1500,
+  "files.autoSaveDelay": 500,
   "explorer.confirmDelete": false,
-  "background.useInvertedOpacity": true,
+  "background.useInvertedOpacity": false,
   "background.smoothImageRendering": true,
   "redhat.telemetry.enabled": false,
   "tailwindcss-intellisense.trace.server": "verbose",
@@ -22,9 +22,6 @@
   "git.confirmSync": true,
   "git.enableSmartCommit": true,
   "vsicons.dontShowNewVersionMessage": true,
-  "[markdown]": {
-    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
-  },
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features",
   },
@@ -254,13 +251,13 @@
   "git.openRepositoryInParentFolders": "always",
   "sonarlint.focusOnNewCode": true,
   "yaml.schemas": {
-    "file://${userHome}/.vscode/extensions/continue.continue-1.1.76-darwin-arm64/config-yaml-schema.json": ".continue/**/*.yaml",
+    "file://${HOME}/.vscode/extensions/continue.continue-1.1.76-darwin-arm64/config-yaml-schema.json": ".continue/**/*.yaml",
   },
   "go.toolsManagement.autoUpdate": true,
   "editor.inlineSuggest.edits.showCollapsed": true,
   "editor.largeFileOptimizations": false,
   "workbench.colorCustomizations": {
-    "terminal.background": "#3d303009",
+    "terminal.background": "#3e323209",
     "terminal.foreground": "#E6E7E8",
     "terminalCursor.background": "#E6E7E8",
     "terminalCursor.foreground": "#E6E7E8",
@@ -436,7 +433,7 @@
   "animations.Install-Method": "Apc Customize UI++",
   "workbench.preferredDarkColorTheme": "Developers Theme",
   "apc.imports": [
-    "file://${userHome}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
+    "file://${HOME}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
   ],
   "chat.mcp.gallery.enabled": true,
   "chat.tools.urls.autoApprove": {
@@ -515,4 +512,5 @@
   },
   "chat.agentsControl.enabled": false,
   "workbench.activityBar.location": "top",
+  "color-picker.languages": ["css", "scss", "less", "javascript", "typescript", "html", "json", "yaml"],
 }
