@@ -7,9 +7,9 @@
   "redhat.telemetry.enabled": false,
   "tailwindcss-intellisense.trace.server": "verbose",
   "[typescriptreact]": {
-    "editor.defaultFormatter": "dsznajder.es7-react-js-snippets",
+    "editor.defaultFormatter": "vscode.typescript-language-features",
   },
-  "workbench.startupEditor": "terminal",
+  "workbench.startupEditor": "readme",
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features",
   },
@@ -26,7 +26,7 @@
     "editor.defaultFormatter": "vscode.typescript-language-features",
   },
   "[mdx]": {
-    "editor.defaultFormatter": "unifiedjs.vscode-mdx",
+    "editor.defaultFormatter": "vscode.markdown-language-features",
   },
   "[json]": {
     "editor.defaultFormatter": "vscode.json-language-features",
@@ -54,9 +54,6 @@
   "chat.editing.alwaysSaveWithGeneratedChanges": false,
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features",
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "diffEditor.codeLens": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
@@ -306,7 +303,7 @@
   "inlineChat.accessibleDiffView": "on",
   "inlineChat.enableV2": true,
   "inlineChat.holdToSpeech": false,
-  "workbench.colorTheme": "Developers Theme",
+  "workbench.colorTheme": "Transparent Color Theme",
   "window.closeWhenEmpty": true,
   "accessibility.dimUnfocused.enabled": true,
   "accessibility.dimUnfocused.opacity": 0.75,
