@@ -14,6 +14,8 @@
 - [`Brewfile`](./Brewfile) - Homebrew script for installing macOS packages and applications
     - Essential & development tools
     - Applications
+- [`.vscode/settings.json`](./.vscode/settings.json) - Visual Studio Code user settings
+    - Customized settings for VSCode editor
 
 > Note: shared shell configs and repo-wide config live outside this folder:
 > - `shell/` (e.g. `.bash_profile`)
