@@ -10,9 +10,85 @@ charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
 
+[*.{c,cpp,h,hpp,cc,cxx}]
+indent_style = space
+indent_size = 4
+max_line_length = 100
+ij_visual_guides = 100
+
 [*.md]
 max_line_length = 100
+ij_visual_guides = 80
+trim_trailing_whitespace = false
+insert_final_newline = true
+indent_size = 2
+
+[*.{py,pyi}]
+indent_style = space
+indent_size = 4
+max_line_length = 88
+ij_visual_guides = 88
+insert_final_newline = true
+trim_trailing_whitespace = false
+shell_script.shell = bash
 
 [*.{zsh,zprofile,zshenv,zshrc}]
 max_line_length = 88
 ij_visual_guides = 72
+
+[Makefile]
+indent_style = tab
+indent_size = 1
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+[*.{yml,yaml}]
+indent_size = 2
+max_line_length = 120
+ij_visual_guides = 80
+insert_final_newline = false
+
+[*.toml]
+max_line_length = 120
+ij_visual_guides = 80
+insert_final_newline = false
+indent_size = 2
+
+[*.json]
+max_line_length = 120
+ij_visual_guides = 80
+insert_final_newline = false
+indent_size = 2
+
+[*.xml]
+max_line_length = 120
+ij_visual_guides = 80
+insert_final_newline = false
+indent_size = 2
+
+[*.{ini,env}]
+max_line_length = 120
+ij_visual_guides = 80
+insert_final_newline = false
+indent_size = 2
+trim_trailing_whitespace = false
+
+[*.{sh,bash}]
+max_line_length = 88
+ij_visual_guides = 72
+indent_size = 2
+indent_style = space
+trim_trailing_whitespace = false
+insert_final_newline = true
+shell_script.shell = bash
+
+[*.{html,css,scss,js,jsx,ts,tsx}]
+max_line_length = 120
+ij_visual_guides = 80
+insert_final_newline = false
+indent_size = 2
+indent_style = tab
+trim_trailing_whitespace = true
+charset = utf-8
+end_of_line = lf
+shell_script.shell = bash
