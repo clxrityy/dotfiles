@@ -8,7 +8,7 @@
 - [`.zshrc`](./.zshrc) - Zsh shell runtime configuration
     - Aliases, functions, and plugins for Zsh sessions
     - Includes [Starship](https://starship.rs/) prompt configuration
-- [`packages.txt`](./packages.txt) - Fedora package list for installing packages and applications
+- [`dnf-packages.txt`](./dnf-packages.txt) - Fedora package list for installing packages and applications
     - Development tools
     - Containerization tools
     - Utilities

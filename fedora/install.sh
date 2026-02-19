@@ -52,7 +52,7 @@ SKIP_PACKAGES=false
 # =====================================================
 usage() {
     cat << EOF
-${BOLD}Usage:${RESET} 
+${BOLD}Usage:${RESET}
     ${GREEN}$(basename "$0")${RESET} ${BLUE}[options]${RESET}
 
 ${BOLD}Description:${RESET}
@@ -149,15 +149,15 @@ install_packages() {
         return 0
     fi
 
-    local packages_file="$SCRIPT_DIR/packages.txt"
+    local packages_file="$SCRIPT_DIR/dnf-packages.txt"
 
     if [[ ! -f "$packages_file" ]]; then
-        log_warning "packages.txt not found: $packages_file"
+        log_warning "dnf-packages.txt not found: $packages_file"
         return 0
     fi
 
-    log_info "Installing packages from packages.txt..."
-    
+    log_info "Installing packages from dnf-packages.txt..."
+
     # Read packages from file, ignoring comments and empty lines
     local packages=()
     while IFS= read -r line; do
@@ -171,7 +171,7 @@ install_packages() {
         run_cmd sudo dnf install -y "${packages[@]}"
         log_success "Packages installed"
     else
-        log_warning "No packages found in packages.txt"
+        log_warning "No packages found in dnf-packages.txt"
     fi
 }
 
@@ -204,7 +204,7 @@ setup_zsh() {
     fi
 
     log_info "Setting Zsh as default shell..."
-    
+
     if [[ "$FORCE" != true ]]; then
         log_warning "This will change your default shell to Zsh."
         if ! confirm_yes_no "Proceed?"; then
