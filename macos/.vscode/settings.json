@@ -508,5 +508,5 @@
   },
   "chat.agentsControl.enabled": false,
   "workbench.activityBar.location": "top",
-  "color-picker.languages": ["css", "scss", "less", "javascript", "typescript", "html", "json", "yaml"],
+  "color-picker.languages": ["css", "scss", "less", "javascript", "typescript", "html", "json", "yaml", "md", "mdx", "plaintext"],
 }
