@@ -3,18 +3,28 @@ cask_args appdir: '/Applications'
 # Essential tools
 brew 'git'
 brew 'stow'
+brew 'bash'
 
 # Development tools
 brew 'node'
 brew 'python'
-brew 'docker'
 brew 'go'
 brew 'rust'
 brew 'java'
-brew 'docker-compose'
-brew 'ffmpeg'
 
-# Applications
+# Containers and virtualization
+brew 'docker'
+brew 'docker-compose'
+
+
+# Utilities
+brew 'htop'
+brew 'ffmpeg'
+brew 'fastfetch'
+
+# Applications / Casks
 cask 'visual-studio-code'
 cask 'iterm2'
 cask 'spotify'
+## Security tools
+cask 'little-snitch'
