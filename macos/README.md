@@ -57,3 +57,7 @@ To run only the macOS steps (without stow), from the repo root:
 ```bash
 bash macos/install.sh
 ```
+
+---
+
+![Example](./example.jpg)
