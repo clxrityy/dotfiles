@@ -36,7 +36,8 @@ ensure_stow_installed() {
 backup_conflicting_dotfiles() {
   # Backup a fixed set of common dotfiles if they exist as regular files.
   # This avoids clobbering user-managed configs.
-  local backup_dir="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
+  local backup_dir
+  backup_dir="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
   local files_to_check=(
     ".zshrc"
     ".zprofile"
