@@ -73,32 +73,95 @@ backup_conflicting_dotfiles() {
   log_success "Existing dotfiles backed up"
 }
 
+# -------------------------------------------------------------
+# OLD VERSION OF FUNCTION - REPLACED BY PACKAGES.CONF LOGIC (↓)
+
+
+# stow_packages_for_os() {
+#   # Arguments:
+#   #   1: repo_dir (stow -d)
+#   #   2: os_key (macos|fedora|...)
+#   local repo_dir="$1"
+#   local os_key="$2"
+
+#   log_info "Stowing common configurations..."
+#   run_cmd stow -d "$repo_dir" -t "$HOME" common
+
+#   log_info "Stowing shell configurations..."
+#   run_cmd stow -d "$repo_dir" -t "$HOME" shell
+
+#   case "$os_key" in
+#     macos)
+#       log_info "Stowing macOS configurations..."
+#       run_cmd stow -d "$repo_dir" -t "$HOME" macos
+#       ;;
+#     fedora)
+#       log_info "Stowing Fedora configurations..."
+#       run_cmd stow -d "$repo_dir" -t "$HOME" fedora
+#       ;;
+#     *)
+#       log_warning "No OS-specific stow package for: $os_key"
+#       ;;
+#   esac
+
+#   log_success "Dotfiles symlinked successfully"
+# }
+# -------------------------------------------------------------
+
 stow_packages_for_os() {
   # Arguments:
-  #   1: repo_dir (stow -d)
-  #   2: os_key (macos|fedora|...)
+  #  1: repo_dir (stow -d)
+  #  2: os_key (macos|fedora|...)
   local repo_dir="$1"
   local os_key="$2"
+  local packages_conf="$repo_dir/packages.conf"
 
-  log_info "Stowing common configurations..."
-  run_cmd stow -d "$repo_dir" -t "$HOME" common
+  # DEBUG LOGGING
+  log_debug "Stow repo directory: $repo_dir"
+  log_debug "Operating system key: $os_key"
+  log_debug "Packages configuration file: $packages_conf"
 
-  log_info "Stowing shell configurations..."
-  run_cmd stow -d "$repo_dir" -t "$HOME" shell
+  # Validate the manifest exists before proceeding.
+  if [[ ! -f "$packages_conf" ]]; then
+    log_error "packages.conf not found at: $packages_conf"
+    exit 1
+  fi
 
-  case "$os_key" in
-    macos)
-      log_info "Stowing macOS configurations..."
-      run_cmd stow -d "$repo_dir" -t "$HOME" macos
-      ;;
-    fedora)
-      log_info "Stowing Fedora configurations..."
-      run_cmd stow -d "$repo_dir" -t "$HOME" fedora
-      ;;
-    *)
-      log_warning "No OS-specific stow package for: $os_key"
-      ;;
-  esac
+  # Read through the packages.conf file line by line.
+  local name scope
+  while IFS='=' read -r name scope; do
+    # Strip inline comments and surrounding whitespace from both fields.
+    name="${name%%#*}" # Remove comments
+    name="${name// /}" # Trim whitespace
+    scope="${scope%%#*}" # Remove comments
+    scope="${scope// /}" # Trim whitespace
 
-  log_success "Dotfiles symlinked successfully"
+    # Skip blank lines and pure comment lines.
+    [[ -z "$name" || -z "$scope" ]] && continue
+
+    # Stow if the package targets all systems, or matches the current OS.
+    if [[ "$scope" == "all" || "$scope" == "$os_key" ]]; then
+      log_debug "Scope match for package '$name' with scope '$scope'"
+      if [[ -d "$repo_dir/$name" ]]; then
+        log_info "Stowing '$name' package... (scope: $scope)"
+        run_cmd stow -d "$repo_dir" -t "$HOME" "$name"
+      else
+        log_debug "Package directory not found for: $name"
+        log_warning "Package '$name' listed in packages.conf but directory not found - skipping."
+      fi
+    fi
+  done < "$packages_conf"
+  log_debug "Stowed all applicable packages from packages.conf"
+
+  # Stow the private package last if it exists.
+  # This directory is gitignored and holds secrets/personal configs.
+  if [[ -d "$repo_dir/private" ]]; then
+    log_debug "Found 'private' package directory"
+    log_info "Stowing 'private' package..."
+    run_cmd stow -d "$repo_dir" -t "$HOME" private
+  else
+    log_debug "'private' package directory not found - skipping."
+  fi
+
+  log_success "Dotfiles symlinked successfully!"
 }
