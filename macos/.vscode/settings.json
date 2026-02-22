@@ -19,7 +19,7 @@
     "editor.defaultFormatter": "vscode.typescript-language-features",
   },
   "git.autofetch": true,
-  "git.confirmSync": true,
+  "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "vsicons.dontShowNewVersionMessage": true,
   "[javascript]": {
@@ -123,10 +123,7 @@
   },
   "animations.Tabs": "Slide",
   "animations.Active": "Indent",
-  "workbench.settings.applyToAllProfiles": [
-    "vercelVSCode.accessToken",
-    "workbench.colorCustomizations",
-  ],
+  "workbench.settings.applyToAllProfiles": ["vercelVSCode.accessToken", "workbench.colorCustomizations"],
   "editor.unicodeHighlight.invisibleCharacters": false,
   "[yaml]": {
     "editor.defaultFormatter": "redhat.vscode-yaml",
@@ -427,10 +424,7 @@
   "workbench.iconTheme": "developer-icon-theme",
   "oneDarkPro.vivid": true,
   "animations.Install-Method": "Apc Customize UI++",
-  "workbench.preferredDarkColorTheme": "Developers Theme",
-  "apc.imports": [
-    "file://${HOME}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
-  ],
+  "apc.imports": ["file://${HOME}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"],
   "chat.mcp.gallery.enabled": true,
   "chat.tools.urls.autoApprove": {
     "https://www.rust-lang.org": true,
@@ -489,9 +483,7 @@
     "random": false,
   },
   "background.sidebar": {
-    "images": [
-      "https://media.livewallpapers.com/images/high/futuristic-circuit-board-art-4.webp",
-    ],
+    "images": ["https://media.livewallpapers.com/images/high/futuristic-circuit-board-art-4.webp"],
     "opacity": 0.1,
     "size": "cover",
     "position": "center",
@@ -499,9 +491,7 @@
     "random": false,
   },
   "background.auxiliarybar": {
-    "images": [
-      "https://media.istockphoto.com/id/1473340288/vector/big-data-transfer-concepts-in-internet.jpg",
-    ],
+    "images": ["https://media.istockphoto.com/id/1473340288/vector/big-data-transfer-concepts-in-internet.jpg"],
     "opacity": 0.5,
     "interval": 0,
     "random": false,
@@ -519,8 +509,10 @@
     "yaml",
     "md",
     "mdx",
-    "plaintext"
+    "plaintext",
   ],
   "markdown-preview-enhanced.previewTheme": "github-dark.css",
   "markdown-preview-enhanced.codeBlockTheme": "github-dark.css",
+  "jdk.telemetry.enabled": false,
+  "workbench.preferredDarkColorTheme": "Developers Theme",
 }
