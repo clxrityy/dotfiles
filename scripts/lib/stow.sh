@@ -144,7 +144,8 @@ stow_packages_for_os() {
       log_debug "Scope match for package '$name' with scope '$scope'"
       if [[ -d "$repo_dir/$name" ]]; then
         log_info "Stowing '$name' package... (scope: $scope)"
-        run_cmd stow -d "$repo_dir" -t "$HOME" "$name"
+        # Use --no-folding to prevent stow from folding directories, preserving structure.
+        run_cmd stow --no-folding -d "$repo_dir" -t "$HOME" "$name"
       else
         log_debug "Package directory not found for: $name"
         log_warning "Package '$name' listed in packages.conf but directory not found - skipping."
@@ -158,7 +159,7 @@ stow_packages_for_os() {
   if [[ -d "$repo_dir/private" ]]; then
     log_debug "Found 'private' package directory"
     log_info "Stowing 'private' package..."
-    run_cmd stow -d "$repo_dir" -t "$HOME" private
+    run_cmd stow --no-folding -d "$repo_dir" -t "$HOME" private
   else
     log_debug "'private' package directory not found - skipping."
   fi
