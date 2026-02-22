@@ -52,16 +52,23 @@ _darcs
 /.zsh_sessions
 /.DS_Store
 /.Trash
+.stowrc
 
 # Ignore installation and script files (not meant to be stowed)
 ^/install\.sh
+install.sh
 ^/scripts
 
 # Example configuration files (not meant to be stowed)
 ^/example\..*
 
-# Documentation (not meant to be stowed)
-^/README.*
+# Other extensions to ignore
+\.log$
+\.tmp$
+\.png$
+\.jpg$
+\.jpeg$
+\.gif$
 
 # Note:
 #   Do NOT ignore .editorconfig / .markdownlint.json here.
