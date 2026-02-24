@@ -35,6 +35,9 @@ source "$LIB_DIR/run.sh"
 # shellcheck source=/dev/null
 source "$LIB_DIR/os.sh"
 # shellcheck source=/dev/null
+source "$LIB_DIR/packages.sh"
+load_packages_conf
+# shellcheck source=/dev/null
 source "$LIB_DIR/stow.sh"
 # shellcheck source=/dev/null
 source "$LIB_DIR/banner.sh"

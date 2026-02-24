@@ -114,44 +114,62 @@ stow_packages_for_os() {
   #  2: os_key (macos|fedora|...)
   local repo_dir="$1"
   local os_key="$2"
-  local packages_conf="$repo_dir/packages.conf"
 
   # DEBUG LOGGING
   log_debug "Stow repo directory: $repo_dir"
   log_debug "Operating system key: $os_key"
-  log_debug "Packages configuration file: $packages_conf"
 
-  # Validate the manifest exists before proceeding.
-  if [[ ! -f "$packages_conf" ]]; then
-    log_error "packages.conf not found at: $packages_conf"
+  # packages_conf is a flat array of triplets (name, scope, target)
+  # populated by load_packages_conf from packages.sh.
+  # Callers are expected to have sourced packages.sh before calling this.
+  if [[ ${#packages_conf[@]} -eq 0 ]]; then
+    log_error "packages_conf is empty. Was load_packages_conf called?"
     exit 1
   fi
 
-  # Read through the packages.conf file line by line.
-  local name scope
-  while IFS='=' read -r name scope; do
-    # Strip inline comments and surrounding whitespace from both fields.
-    name="${name%%#*}" # Remove comments
-    name="${name// /}" # Trim whitespace
-    scope="${scope%%#*}" # Remove comments
-    scope="${scope// /}" # Trim whitespace
+  local name scope target pkg_dir pkg_name stow_target
 
-    # Skip blank lines and pure comment lines.
-    [[ -z "$name" || -z "$scope" ]] && continue
+  for ((i=0; i<${#packages_conf[@]}; i+=3)); do
+    name="${packages_conf[i]}"
+    scope="${packages_conf[i+1]}"
+    target="${packages_conf[i+2]}"
 
-    # Stow if the package targets all systems, or matches the current OS.
-    if [[ "$scope" == "all" || "$scope" == "$os_key" ]]; then
-      log_debug "Scope match for package '$name' with scope '$scope'"
-      if [[ -d "$repo_dir/$name" ]]; then
-        log_info "Stowing '$name' package... (scope: $scope)"
-        # Use --no-folding to prevent stow from folding directories, preserving structure.
-        run_cmd stow --no-folding -d "$repo_dir" -t "$HOME" "$name"
-      else
-        log_debug "Package directory not found for: $name"
-        log_warning "Package '$name' listed in packages.conf but directory not found - skipping."
-      fi
+    # Skip packages that don't apply to the current OS.
+    if [[ "$scope" != "all" && "$scope" != "$os_key" ]]; then
+      log_debug "Skipping '$name' (scope: $scope, os: $os_key)"
+      continue
     fi
-  done < "$packages_conf"
+
+    log_debug "Scope match for package '$name' (scope: $scope)"
+
+    if [[ ! -d "$repo_dir/$name" ]]; then
+      log_warning "Package '$name' listed in packages.conf but directory not found - skipping."
+      continue
+    fi
+
+    # Resolve stow target: use custom target if provided, otherwise $HOME.
+    stow_target="${target:-$HOME}"
+
+    # Ensure the target directory exists before stowing into it.
+    run_cmd mkdir -p "$stow_target"
+
+    # Stow requires a single-level package name — split nested paths so
+    # "macos/editors/nvim" becomes: -d "$repo_dir/macos/editors"  nvim
+    pkg_dir="$(dirname "$name")"
+    pkg_name="$(basename "$name")"
+
+    [[ -n "$target" ]] && log_debug "Package '$name' has custom target: $stow_target"
+    log_info "Stowing '$name' -> '$stow_target' (scope: $scope)"
+
+    if [[ "$pkg_dir" == "." ]]; then
+      # Top-level package: stow directly from repo root.
+      run_cmd stow --no-folding -d "$repo_dir" -t "$stow_target" "$pkg_name"
+    else
+      # Nested package: shift the stow dir down to the parent folder.
+      run_cmd stow --no-folding -d "$repo_dir/$pkg_dir" -t "$stow_target" "$pkg_name"
+    fi
+  done
+
   log_debug "Stowed all applicable packages from packages.conf"
 
   # Stow the private package last if it exists.
