@@ -1,4 +1,4 @@
-.PHONY: help new-package add-brew
+.PHONY: help copy-package
 
 # ~/.dotiles/Makefile
 # 	Local development commands
@@ -6,6 +6,7 @@
 #		Run `make help` to see all available targets
 
 DEV_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))/scripts/dev
+ARGS := $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
 
 # ---------------------------------------
 # Self-documenting help target.
@@ -22,8 +23,5 @@ help: ## Show this help message
 # ---------------------------------------
 # Stow / package management
 # ---------------------------------------
-# new-package: ## Scaffold a new stow package (interactive)
-# 	@bash $(DEV_DIR)/new_package.sh
-
-# add-brew: ## Add a new Homebrew package to the Brewfile (interactive)
-# 	@bash $(DEV_DIR)/add_brew.sh
+copy-package: ## Copy package files to target location
+	@${DEV_DIR}/copy-package.sh ${ARGS}
