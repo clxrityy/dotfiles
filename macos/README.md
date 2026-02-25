@@ -15,9 +15,15 @@
     - Essential & development tools
     - Applications
 - [`.vscode/settings.json`](./.vscode/settings.json) - Visual Studio Code user settings
-    - Customized settings for VSCode editor
-- [`prompts/`](../prompts/) - Custom copilot prompts for development tasks
-- [`instructions/`](../instructions/) - Setup and usage instructions for various tools and configurations
+    - Customizes editor behavior and appearance for macOS environment
+- [`prompts/`](../prompts/) - Custom copilot agents & instructions for development tasks
+  - **Agents**: Designed to assist with coding, project management, and learning.
+    - [`primary.agent.md`](../prompts/primary.agent.md): Main agent for project assistance and explanations.
+    - [`explain.agent.md`](../prompts/explain.agent.md): Agent focused on providing detailed explanations / follow-ups.
+  - **Instructions**: Guidelines to ensure clarity, accuracy, and relevance in responses.
+    - [`main.instructions.md`](../prompts/main.instructions.md): General instructions for all responses.
+    - [`check.instructions.md`](../prompts/check.instructions.md): Checklist to verify response quality before sending.
+    - [`planner.instructions.md`](../prompts/planner.instructions.md): Specific instructions for planning-related tasks.
 
 > Note: shared shell configs and repo-wide config live outside this folder:
 > - `shell/` (e.g. `.bash_profile`)

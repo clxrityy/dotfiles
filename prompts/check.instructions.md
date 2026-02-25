@@ -1,6 +1,7 @@
 ---
+name: Check Instructions
 description: Before response or action of any kind, check off the following list.
-paths: [**/*]
+applyTo: '**'
 ---
 
 
