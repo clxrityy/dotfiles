@@ -10,12 +10,9 @@
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 packages_conf_dir="$repo_dir/packages.conf"
 
-packages_conf=(
-  "${packages_conf_dir}"
-  "${name:-}"
-  "${scope:-}"
-  "${target:-}"
-)
+# Global flat array of triplets (name, scope, target).
+# Populated by load_packages_conf().
+packages_conf=()
 
 trim() {
   # Trim leading/trailing whitespace from a string.

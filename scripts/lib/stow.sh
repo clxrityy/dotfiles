@@ -122,6 +122,8 @@ stow_packages_for_os() {
   # packages_conf is a flat array of triplets (name, scope, target)
   # populated by load_packages_conf from packages.sh.
   # Callers are expected to have sourced packages.sh before calling this.
+  # shellcheck disable=SC2154  
+  # packages_conf is populated by packages.sh::load_packages_conf()
   if [[ ${#packages_conf[@]} -eq 0 ]]; then
     log_error "packages_conf is empty. Was load_packages_conf called?"
     exit 1
