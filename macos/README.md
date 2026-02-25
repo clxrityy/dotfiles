@@ -16,6 +16,8 @@
     - Applications
 - [`.vscode/settings.json`](./.vscode/settings.json) - Visual Studio Code user settings
     - Customized settings for VSCode editor
+- [`prompts/`](../prompts/) - Custom copilot prompts for development tasks
+- [`instructions/`](../instructions/) - Setup and usage instructions for various tools and configurations
 
 > Note: shared shell configs and repo-wide config live outside this folder:
 > - `shell/` (e.g. `.bash_profile`)
