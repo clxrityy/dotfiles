@@ -7,6 +7,8 @@
 # Notes:
 #   - This is intended for the root installer, but can be reused.
 #   - We keep backups conservative: only move regular files (not symlinks).
+#   - backup_stow_conflicts uses stow's own --simulate mode to detect
+#     conflicts, guaranteeing we only touch what stow cares about.
 #
 # References:
 #   - GNU Stow manual: https://www.gnu.org/software/stow/manual/stow.html
@@ -33,103 +35,120 @@ ensure_stow_installed() {
   exit 1
 }
 
-backup_conflicting_dotfiles() {
-  # Backup a fixed set of common dotfiles if they exist as regular files.
-  # This avoids clobbering user-managed configs.
-  local backup_dir
-  backup_dir="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
-  local files_to_check=(
-    ".zshrc"
-    ".zprofile"
-    ".bashrc"
-    ".bash_profile"
-    ".editorconfig"
-    ".gitconfig"
-  )
+# -----------------------------------------------------------------
+# backup_stow_conflicts
+# -----------------------------------------------------------------
+# Ask stow itself (via --simulate / --no) what would conflict, then
+# move only those specific files into a timestamped backup directory.
+#
+# Why let stow detect conflicts instead of `find`-walking ourselves?
+#   - Stow honours .stow-local-ignore / .stow-global-ignore rules.
+#   - Stow understands its own folding/unfolding semantics.
+#   - We never diverge from what stow actually considers a conflict.
+#
+# Arguments:
+#   1: stow_dir    – parent directory for `stow -d`
+#   2: pkg_name    – the package folder name (basename only)
+#   3: stow_target – destination directory for `stow -t`
+#   4: backup_dir  – shared backup root for this installer run
+# -----------------------------------------------------------------
+backup_stow_conflicts() {
+  local stow_dir="$1"
+  local pkg_name="$2"
+  local stow_target="$3"
+  local backup_dir="$4"
 
-  local needs_backup=false
-  local file
-  for file in "${files_to_check[@]}"; do
-    if [[ -f "$HOME/$file" && ! -L "$HOME/$file" ]]; then
-      needs_backup=true
-      break
-    fi
-  done
+  # Run stow in simulate mode — it exits non-zero and prints conflicts
+  # to stderr when there are existing files in the way.
+  # Example conflict line:
+  #   * cannot stow ../foo over existing target .bashrc since neither a link nor a directory ...
+  local sim_output
+  sim_output="$(stow --no-folding --simulate -d "$stow_dir" -t "$stow_target" "$pkg_name" 2>&1)" || true
 
-  if [[ "$needs_backup" != "true" ]]; then
+  # No output (or no "existing target") ⇒ nothing to back up.
+  if [[ -z "$sim_output" ]] || ! echo "$sim_output" | grep -q "existing target"; then
     return 0
   fi
 
-  log_info "Backing up existing dotfiles to $backup_dir"
-  run_cmd mkdir -p "$backup_dir"
+  local pkg_backup_dir="$backup_dir/$pkg_name"
+  log_info "Backing up conflicting files for '$pkg_name' -> $pkg_backup_dir"
 
-  for file in "${files_to_check[@]}"; do
-    if [[ -f "$HOME/$file" && ! -L "$HOME/$file" ]]; then
-      log_debug "Backing up $file"
-      run_cmd mv "$HOME/$file" "$backup_dir/"
+  # Parse conflict lines to extract the target-relative file paths.
+  # Format: "* cannot stow <link> over existing target <rel_path> since ..."
+  local rel_path target_file dest
+  while IFS= read -r line; do
+    # Extract the relative path between "existing target " and " since".
+    if [[ "$line" =~ existing\ target\ (.+)\ since ]]; then
+      rel_path="${BASH_REMATCH[1]}"
+      target_file="$stow_target/$rel_path"
+
+      # Safety check: only move regular files (not symlinks or dirs).
+      if [[ -f "$target_file" && ! -L "$target_file" ]]; then
+        dest="$pkg_backup_dir/$rel_path"
+        run_cmd mkdir -p "$(dirname "$dest")"
+        log_debug "Backing up: $target_file -> $dest"
+        run_cmd mv "$target_file" "$dest"
+      fi
     fi
-  done
+  done <<< "$sim_output"
 
-  log_success "Existing dotfiles backed up"
+  log_success "Conflicting files for '$pkg_name' backed up"
 }
 
-# -------------------------------------------------------------
-# OLD VERSION OF FUNCTION - REPLACED BY PACKAGES.CONF LOGIC (↓)
+# -----------------------------------------------------------------
+# stow_package
+# -----------------------------------------------------------------
+# Stow a single package after backing up any conflicting files.
+#
+# Factored out of the main loop so both the packages_conf iteration
+# and the special-case `private` package use the same code path.
+#
+# Arguments:
+#   1: stow_dir    – parent directory for `stow -d`
+#   2: pkg_name    – the package folder name (basename only)
+#   3: stow_target – destination directory for `stow -t`
+#   4: backup_dir  – shared backup root (timestamped)
+#   5: label       – display name for log messages
+#   6: scope       – scope tag for log messages
+# -----------------------------------------------------------------
+stow_package() {
+  local stow_dir="$1"
+  local pkg_name="$2"
+  local stow_target="$3"
+  local backup_dir="$4"
+  local label="$5"
+  local scope="$6"
 
+  # Let stow identify its own conflicts, then move only those files.
+  backup_stow_conflicts "$stow_dir" "$pkg_name" "$stow_target" "$backup_dir"
 
-# stow_packages_for_os() {
-#   # Arguments:
-#   #   1: repo_dir (stow -d)
-#   #   2: os_key (macos|fedora|...)
-#   local repo_dir="$1"
-#   local os_key="$2"
-
-#   log_info "Stowing common configurations..."
-#   run_cmd stow -d "$repo_dir" -t "$HOME" common
-
-#   log_info "Stowing shell configurations..."
-#   run_cmd stow -d "$repo_dir" -t "$HOME" shell
-
-#   case "$os_key" in
-#     macos)
-#       log_info "Stowing macOS configurations..."
-#       run_cmd stow -d "$repo_dir" -t "$HOME" macos
-#       ;;
-#     fedora)
-#       log_info "Stowing Fedora configurations..."
-#       run_cmd stow -d "$repo_dir" -t "$HOME" fedora
-#       ;;
-#     *)
-#       log_warning "No OS-specific stow package for: $os_key"
-#       ;;
-#   esac
-
-#   log_success "Dotfiles symlinked successfully"
-# }
-# -------------------------------------------------------------
+  log_info "Stowing '$label' -> '$stow_target' (scope: $scope)"
+  run_cmd stow --no-folding -d "$stow_dir" -t "$stow_target" "$pkg_name"
+}
 
 stow_packages_for_os() {
   # Arguments:
-  #  1: repo_dir (stow -d)
-  #  2: os_key (macos|fedora|...)
+  #   1: repo_dir  – repository root (stow -d base)
+  #   2: os_key    – detected OS identifier (macos|fedora|...)
   local repo_dir="$1"
   local os_key="$2"
 
-  # DEBUG LOGGING
   log_debug "Stow repo directory: $repo_dir"
   log_debug "Operating system key: $os_key"
 
   # packages_conf is a flat array of triplets (name, scope, target)
-  # populated by load_packages_conf from packages.sh.
-  # Callers are expected to have sourced packages.sh before calling this.
-  # shellcheck disable=SC2154  
-  # packages_conf is populated by packages.sh::load_packages_conf()
+  # populated by load_packages_conf() from packages.sh.
+  # shellcheck disable=SC2154
   if [[ ${#packages_conf[@]} -eq 0 ]]; then
     log_error "packages_conf is empty. Was load_packages_conf called?"
     exit 1
   fi
 
-  local name scope target pkg_dir pkg_name stow_target
+  # Single timestamp so all backups from this run land in one directory.
+  local backup_dir
+  backup_dir="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
+
+  local name scope target pkg_dir pkg_name stow_target stow_dir
 
   for ((i=0; i<${#packages_conf[@]}; i+=3)); do
     name="${packages_conf[i]}"
@@ -161,25 +180,23 @@ stow_packages_for_os() {
     pkg_name="$(basename "$name")"
 
     [[ -n "$target" ]] && log_debug "Package '$name' has custom target: $stow_target"
-    log_info "Stowing '$name' -> '$stow_target' (scope: $scope)"
 
+    # Determine the effective stow directory.
     if [[ "$pkg_dir" == "." ]]; then
-      # Top-level package: stow directly from repo root.
-      run_cmd stow --no-folding -d "$repo_dir" -t "$stow_target" "$pkg_name"
+      stow_dir="$repo_dir"
     else
-      # Nested package: shift the stow dir down to the parent folder.
-      run_cmd stow --no-folding -d "$repo_dir/$pkg_dir" -t "$stow_target" "$pkg_name"
+      stow_dir="$repo_dir/$pkg_dir"
     fi
+
+    stow_package "$stow_dir" "$pkg_name" "$stow_target" "$backup_dir" "$name" "$scope"
   done
 
   log_debug "Stowed all applicable packages from packages.conf"
 
   # Stow the private package last if it exists.
-  # This directory is gitignored and holds secrets/personal configs.
   if [[ -d "$repo_dir/private" ]]; then
     log_debug "Found 'private' package directory"
-    log_info "Stowing 'private' package..."
-    run_cmd stow --no-folding -d "$repo_dir" -t "$HOME" private
+    stow_package "$repo_dir" "private" "$HOME" "$backup_dir" "private" "all"
   else
     log_debug "'private' package directory not found - skipping."
   fi
