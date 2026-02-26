@@ -88,7 +88,7 @@ main() {
     # Stow dotfiles first (common to all OS).
     log_info "Symlinking dotfiles using GNU Stow..."
     ensure_stow_installed "$os"
-    backup_conflicting_dotfiles
+    # backup_conflicting_dotfiles
     stow_packages_for_os "$REPO_DIR" "$os"
 
     # Delegate to OS-specific installer (pass through any remaining args).
