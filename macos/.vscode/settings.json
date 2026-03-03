@@ -115,7 +115,7 @@
     "backgroundColor": "#00000000",
     "vibrancy": "ultra-dark",
   },
-  "animations.Enabled": true,
+  "animations.Enabled": false,
   "animations.CursorAnimation": true,
   "animations.Command-Palette": "None",
   "animations.CursorAnimationOptions": {
@@ -419,11 +419,10 @@
   "markdown-preview-enhanced.revealjsTheme": "black.css",
   "chat.agent.maxRequests": 12,
   "workbench.productIconTheme": "developer-icons",
-  "chat.viewSessions.orientation": "stacked",
   "markdown-preview-github-styles.colorTheme": "system",
   "workbench.iconTheme": "developer-icon-theme",
   "oneDarkPro.vivid": true,
-  "animations.Install-Method": "Apc Customize UI++",
+  "animations.Install-Method": "Custom CSS and JS",
   "apc.imports": ["file://${HOME}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"],
   "chat.mcp.gallery.enabled": true,
   "chat.tools.urls.autoApprove": {
@@ -515,4 +514,19 @@
   "markdown-preview-enhanced.codeBlockTheme": "github-dark.css",
   "jdk.telemetry.enabled": false,
   "workbench.preferredDarkColorTheme": "Developers Theme",
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
+  "chat.viewSessions.orientation": "stacked",
+  "json.schemaDownload.trustedDomains": {
+    "https://schemastore.azurewebsites.net/": true,
+    "https://raw.githubusercontent.com/": true,
+    "https://www.schemastore.org/": true,
+    "https://json.schemastore.org/": true,
+    "https://json-schema.org/": true,
+    "https://schema.tauri.app": true
+  },
+  "vscode_custom_css.imports": [
+    "file:///Users/clarity/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
+  ],
 }
