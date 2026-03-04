@@ -10,7 +10,8 @@ A comprehensive repository containing all files and configurations to restore an
   <br>
 
   > User-specific application configuration is traditionally stored in so called [dotfiles](https://en.wikipedia.org/wiki/dotfile) (files whose filename starts with a dot). It is common practice to track dotfiles with a [version control system](https://wiki.archlinux.org/title/Version_control_system) such as [Git](https://wiki.archlinux.org/title/Git) to keep track of changes and synchronize dotfiles across various hosts.
-  > ###### *Reference:* [Arch Linux | Dotfiles](https://wiki.archlinux.org/title/Dotfiles)
+  >
+> ###### *Reference:* [Arch Linux | Dotfiles](https://wiki.archlinux.org/title/Dotfiles)
 
 </details>
 
@@ -20,10 +21,16 @@ A comprehensive repository containing all files and configurations to restore an
 
 Each OS folder contains OS-specific configurations, scripts, and installation instructions.
 
-<div style="display: inline-block; gap: 10px;">
-  <a href="./macos/README.md"><img src="https://img.shields.io/badge/macOS-os?style=for-the-badge&logo=apple&logoColor=%23000000&color=%23ffffff" alt="macOS"></a>
-  <a href="./fedora/README.md"><img src="https://img.shields.io/badge/fedora-os?style=for-the-badge&logo=fedora&logoColor=%2351A2DA&color=%23ffffff" alt="Fedora"></a>
-</div>
+<table>
+  <tr>
+    <th><a href="./macos/README.md"><img src="https://img.shields.io/badge/macOS-os?style=for-the-badge&logo=apple&logoColor=%23000000&color=%23ffffff" alt="macOS"></a></th>
+    <th><a href="./fedora/README.md"><img src="https://img.shields.io/badge/fedora-os?style=for-the-badge&logo=fedora&logoColor=%2351A2DA&color=%23ffffff" alt="Fedora"></a></th>
+  </tr>
+  <tr>
+    <td><img src="./macos/example.gif" alt="macOS Example" width="200"/></td>
+    <td><img src="./fedora/example.png" alt="Fedora Example" width="200"/></td>
+  </tr>
+</table>
 
 ## Installation
 
@@ -36,7 +43,7 @@ Each OS folder contains OS-specific configurations, scripts, and installation in
     Cloning with SSH requires that you have your SSH keys set up with GitHub.
   </blockquote>
 
-  ###### See [Connecting to GitHub with SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh) for instructions.
+###### See [Connecting to GitHub with SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh) for instructions
 
   ```bash
   git clone git@github.com:clxrityy/dotfiles.git ~/.dotfiles
@@ -45,6 +52,7 @@ Each OS folder contains OS-specific configurations, scripts, and installation in
 </details>
 
 ##### Using HTTPS (recommended for most users)
+
 ```bash
 # Clone the repository (HTTPS)
 git clone https://github.com/clxrityy/dotfiles.git ~/.dotfiles
@@ -66,7 +74,7 @@ bash install.sh
 
 ## Future Plans
 
-- _More_ Linux (Ubuntu, Arch, etc.)
+- *More* Linux (Ubuntu, Arch, etc.)
 - Windows (WSL, PowerShell, etc.)
 - Container setups (Dockerfiles, DevContainers, etc.)
 - Specific development environment setups (Python, Node.js, Go, etc.)
