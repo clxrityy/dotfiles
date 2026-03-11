@@ -79,5 +79,5 @@ install.sh
 \.vscode/cli
 
 # Note:
-#   Do NOT ignore .editorconfig / .markdownlint.json here.
+#   Do NOT ignore files such as .editorconfig here.
 #   Those live under the `common/` stow package and should be linked.
