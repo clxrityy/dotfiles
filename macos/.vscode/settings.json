@@ -56,7 +56,7 @@
     "editor.defaultFormatter": "vscode.html-language-features",
   },
   "diffEditor.codeLens": true,
-  "typescript.updateImportsOnFileMove.enabled": "always",
+  "*.updateImportsOnFileMove.enabled": "always",
   "http.proxyAuthorization": null,
   "terminal.integrated.automationProfile.linux": {
     "path": "/bin/bash",
@@ -130,7 +130,6 @@
   },
   "yaml.maxItemsComputed": 10000,
   "makefile.configureOnOpen": true,
-  "javascript.updateImportsOnFileMove.enabled": "always",
   "mssql.connectionGroups": [
     {
       "name": "ROOT",
@@ -529,4 +528,5 @@
   "vscode_custom_css.imports": [
     "file:///Users/clarity/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
   ],
+  "chat.tips.enabled": false,
 }
