@@ -10,7 +10,7 @@ model:
     Claude Opus 4.6 (copilot),
   ]
 tools:
-  [vscode/getProjectSetupInfo, vscode/runCommand, vscode/askQuestions, vscode/vscodeAPI, execute/runNotebookCell, execute/testFailure, execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/runTask, execute/createAndRunTask, execute/runInTerminal, read/getNotebookSummary, read/problems, read/readFile, read/readNotebookCellOutput, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, agent/runSubagent, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/searchResults, search/textSearch, search/usages, search/searchSubagent, web/fetch, web/githubRepo, github/get_file_contents, github/search_code, github/get_file_contents, github/search_code, memory, todo]
+  [vscode/getProjectSetupInfo, vscode/memory, vscode/runCommand, vscode/vscodeAPI, vscode/askQuestions, execute/runNotebookCell, execute/testFailure, execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/runTask, execute/createAndRunTask, execute/runInTerminal, read/getNotebookSummary, read/problems, read/readFile, read/readNotebookCellOutput, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, agent/runSubagent, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/searchResults, search/textSearch, search/usages, web/fetch, web/githubRepo, github/get_file_contents, github/search_code, github/search_repositories, github/get_file_contents, github/search_code, todo]
 target: vscode
 handoffs:
   - label: Explain Further
