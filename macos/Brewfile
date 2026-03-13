@@ -11,6 +11,7 @@ brew 'python'
 brew 'go'
 brew 'rust'
 brew 'java'
+brew 'libpq' # PostgreSQL client libraries
 
 # Containers and virtualization
 brew 'docker'
