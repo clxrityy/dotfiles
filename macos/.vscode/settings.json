@@ -2,8 +2,6 @@
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 500,
   "explorer.confirmDelete": false,
-  "background.useInvertedOpacity": false,
-  "background.smoothImageRendering": true,
   "redhat.telemetry.enabled": false,
   "tailwindcss-intellisense.trace.server": "verbose",
   "[typescriptreact]": {
@@ -21,7 +19,6 @@
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
-  "vsicons.dontShowNewVersionMessage": true,
   "[javascript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features",
   },
@@ -50,8 +47,6 @@
   "chat.useClaudeMdFile": true,
   "window.menuStyle": "inherit",
   "explorer.confirmDragAndDrop": false,
-  "liveServer.settings.donotShowInfoMsg": true,
-  "chat.editing.alwaysSaveWithGeneratedChanges": false,
   "[html]": {
     "editor.defaultFormatter": "vscode.html-language-features",
   },
@@ -249,30 +244,6 @@
   "go.toolsManagement.autoUpdate": true,
   "editor.inlineSuggest.edits.showCollapsed": true,
   "editor.largeFileOptimizations": false,
-  "workbench.colorCustomizations": {
-    "terminal.background": "#3e323209",
-    "terminal.foreground": "#E6E7E8",
-    "terminalCursor.background": "#E6E7E8",
-    "terminalCursor.foreground": "#E6E7E8",
-    "terminal.ansiBlack": "#0A0B0C",
-    "terminal.ansiBrightBlack": "#7D7E80",
-    "terminal.ansiRed": "#B7493F",
-    "terminal.ansiBrightRed": "#D25C51",
-    "terminal.ansiGreen": "#2B8A57",
-    "terminal.ansiBrightGreen": "#4DBB87",
-    "terminal.ansiYellow": "#B68C4C",
-    "terminal.ansiBrightYellow": "#D3A96F",
-    "terminal.ansiBlue": "#2E6D8C",
-    "terminal.ansiBrightBlue": "#4A90B5",
-    "terminal.ansiMagenta": "#665C8A",
-    "terminal.ansiBrightMagenta": "#8A79B3",
-    "terminal.ansiCyan": "#488a9c",
-    "terminal.ansiBrightCyan": "#679aa7",
-    "terminal.ansiWhite": "#C9CACB",
-    "terminal.ansiBrightWhite": "#F3F4F5",
-    "editor.lineHighlightBackground": "#1073cf2d",
-    "editor.lineHighlightBorder": "#9fced11f",
-  },
   "workbench.panel.showLabels": false,
   "chat.mcp.serverSampling": {
     "Nx MCP Server: Nx Mcp Server": {
@@ -419,7 +390,6 @@
   "chat.agent.maxRequests": 12,
   "workbench.productIconTheme": "developer-icons",
   "markdown-preview-github-styles.colorTheme": "system",
-  "workbench.iconTheme": "developer-icon-theme",
   "oneDarkPro.vivid": true,
   "animations.Install-Method": "Custom CSS and JS",
   "apc.imports": ["file://${HOME}/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"],
@@ -494,7 +464,14 @@
     "interval": 0,
     "random": false,
   },
-  "chat.agentsControl.enabled": false,
+  "background.fullscreen": {
+    "images": ["https://img.freepik.com/premium-vector/vibrant-gradient-background_1132956-276.jpg?semt=ais_hybrid&w=740&q=80"],
+    "opacity": 0.0314,
+    "size": "cover",
+    "position": "center",
+    "interval": 0,
+    "random": false
+  },
   "workbench.activityBar.location": "top",
   "color-picker.languages": [
     "css",
@@ -510,9 +487,8 @@
     "plaintext",
   ],
   "markdown-preview-enhanced.previewTheme": "github-dark.css",
-  "markdown-preview-enhanced.codeBlockTheme": "github-dark.css",
+  "markdown-preview-enhanced.codeBlockTheme": "auto.css",
   "jdk.telemetry.enabled": false,
-  "workbench.preferredDarkColorTheme": "Developers Theme",
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
   },
@@ -529,4 +505,7 @@
     "file:///Users/clarity/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
   ],
   "chat.tips.enabled": false,
+  "js/ts.updateImportsOnFileMove.enabled": "always",
+  "workbench.iconTheme": "catppuccin-perfect-latte",
+  "workbench.preferredDarkColorTheme": "Experimental Dark"
 }
