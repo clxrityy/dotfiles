@@ -27,6 +27,4 @@ brew 'fastfetch'
 cask 'visual-studio-code'
 cask 'iterm2'
 cask 'spotify'
-## Security tools
-cask 'little-snitch'
 cask 'docker'
