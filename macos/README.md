@@ -26,11 +26,6 @@
     - [`check.instructions.md`](../prompts/check.instructions.md): Checklist to verify response quality before sending.
     - [`planner.instructions.md`](../prompts/planner.instructions.md): Specific instructions for planning-related tasks.
 
-> Note: shared shell configs and repo-wide config live outside this folder:
->
-> - `shell/` (e.g. `.bash_profile`)
-> - `common/` (e.g. `.editorconfig`)
-
 ### Utilities
 >
 > Files that assist in managing or enhancing the dotfiles repository.

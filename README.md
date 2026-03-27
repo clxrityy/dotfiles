@@ -19,7 +19,15 @@ A comprehensive repository containing all files and configurations to restore an
 
 ## Environments
 
-Each OS folder contains OS-specific configurations, scripts, and installation instructions.
+Each OS folder contains specific configurations, scripts, and installation instructions.
+
+> Note: shared shell configs and repo-wide config live outside OS folders:
+>
+> - `shell/` (e.g. `.bash_profile`)
+> - `common/` (e.g. `.editorconfig`)
+
+- [macOS](./macos/README.md)
+- [Fedora](./fedora/README.md)
 
 <table>
   <tr>
@@ -72,12 +80,16 @@ bash install.sh
 
 ---
 
-## Future Plans
+## TO-DO
 
-- *More* Linux (Ubuntu, Arch, etc.)
-- Windows (WSL, PowerShell, etc.)
-- Container setups (Dockerfiles, DevContainers, etc.)
-- Specific development environment setups (Python, Node.js, Go, etc.)
-- Configurations for copilot agents, instructions, prompts, etc.
-- VPN configurations
-- SSH config management
+- [ ] Raspberry Pi
+- [ ] Tails OS environment (USB)
+- [ ] Development-specific environments
+  - [ ] Python
+  - [ ] Node.js
+  - [ ] Rust
+  - [ ] Go
+  - [ ] Java
+- [ ] VPN configurations
+- [ ] SSH config management
+- [ ] Container setups (Docker)
