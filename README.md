@@ -82,6 +82,7 @@ bash install.sh
 
 ## TO-DO
 
+- [ ] CI/CD
 - [ ] Raspberry Pi
 - [ ] Tails OS environment (USB)
 - [ ] Development-specific environments
