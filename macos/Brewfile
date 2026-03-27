@@ -17,7 +17,6 @@ brew 'libpq' # PostgreSQL client libraries
 brew 'docker'
 brew 'docker-compose'
 
-
 # Utilities
 brew 'htop'
 brew 'ffmpeg'
