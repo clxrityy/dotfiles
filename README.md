@@ -2,7 +2,8 @@
 
 A comprehensive repository containing all files and configurations to restore and reproduce my OS & development environment(s).
 
-- [Environments](#environments)
+- [Operating systems](#operating-systems)
+- [Scripts & Utilities](#scripts--utilities)
 - [Installation](#installation)
 
 <details>
@@ -17,7 +18,7 @@ A comprehensive repository containing all files and configurations to restore an
 
 ---
 
-## Environments
+## Operating systems
 
 Each OS folder contains specific configurations, scripts, and installation instructions.
 
@@ -39,6 +40,14 @@ Each OS folder contains specific configurations, scripts, and installation instr
     <td><img src="./fedora/example.png" alt="Fedora Example" width="200"/></td>
   </tr>
 </table>
+
+## Scripts & Utilities
+
+View all scripts/utilities and how to use them by running:
+
+```bash
+make help
+```
 
 ## Installation
 
@@ -84,7 +93,7 @@ bash install.sh
 
 - [ ] CI/CD
 - [ ] Raspberry Pi
-- [ ] Tails OS environment (USB)
+- [ ] Ventoy USB setup
 - [ ] Development-specific environments
   - [ ] Python
   - [ ] Node.js
