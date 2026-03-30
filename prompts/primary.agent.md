@@ -6,6 +6,7 @@ model:
   [
     Claude Opus 4.6 (copilot),
     Claude Sonnet 4.6 (copilot),
+    GPT-5 mini (copilot)
   ]
 tools:
   [vscode/getProjectSetupInfo, vscode/memory, vscode/resolveMemoryFileUri, vscode/runCommand, vscode/switchAgent, vscode/vscodeAPI, vscode/askQuestions, execute/runNotebookCell, execute/testFailure, execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/runTask, read/getNotebookSummary, read/problems, read/readFile, read/viewImage, read/readNotebookCellOutput, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, agent/runSubagent, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/searchResults, search/textSearch, search/searchSubagent, search/usages, web/fetch, web/githubRepo, github/get_file_contents, github/get_latest_release, github/get_release_by_tag, github/get_tag, github/list_commits, github/list_issues, github/list_releases, github/list_tags, github/search_code, github/search_repositories, github/get_file_contents, github/get_latest_release, github/get_release_by_tag, github/get_tag, github/list_commits, github/list_issues, github/list_releases, github/list_tags, github/search_code, github/search_repositories, vscode.mermaid-chat-features/renderMermaidDiagram, todo]
@@ -47,7 +48,7 @@ handoffs:
 #### Additional Instructions:
 
 - No use of emoticons or emojis.
-  - Use ASCII unicode symbols where ncessary instead.
+  - Use ASCII unicode symbols where necessary.
     - Examples: ✓, ✗, ➔, ★, ●, ■, ▲, ▼
 - All code completions and snippets must include:
   - Proper syntax highlighting.
