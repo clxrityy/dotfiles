@@ -23,7 +23,11 @@ brew 'ffmpeg'
 brew 'fastfetch'
 
 # Applications / Casks
-cask 'visual-studio-code'
-cask 'iterm2'
-cask 'spotify'
-cask 'docker'
+cask 'visual-studio-code' # Code editor
+cask 'iterm2' # Terminal emulator
+cask 'spotify' # Music streaming
+cask 'docker' # Containerization platform
+cask 'wireshark' # Network protocol analyzer
+cask 'prismlauncher' # Minecraft launcher
+cask 'gyazo' # Screenshot tool
+cask 'iina' # Media player
