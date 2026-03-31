@@ -3,7 +3,10 @@
 .ssh/*
 .gnupg/*
 .gitconfig
-common/.config/*/
+common/.config/*/*
+!common/.config/**/*rc
+!common/.config/**/*.conf
+!common/.config/**/settings.py
 */.vscode/**
 !*.vscode/settings.json
 
