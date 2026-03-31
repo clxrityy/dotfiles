@@ -9,6 +9,6 @@
 #   This makes `stow common` behave like `stow -t "$HOME" common`.
 #
 # Reference:
-#   - GNU Stow manual: https://www.gnu.org/software/stow/manual/stow.html
+#   - GNU Stow manual: <https://www.gnu.org/software/stow/manual/stow.html>
 
 target=..
