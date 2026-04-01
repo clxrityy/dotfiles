@@ -495,11 +495,15 @@
   "chat.viewSessions.orientation": "stacked",
   "json.schemaDownload.trustedDomains": {
     "https://schemastore.azurewebsites.net/": true,
-    "https://raw.githubusercontent.com/": true,
+    "https://raw.githubusercontent.com/microsoft/vscode/": true,
+    "https://raw.githubusercontent.com/devcontainers/spec/": true,
     "https://www.schemastore.org/": true,
     "https://json.schemastore.org/": true,
     "https://json-schema.org/": true,
-    "https://schema.tauri.app": true
+    "https://developer.microsoft.com/json-schemas/": true,
+    "https://raw.githubusercontent.com/": true,
+    "https://schema.tauri.app": true,
+    "https://biomejs.dev": true
   },
   "vscode_custom_css.imports": [
     "file:///Users/clarity/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
