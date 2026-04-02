@@ -30,4 +30,3 @@ cask 'docker' # Containerization platform
 cask 'wireshark' # Network protocol analyzer
 cask 'prismlauncher' # Minecraft launcher
 cask 'gyazo' # Screenshot tool
-cask 'iina' # Media player
