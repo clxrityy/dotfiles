@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034  # Color vars consumed by sourcing scripts
 # scripts/lib/colors.sh
 #
 # Purpose:

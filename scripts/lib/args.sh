@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # scripts/lib/args.sh
+# shellcheck disable=SC2034  # Globals consumed by sourcing scripts
 #
 # Purpose:
 #   Parse common installer flags shared across entrypoints.
