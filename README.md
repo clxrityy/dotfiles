@@ -91,15 +91,10 @@ bash install.sh
 
 ## TO-DO
 
-- [ ] CI/CD
+- [x] CI
 - [ ] Raspberry Pi
-- [ ] Ventoy USB setup
+- [x] Ventoy USB setup
 - [ ] Development-specific environments
-  - [ ] Python
-  - [ ] Node.js
-  - [ ] Rust
-  - [ ] Go
-  - [ ] Java
 - [ ] VPN configurations
 - [ ] SSH config management
 - [ ] Container setups (Docker)
