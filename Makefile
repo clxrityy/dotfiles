@@ -50,3 +50,9 @@ ventoy: ## Setup Ventoy USB on external drive (support for macOS/Linux)
 # ---------------------------------------
 stun-block: ## Block STUN traffic (macOS only)
 	@${SCRIPTS_DIR}/extra/macos-stun-block.sh
+
+# ---------------------------------------
+# Testing
+# ---------------------------------------
+test: ## Run all tests
+	@bash $(SCRIPTS_DIR)/tests/run
