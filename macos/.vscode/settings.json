@@ -511,5 +511,5 @@
   "chat.tips.enabled": false,
   "js/ts.updateImportsOnFileMove.enabled": "always",
   "workbench.iconTheme": "catppuccin-perfect-latte",
-  "workbench.preferredDarkColorTheme": "VS Code Dark"
+  "workbench.preferredDarkColorTheme": "Dark 2026"
 }
