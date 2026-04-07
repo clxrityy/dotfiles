@@ -92,6 +92,7 @@ bash install.sh
 ## TO-DO
 
 - [x] CI
+- [ ] Windows
 - [ ] Raspberry Pi
 - [x] Ventoy USB setup
 - [ ] Development-specific environments
