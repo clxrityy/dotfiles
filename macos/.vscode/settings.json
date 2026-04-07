@@ -510,6 +510,5 @@
   ],
   "chat.tips.enabled": false,
   "js/ts.updateImportsOnFileMove.enabled": "always",
-  "workbench.iconTheme": "catppuccin-perfect-latte",
-  "workbench.preferredDarkColorTheme": "Dark 2026"
+  "workbench.iconTheme": "developer-icon-theme",
 }
