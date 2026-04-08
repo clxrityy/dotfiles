@@ -511,4 +511,5 @@
   "chat.tips.enabled": false,
   "js/ts.updateImportsOnFileMove.enabled": "always",
   "workbench.iconTheme": "developer-icon-theme",
+  "biome.suggestInstallingGlobally": false,
 }
