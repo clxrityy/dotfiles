@@ -12,6 +12,7 @@ brew 'go'
 brew 'rust'
 brew 'java'
 brew 'libpq' # PostgreSQL client libraries
+brew 'putty' # SSH client
 
 # Containers and virtualization
 brew 'docker'
