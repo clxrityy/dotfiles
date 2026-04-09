@@ -2,6 +2,7 @@ cask_args appdir: '/Applications'
 
 # Essential tools
 brew 'git'
+brew 'gh' # GitHub CLI
 brew 'stow'
 brew 'bash'
 
