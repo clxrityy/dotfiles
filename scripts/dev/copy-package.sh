@@ -23,6 +23,10 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
 # shellcheck source=/dev/null
+source "$REPO_DIR/scripts/lib/colors.sh"
+init_colors
+
+# shellcheck source=/dev/null
 source "$REPO_DIR/scripts/lib/log.sh"
 # shellcheck source=/dev/null
 source "$REPO_DIR/scripts/lib/os.sh"

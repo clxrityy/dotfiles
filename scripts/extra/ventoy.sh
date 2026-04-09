@@ -11,6 +11,9 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[1]}")" && pwd)"
 LIB_DIR="$REPO_DIR/scripts/lib"
 
 # shellcheck source=/dev/null
+source "$LIB_DIR/colors.sh"
+init_colors
+# shellcheck source=/dev/null
 source "$LIB_DIR/log.sh"
 # shellcheck source=/dev/null
 source "$LIB_DIR/prompt.sh"

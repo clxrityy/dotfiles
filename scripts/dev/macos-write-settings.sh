@@ -20,6 +20,7 @@ TEMPLATE_FILE="$MACOS_FILE"  # We read the existing file as template
 
 # shellcheck source=/dev/null
 source "$REPO_DIR/scripts/lib/colors.sh"
+init_colors
 # shellcheck source=/dev/null
 source "$REPO_DIR/scripts/lib/log.sh"
 init_colors
