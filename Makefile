@@ -52,6 +52,12 @@ stun-block: ## Block STUN traffic (macOS only)
 	@${SCRIPTS_DIR}/extra/macos-stun-block.sh
 
 # ---------------------------------------
+# Convert SSH2 keys to OpenSSH format
+# ---------------------------------------
+ssh2-to-openssh: ## Convert SSH2 private keys to OpenSSH format (usage: make ssh2-to-openssh <keyfile>)
+	@${SCRIPTS_DIR}/extra/ssh2-to-openssh.sh ${ARGS}
+
+# ---------------------------------------
 # Testing
 # ---------------------------------------
 test: ## Run all tests
