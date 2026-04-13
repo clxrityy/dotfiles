@@ -63,9 +63,11 @@
   },
   "workbench.editorAssociations": {
     "*.copilotmd": "vscode.markdown.preview.editor",
+    "*.svg": "default",
     "*.jar": "default",
     "*.db": "default",
     "*.VSIXPackage": "default",
+    "*.xls": "default"
   },
   "github.copilot.enable": {
     "*": true,
@@ -492,7 +494,6 @@
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
   },
-  "chat.viewSessions.orientation": "stacked",
   "json.schemaDownload.trustedDomains": {
     "https://schemastore.azurewebsites.net/": true,
     "https://raw.githubusercontent.com/microsoft/vscode/": true,
@@ -512,4 +513,7 @@
   "js/ts.updateImportsOnFileMove.enabled": "always",
   "workbench.iconTheme": "developer-icon-theme",
   "biome.suggestInstallingGlobally": false,
+  "chat.viewSessions.orientation": "stacked",
+  "github.copilot.chat.agentDebugLog.enabled": true,
+  "github.copilot.chat.conversationTranscriptLookup.enabled": true,
 }
