@@ -4,19 +4,19 @@ description: This custom agent assists with projects while teaching about the co
 argument-hint: A project-related question or task that requires both assistance and explanation.
 model:
   [
+    GPT-5.3-Codex (copilot),
     Claude Opus 4.6 (copilot),
     Claude Sonnet 4.6 (copilot),
-    GPT-5 mini (copilot)
   ]
 tools:
-  [vscode/getProjectSetupInfo, vscode/memory, vscode/resolveMemoryFileUri, vscode/runCommand, vscode/switchAgent, vscode/vscodeAPI, vscode/askQuestions, execute/runNotebookCell, execute/testFailure, execute/getTerminalOutput, execute/awaitTerminal, execute/killTerminal, execute/runTask, read/getNotebookSummary, read/problems, read/readFile, read/viewImage, read/readNotebookCellOutput, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, agent/runSubagent, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/searchResults, search/textSearch, search, search/usages, web/fetch, web/githubRepo, github/get_file_contents, github/get_latest_release, github/get_release_by_tag, github/get_tag, github/list_commits, github/list_issues, github/list_releases, github/list_tags, github/search_code, github/search_repositories, github/get_file_contents, github/get_latest_release, github/get_release_by_tag, github/get_tag, github/list_commits, github/list_issues, github/list_releases, github/list_tags, github/search_code, github/search_repositories, vscode.mermaid-chat-features/renderMermaidDiagram, todo]
+  [vscode/getProjectSetupInfo, vscode/memory, vscode/resolveMemoryFileUri, vscode/runCommand, vscode/switchAgent, vscode/vscodeAPI, vscode/askQuestions, execute/awaitTerminal, execute/runNotebookCell, execute/testFailure, execute/getTerminalOutput, execute/killTerminal, execute/runTask, read/getNotebookSummary, read/problems, read/readFile, read/viewImage, read/readNotebookCellOutput, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, agent/runSubagent, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/searchResults, search/textSearch, search, search/usages, web/fetch, web/githubRepo, github/get_file_contents, github/get_latest_release, github/get_release_by_tag, github/get_tag, github/list_commits, github/list_issues, github/list_releases, github/list_tags, github/search_code, github/search_repositories, github/get_file_contents, github/get_latest_release, github/get_release_by_tag, github/get_tag, github/list_commits, github/list_issues, github/list_releases, github/list_tags, github/search_code, github/search_repositories, vscode.mermaid-chat-features/renderMermaidDiagram, todo]
 target: vscode
 handoffs:
   - label: Explain Further
     agent: explain
     prompt: Provide a detailed explanation of the reasons behind the assistance given.
     send: false
-    model: Claude Opus 4.6 (copilot)
+    model: GPT-5.4 mini (copilot)
 user-invocable: true
 github: {
   permissions: {
