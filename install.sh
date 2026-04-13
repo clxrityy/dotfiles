@@ -23,11 +23,8 @@ REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 #   - stow orchestration
 
 LIB_DIR="$REPO_DIR/scripts/lib"
-
 # shellcheck source=/dev/null
-source "$LIB_DIR/colors.sh"
-# shellcheck source=/dev/null
-source "$LIB_DIR/log.sh"
+source "$REPO_DIR/scripts/source.sh" # This sources all the specific libs for executable scripts (colors, log, banner, prompt) and initializes colors.
 # shellcheck source=/dev/null
 source "$LIB_DIR/args.sh"
 # shellcheck source=/dev/null
@@ -39,10 +36,6 @@ source "$LIB_DIR/packages.sh"
 load_packages_conf
 # shellcheck source=/dev/null
 source "$LIB_DIR/stow.sh"
-# shellcheck source=/dev/null
-source "$LIB_DIR/banner.sh"
-# shellcheck source=/dev/null
-source "$LIB_DIR/prompt.sh"
 
 init_colors
 

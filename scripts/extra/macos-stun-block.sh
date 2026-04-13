@@ -10,15 +10,11 @@ BACKUP="/etc/pf.conf.backup.$(date +%Y%m%d%H%M%S)"
 
 # ====
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[1]}")" && pwd)"
-LIB_DIR="$REPO_DIR/scripts/lib"
-
+SCRIPTS_DIR="$REPO_DIR/scripts"
 # shellcheck source=/dev/null
-source "$LIB_DIR/colors.sh"
-init_colors
+source "$SCRIPTS_DIR/source.sh"
 # shellcheck source=/dev/null
-source "$LIB_DIR/log.sh"
-# shellcheck source=/dev/null
-source "$LIB_DIR/os.sh"
+source "$SCRIPTS_DIR/lib/os.sh"
 
 main() {
 

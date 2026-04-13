@@ -8,24 +8,16 @@ set -euo pipefail
 
 # ======
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[1]}")" && pwd)"
-LIB_DIR="$REPO_DIR/scripts/lib"
+SCRIPTS_DIR="$REPO_DIR/scripts"
 
 # shellcheck source=/dev/null
-source "$LIB_DIR/colors.sh"
-init_colors
-# shellcheck source=/dev/null
-source "$LIB_DIR/log.sh"
-# shellcheck source=/dev/null
-source "$LIB_DIR/prompt.sh"
-# shellcheck source=/dev/null
-source "$LIB_DIR/banner.sh"
-
+source "$SCRIPTS_DIR/source.sh"
 
 # =====
 # Get the external drive device identifier
 #   << Returns the device identifier of the external drive (e.g., /dev/sdb)
-#     |- Searches for external drives 
-#       |- `diskutil list external` (macOS) 
+#     |- Searches for external drives using OS-specific commands:
+#       |- `diskutil list external` (macOS)
 #       |- `lsblk -o NAME,TYPE | grep disk` (Linux)
 # =====
 get_external_drive() {

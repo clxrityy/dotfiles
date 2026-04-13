@@ -8,13 +8,10 @@
 
 # ====
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[1]}")" && pwd)"
-LIB_DIR="$REPO_DIR/scripts/lib"
+SCRIPTS_DIR="$REPO_DIR/scripts"
 
 # shellcheck source=/dev/null
-source "$LIB_DIR/colors.sh"
-init_colors
-# shellcheck source=/dev/null
-source "$LIB_DIR/log.sh"
+source "$SCRIPTS_DIR/source.sh"
 
 if [ "$#" -ne 1 ]; then
   log_error "Usage: $0 <input-ssh2-key>"
