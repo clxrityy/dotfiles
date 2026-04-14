@@ -14,6 +14,8 @@ brew 'rust'
 brew 'java'
 brew 'libpq' # PostgreSQL client libraries
 brew 'putty' # SSH client
+brew 'actionlint' # GitHub Actions linter
+brew 'act' # Run GitHub Actions locally
 
 # Containers and virtualization
 brew 'docker'
