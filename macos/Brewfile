@@ -1,30 +1,30 @@
-cask_args appdir: '/Applications'
+cask_args appdir: '/Applications' # Install applications in the /Applications directory
 
 # Essential tools
-brew 'git'
+brew 'git' # Version control system
 brew 'gh' # GitHub CLI
-brew 'stow'
-brew 'bash'
+brew 'stow' # Symlink manager for dotfiles
+brew 'bash' # Unix shell
 
 # Development tools
-brew 'node'
-brew 'python'
-brew 'go'
-brew 'rust'
-brew 'java'
+brew 'node' # JavaScript runtime
+brew 'python' # Python programming language
+brew 'go' # Go programming language
+brew 'rust' # Rust programming language
+brew 'java' # Java programming language
 brew 'libpq' # PostgreSQL client libraries
 brew 'putty' # SSH client
 brew 'actionlint' # GitHub Actions linter
 brew 'act' # Run GitHub Actions locally
 
 # Containers and virtualization
-brew 'docker'
-brew 'docker-compose'
+brew 'docker' # Containerization platform
+brew 'docker-compose' # Tool for defining and running multi-container Docker applications
 
 # Utilities
-brew 'htop'
-brew 'ffmpeg'
-brew 'fastfetch'
+brew 'htop' # Interactive process viewer
+brew 'ffmpeg' # Multimedia framework
+brew 'fastfetch' # System information tool
 
 # Applications / Casks
 cask 'visual-studio-code' # Code editor
