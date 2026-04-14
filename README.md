@@ -49,6 +49,18 @@ View all scripts/utilities and how to use them by running:
 make help
 ```
 
+> **Note**: When using `make` to execute script-wrapper targets, pass arguments like:
+>
+> ```bash
+> make <target> ARGS="<args to pass to script>"
+> ```
+>
+> *OR:*
+>
+> ```bash
+> make <target> -- <args to pass to script>
+> ```
+
 ## Installation
 
 ### Clone the repository
@@ -83,6 +95,9 @@ cd ~/.dotfiles
 # Show help
 bash install.sh --help
 
+# Run installation as a dry-run with verbose output
+bash install.sh --dry-run --verbose
+
 # Run installation (auto-detects OS, runs GNU Stow, then runs OS-specific steps)
 bash install.sh
 ```
@@ -95,6 +110,7 @@ bash install.sh
 - [ ] Windows
 - [ ] Raspberry Pi
 - [x] Ventoy USB setup
+- [x] Package migration script
 - [ ] Development-specific environments
 - [ ] VPN configurations
 - [ ] SSH config management
