@@ -7,7 +7,18 @@
 
 SCRIPTS_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))/scripts
 DEV_DIR := $(SCRIPTS_DIR)/dev
-ARGS := $(wordlist 2, $(words $(MAKECMDGOALS)), $(MAKECMDGOALS))
+# Args forwarding for script-wrapper targets
+SCRIPT_ARG_TARGETS := copy-package migrate-package ssh2-to-openssh install
+GOAL_ARGS := $(filter-out --,$(wordlist 2,$(words $(MAKECMDGOALS)), $(MAKECMDGOALS)))
+
+# Allow explicit ARGS="..." to override, otherwise fallback to goal-based args
+ARGS ?= $(GOAL_ARGS)
+
+# Swallow extra pseudo-goals only when first goal is a script-wrapper target
+ifneq ($(filter $(firstword $(MAKECMDGOALS)),$(SCRIPT_ARG_TARGETS)),)
+%:
+	@:
+endif
 
 # ---------------------------------------
 # Self-documenting help target.
@@ -30,14 +41,17 @@ enable-scripts: ## Make all scripts/ executable
 # ---------------------------------------
 # Installation
 # ---------------------------------------
-install: ## Install dotfiles
-	bash install.sh
+install: enable-scripts ## Install dotfiles
+	@bash install.sh ${ARGS}
 
 # ---------------------------------------
 # Stow / package management
 # ---------------------------------------
 copy-package: ## Copy package files to target location (usage: make copy-package <package_name>)
 	@${DEV_DIR}/copy-package.sh ${ARGS}
+
+migrate-package: ## Migrate package to new name/scope (usage: make migrate-package <current_package> <new_package> <target_spec>)
+	@${DEV_DIR}/migrate-package.sh ${ARGS}
 
 # ---------------------------------------
 # USB / Ventoy setup
