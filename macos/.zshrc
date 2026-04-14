@@ -129,3 +129,8 @@ esac
 
 test -e /Users/clarity/.iterm2_shell_integration.zsh && source /Users/clarity/.iterm2_shell_integration.zsh || true
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/clarity/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
