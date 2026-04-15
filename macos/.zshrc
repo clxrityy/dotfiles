@@ -134,3 +134,6 @@ fpath=(/Users/clarity/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
+
+# Enable gitstatus debug logs
+GITSTATUS_LOG_LEVEL=DEBUG
