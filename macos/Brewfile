@@ -30,7 +30,7 @@ brew 'fastfetch' # System information tool
 cask 'visual-studio-code' # Code editor
 cask 'iterm2' # Terminal emulator
 cask 'spotify' # Music streaming
-cask 'docker' # Containerization platform
-cask 'wireshark' # Network protocol analyzer
+cask 'docker-desktop' # Containerization platform
+cask 'wireshark-app' # Network protocol analyzer
 cask 'prismlauncher' # Minecraft launcher
 cask 'gyazo' # Screenshot tool
