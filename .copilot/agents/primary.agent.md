@@ -5,11 +5,10 @@ argument-hint: A project-related question or task that requires both assistance 
 model:
   [
     GPT-5.3-Codex (copilot),
-    Claude Opus 4.6 (copilot),
     Claude Sonnet 4.6 (copilot),
   ]
 tools:
-  [vscode/getProjectSetupInfo, vscode/memory, vscode/resolveMemoryFileUri, vscode/runCommand, vscode/switchAgent, vscode/vscodeAPI, vscode/askQuestions, execute/awaitTerminal, execute/runNotebookCell, execute/testFailure, execute/getTerminalOutput, execute/killTerminal, execute/runTask, read/getNotebookSummary, read/problems, read/readFile, read/viewImage, read/readNotebookCellOutput, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, agent/runSubagent, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/searchResults, search/textSearch, search, search/usages, web/fetch, web/githubRepo, github/get_file_contents, github/get_latest_release, github/get_release_by_tag, github/get_tag, github/list_commits, github/list_issues, github/list_releases, github/list_tags, github/search_code, github/search_repositories, github/get_file_contents, github/get_latest_release, github/get_release_by_tag, github/get_tag, github/list_commits, github/list_issues, github/list_releases, github/list_tags, github/search_code, github/search_repositories, vscode.mermaid-chat-features/renderMermaidDiagram, todo]
+  [vscode/getProjectSetupInfo, vscode/memory, vscode/resolveMemoryFileUri, vscode/runCommand, vscode/switchAgent, vscode/vscodeAPI, vscode/askQuestions, execute/runNotebookCell, execute/getTerminalOutput, execute/killTerminal, execute/runTask, read/getNotebookSummary, read/problems, read/readFile, read/viewImage, read/readNotebookCellOutput, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, agent/runSubagent, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/textSearch, search, search/usages, web/fetch, web/githubRepo, github/get_file_contents, github/get_latest_release, github/get_release_by_tag, github/get_tag, github/list_commits, github/list_issues, github/list_releases, github/list_tags, github/search_code, github/search_repositories, github/get_file_contents, github/get_latest_release, github/get_release_by_tag, github/get_tag, github/list_commits, github/list_issues, github/list_releases, github/list_tags, github/search_code, github/search_repositories, vscode.mermaid-chat-features/renderMermaidDiagram, todo]
 target: vscode
 handoffs:
   - label: Explain Further

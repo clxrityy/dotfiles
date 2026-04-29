@@ -1,1 +1,0 @@
-../../.dotfiles/copilot/instructions/check.instructions.md
