@@ -212,7 +212,6 @@
   "svg.preview.mode": "svg",
   "workbench.statusBar.visible": false,
   "editor.minimap.size": "fill",
-  "remote.SSH.defaultForwardedPorts": [],
   "remote.SSH.configFile": "~/.ssh/config",
   "remote.SSH.enableRemoteCommand": true,
   "remote.SSH.externalSSH_ASKPASS": true,
@@ -254,8 +253,8 @@
   "editor.defaultColorDecorators": "always",
   "markdown-preview-enhanced.liveUpdate": false,
   "editor.autoIndent": "advanced",
-  "markdown-preview-enhanced.revealjsTheme": "black.css",
-  "chat.agent.maxRequests": 12,
+  "markdown-preview-enhanced.revealjsTheme": "vscode.css",
+  "chat.agent.maxRequests": 10,
   "workbench.productIconTheme": "developer-icons",
   "chat.mcp.gallery.enabled": true,
   "chat.tools.urls.autoApprove": {
@@ -335,8 +334,8 @@
     "random": false
   },
   "workbench.activityBar.location": "top",
-  "markdown-preview-enhanced.previewTheme": "github-dark.css",
-  "markdown-preview-enhanced.codeBlockTheme": "auto.css",
+  "markdown-preview-enhanced.previewTheme": "one-dark.css",
+  "markdown-preview-enhanced.codeBlockTheme": "vscode.css",
   "jdk.telemetry.enabled": false,
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
@@ -356,11 +355,20 @@
   "vscode_custom_css.imports": [
     "file:///Users/clarity/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
   ],
-  "chat.tips.enabled": false,
   "js/ts.updateImportsOnFileMove.enabled": "always",
   "workbench.iconTheme": "developer-icon-theme",
   "biome.suggestInstallingGlobally": false,
-  "chat.viewSessions.orientation": "stacked",
-  "github.copilot.chat.agentDebugLog.enabled": true,
+  "github.copilot.chat.agentDebugLog.fileLogging.enabled": true,
   "github.copilot.chat.conversationTranscriptLookup.enabled": true,
+  "chat.viewSessions.orientation": "stacked",
+  "chat.includeReferencedInstructions": true,
+  "chat.restoreLastPanelSession": true,
+  "workbench.navigationControl.enabled": false,
+  "workbench.browser.showInTitleBar": false,
+  "chat.unifiedAgentsBar.enabled": true,
+  "chat.agent.thinking.phrases": {
+    "mode": "append",
+    "phrases": [
+    ]
+  },
 }
