@@ -108,7 +108,7 @@ bash install.sh
 
 - [x] CI
 - [ ] Windows
-- [ ] Raspberry Pi
+- [x] Debian
 - [x] Ventoy USB setup
 - [x] Package migration script
 - [ ] Development-specific environments
