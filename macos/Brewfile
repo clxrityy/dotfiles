@@ -16,6 +16,7 @@ brew 'libpq' # PostgreSQL client libraries
 brew 'putty' # SSH client
 brew 'actionlint' # GitHub Actions linter
 brew 'act' # Run GitHub Actions locally
+brew 'gradle' # Build automation tool
 
 # Containers and virtualization
 brew 'docker' # Containerization platform
