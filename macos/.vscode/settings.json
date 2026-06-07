@@ -360,7 +360,6 @@
   "biome.suggestInstallingGlobally": false,
   "github.copilot.chat.agentDebugLog.fileLogging.enabled": true,
   "github.copilot.chat.conversationTranscriptLookup.enabled": true,
-  "chat.viewSessions.orientation": "stacked",
   "chat.includeReferencedInstructions": true,
   "chat.restoreLastPanelSession": true,
   "workbench.navigationControl.enabled": false,
@@ -371,4 +370,11 @@
     "phrases": [
     ]
   },
+  "remote.SSH.defaultForwardedPorts": [],
+  "remote.SSH.useExecServer": false,
+  "remote-explorer.collapseRecentFolders": true,
+  "remote.SSH.showLoginTerminal": true,
+  "remote.SSH.useLocalServer": true,
+  "chat.viewSessions.orientation": "stacked",
+  "terminal.integrated.initialHint": false,
 }
