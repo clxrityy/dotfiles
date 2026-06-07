@@ -122,8 +122,8 @@ export PATH="$PATH:/Users/clarity/.lmstudio/bin"
 # pnpm
 export PNPM_HOME="/Users/clarity/Library/pnpm"
 case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
 # pnpm end
 
