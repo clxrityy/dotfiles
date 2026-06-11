@@ -11,7 +11,6 @@
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features",
   },
-  "security.workspace.trust.untrustedFiles": "open",
   "[typescript]": {
     "breadcrumbs.showArrays": true,
     "editor.defaultFormatter": "vscode.typescript-language-features",
@@ -377,4 +376,5 @@
   "remote.SSH.useLocalServer": true,
   "chat.viewSessions.orientation": "stacked",
   "terminal.integrated.initialHint": false,
+  "workbench.preferredDarkColorTheme": "Developers Theme - Green Coffee",
 }
