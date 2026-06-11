@@ -25,3 +25,9 @@ id_rsa*
 id_ed25519*
 *.token
 *.lock
+*.log
+*.db
+*session*
+*state.*
+*history*
+copilot/config.json
