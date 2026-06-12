@@ -376,5 +376,5 @@
   "remote.SSH.useLocalServer": true,
   "chat.viewSessions.orientation": "stacked",
   "terminal.integrated.initialHint": false,
-  "workbench.preferredDarkColorTheme": "Developers Theme - Green Coffee",
+  "workbench.preferredDarkColorTheme": "paddy-inkstone",
 }
