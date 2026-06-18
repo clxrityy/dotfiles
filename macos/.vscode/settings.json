@@ -355,7 +355,7 @@
     "file:///Users/clarity/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
   ],
   "js/ts.updateImportsOnFileMove.enabled": "always",
-  "workbench.iconTheme": "developer-icon-theme",
+  "workbench.iconTheme": "sweet-vscode-icons",
   "biome.suggestInstallingGlobally": false,
   "github.copilot.chat.agentDebugLog.fileLogging.enabled": true,
   "github.copilot.chat.conversationTranscriptLookup.enabled": true,
@@ -376,5 +376,5 @@
   "remote.SSH.useLocalServer": true,
   "chat.viewSessions.orientation": "stacked",
   "terminal.integrated.initialHint": false,
-  "workbench.preferredDarkColorTheme": "paddy-inkstone",
+  "workbench.preferredDarkColorTheme": "paddy-wolf",
 }
