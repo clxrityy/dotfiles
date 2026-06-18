@@ -109,7 +109,7 @@ bash install.sh
 - [x] CI
 - [ ] Windows
 - [x] Debian
-- [x] Ventoy USB setup
+- [ ] Ventoy USB setup
 - [x] Package migration script
 - [ ] Development-specific environments
 - [ ] VPN configurations
