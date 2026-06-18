@@ -137,3 +137,6 @@ compinit
 
 # Enable gitstatus debug logs
 GITSTATUS_LOG_LEVEL=DEBUG
+
+# Activate Python virtual environment if it exists
+source "$HOME/.venv/bin/activate" 2>/dev/null || python3 -m venv "$HOME/.venv" && source "$HOME/.venv/bin/activate"
