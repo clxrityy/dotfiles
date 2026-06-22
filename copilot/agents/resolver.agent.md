@@ -2,7 +2,7 @@
 name: resolver
 description: This custom agent is designed to deeply analyze and resolve complex, or even pesky, issues that may arise during software development. It excels at breaking down problems into manageable parts, researching solutions, and providing clear, actionable steps to resolve them. The resolver agent can utilize a variety of tools to read documentation, view project files, search for information, and even interact with web resources to find the best possible solutions.
 argument-hint: The inputs this agent expects, e.g., "a task to implement" or "a question to answer".
-tools: ['vscode', 'read', 'search', 'web', 'todo', 'browser'] # specify the tools this agent can use. If not set, all enabled tools are allowed.
+tools: [vscode/extensions, vscode/installExtension, vscode/memory, vscode/newWorkspace, vscode/resolveMemoryFileUri, vscode/runCommand, vscode/switchAgent, vscode/vscodeAPI, vscode/askQuestions, read/getNotebookSummary, read/problems, read/readFile, read/viewImage, read/readNotebookCellOutput, read/terminalSelection, read/terminalLastCommand, read/getTaskOutput, search/codebase, search/fileSearch, search/listDirectory, search/textSearch, search/usages, web/fetch, web/githubRepo, web/githubTextSearch, browser/openBrowserPage, browser/readPage, browser/screenshotPage, browser/navigatePage, browser/clickElement, browser/dragElement, browser/hoverElement, browser/typeInPage, browser/runPlaywrightCode, browser/handleDialog, todo] # specify the tools this agent can use. If not set, all enabled tools are allowed.
 model: ['GPT-5.4 (copilot)', 'GPT-5.3-Codex (copilot)']
 ---
 
