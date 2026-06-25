@@ -66,7 +66,7 @@
     "*.jar": "default",
     "*.db": "default",
     "*.VSIXPackage": "default",
-    "*.xls": "default"
+    "*.xls": "default",
   },
   "github.copilot.enable": {
     "*": true,
@@ -193,6 +193,8 @@
   "chat.instructionsFilesLocations": {
     ".github/instructions": true,
     ".claude/rules": true,
+    "~/.copilot/instructions": true,
+    "~/.claude/rules": true,
   },
   "github.copilot.chat.alternateGptPrompt.enabled": true,
   "github.copilot.chat.completionsFetcher": "electron-fetch",
@@ -252,7 +254,7 @@
   "editor.defaultColorDecorators": "always",
   "markdown-preview-enhanced.liveUpdate": false,
   "editor.autoIndent": "advanced",
-  "markdown-preview-enhanced.revealjsTheme": "vscode.css",
+  "markdown-preview-enhanced.revealjsTheme": "solarized.css",
   "chat.agent.maxRequests": 10,
   "workbench.productIconTheme": "developer-icons",
   "chat.mcp.gallery.enabled": true,
@@ -319,25 +321,29 @@
     "random": false,
   },
   "background.auxiliarybar": {
-    "images": ["https://thumbs.dreamstime.com/b/blue-galaxy-background-text-blue-galaxy-background-text-deep-colors-starry-sky-space-135098794.jpg"],
+    "images": [
+      "https://thumbs.dreamstime.com/b/blue-galaxy-background-text-blue-galaxy-background-text-deep-colors-starry-sky-space-135098794.jpg",
+    ],
     "opacity": 0.05,
     "interval": 0,
     "random": false,
   },
   "background.fullscreen": {
-    "images": ["https://img.freepik.com/premium-vector/vibrant-gradient-background_1132956-276.jpg?semt=ais_hybrid&w=740&q=80"],
+    "images": [
+      "https://img.freepik.com/premium-vector/vibrant-gradient-background_1132956-276.jpg?semt=ais_hybrid&w=740&q=80",
+    ],
     "opacity": 0.0314,
     "size": "cover",
     "position": "center",
     "interval": 0,
-    "random": false
+    "random": false,
   },
   "workbench.activityBar.location": "top",
-  "markdown-preview-enhanced.previewTheme": "one-dark.css",
-  "markdown-preview-enhanced.codeBlockTheme": "vscode.css",
+  "markdown-preview-enhanced.previewTheme": "medium.css",
+  "markdown-preview-enhanced.codeBlockTheme": "coy.css",
   "jdk.telemetry.enabled": false,
   "[markdown]": {
-    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
   },
   "json.schemaDownload.trustedDomains": {
     "https://schemastore.azurewebsites.net/": true,
@@ -349,10 +355,10 @@
     "https://developer.microsoft.com/json-schemas/": true,
     "https://raw.githubusercontent.com/": true,
     "https://schema.tauri.app": true,
-    "https://biomejs.dev": true
+    "https://biomejs.dev": true,
   },
   "vscode_custom_css.imports": [
-    "file:///Users/clarity/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
+    "file:///Users/clarity/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
   ],
   "js/ts.updateImportsOnFileMove.enabled": "always",
   "workbench.iconTheme": "sweet-vscode-icons",
@@ -366,8 +372,7 @@
   "chat.unifiedAgentsBar.enabled": true,
   "chat.agent.thinking.phrases": {
     "mode": "append",
-    "phrases": [
-    ]
+    "phrases": [],
   },
   "remote.SSH.defaultForwardedPorts": [],
   "remote.SSH.useExecServer": false,
@@ -377,4 +382,7 @@
   "chat.viewSessions.orientation": "stacked",
   "terminal.integrated.initialHint": false,
   "workbench.preferredDarkColorTheme": "paddy-wolf",
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  },
 }
