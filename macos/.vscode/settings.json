@@ -121,7 +121,7 @@
     "vscode-insiders",
     "docker-desktop",
   ],
-  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.ignoreTrimWhitespace": true,
   "editor.accessibilitySupport": "off",
   "github.copilot.nextEditSuggestions.enabled": true,
   "editor.semanticHighlighting.enabled": false,
@@ -339,8 +339,8 @@
     "random": false,
   },
   "workbench.activityBar.location": "top",
-  "markdown-preview-enhanced.previewTheme": "medium.css",
-  "markdown-preview-enhanced.codeBlockTheme": "coy.css",
+  "markdown-preview-enhanced.previewTheme": "github-dark.css",
+  "markdown-preview-enhanced.codeBlockTheme": "auto.css",
   "jdk.telemetry.enabled": false,
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
@@ -385,4 +385,23 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
+  "java.configuration.runtimes": [
+    {
+      "default": true,
+      "name": "JavaSE-17",
+      "path": "$HOME/.sdkman/candidates/java/17.0.12-oracle/bin/java",
+    },
+  ],
+  "java.completion.favoriteStaticMembers": [
+    "org.junit.Assert.*",
+    "org.junit.Assume.*",
+    "org.junit.jupiter.api.Assertions.*",
+    "org.junit.jupiter.api.Assumptions.*",
+    "org.junit.jupiter.api.DynamicContainer.*",
+    "org.junit.jupiter.api.DynamicTest.*",
+    "org.mockito.Mockito.*",
+    "org.mockito.ArgumentMatchers.*",
+    "org.mockito.Answers.*",
+  ],
+  "diffEditor.hideUnchangedRegions.enabled": true,
 }
