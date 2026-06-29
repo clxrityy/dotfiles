@@ -16,6 +16,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -140,3 +141,12 @@ GITSTATUS_LOG_LEVEL=DEBUG
 
 # Activate Python virtual environment if it exists
 source "$HOME/.venv/bin/activate" 2>/dev/null || python3 -m venv "$HOME/.venv" && source "$HOME/.venv/bin/activate"
+
+# IF NO SDKMAN, INSTALL IT
+if [ ! -d "$HOME/.sdkman" ]; then
+    curl -s "https://get.sdkman.io" | bash
+fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]]
