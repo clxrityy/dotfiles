@@ -71,6 +71,12 @@ stun-block: ## Block STUN traffic (macOS only)
 ssh2-to-openssh: ## Convert SSH2 private keys to OpenSSH format (usage: make ssh2-to-openssh <keyfile>)
 	@${SCRIPTS_DIR}/extra/ssh2-to-openssh.sh ${ARGS}
 
+#	---------------------------------------
+# Convet all files within a .zip to their specified format(s)
+#	---------------------------------------
+convert-zip-files: ## Convert all files within a .zip archive to their specified format(s)	(example: make convert-zip archive.zip /tmp/converted png)
+	@${SCRIPTS_DIR}/extra/convert-zip-files.sh	${ARGS}
+
 # ---------------------------------------
 # Testing
 # ---------------------------------------
