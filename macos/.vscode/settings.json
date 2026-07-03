@@ -385,13 +385,6 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
-  "java.configuration.runtimes": [
-    {
-      "default": true,
-      "name": "JavaSE-17",
-      "path": "$HOME/.sdkman/candidates/java/17.0.12-oracle/bin/java",
-    },
-  ],
   "java.completion.favoriteStaticMembers": [
     "org.junit.Assert.*",
     "org.junit.Assume.*",
