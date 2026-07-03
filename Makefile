@@ -56,8 +56,8 @@ migrate-package: ## Migrate package to new name/scope (usage: make migrate-packa
 # ---------------------------------------
 # USB / Ventoy setup
 # ---------------------------------------
-ventoy: ## Setup Ventoy USB on external drive (support for macOS/Linux)
-	@${SCRIPTS_DIR}/extra/ventoy.sh
+# ventoy: ## Setup Ventoy USB on external drive (support for macOS/Linux)
+# 	@${SCRIPTS_DIR}/extra/ventoy.sh
 
 # ---------------------------------------
 # macOS STUN block
