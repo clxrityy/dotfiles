@@ -43,6 +43,8 @@ Each OS folder contains specific configurations, scripts, and installation instr
 
 ## Scripts & Utilities
 
+- [scripts/README.md](./scripts/README.md)
+
 View all scripts/utilities and how to use them by running:
 
 ```bash
