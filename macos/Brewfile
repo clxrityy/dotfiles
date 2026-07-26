@@ -5,6 +5,12 @@ brew 'git' # Version control system
 brew 'gh' # GitHub CLI
 brew 'stow' # Symlink manager for dotfiles
 brew 'bash' # Unix shell
+brew 'gnupg' # GNU Privacy Guard for encryption and signing
+
+# Backup management
+cask 'macfuse' # File system extension for macOS
+brew 'borgbackup/tap/borgbackup-fuse' # FUSE-based file system for BorgBackup
+cask 'vorta' # BorgBackup GUI client
 
 # Development tools
 brew 'node' # JavaScript runtime
