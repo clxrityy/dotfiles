@@ -255,7 +255,6 @@
   "markdown-preview-enhanced.liveUpdate": false,
   "editor.autoIndent": "advanced",
   "markdown-preview-enhanced.revealjsTheme": "vscode.css",
-  "chat.agent.maxRequests": 10,
   "workbench.productIconTheme": "developer-icons",
   "chat.mcp.gallery.enabled": true,
   "chat.tools.urls.autoApprove": {
@@ -347,4 +346,5 @@
   "workbench.preferredLightColorTheme": "paddy-genmaicha",
   "workbench.navigationControl.enabled": false,
   "chat.titleBar.openInAgentsWindow.enabled": false,
+  "chat.agent.maxRequests": 10,
 }
