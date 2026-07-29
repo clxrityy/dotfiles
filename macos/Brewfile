@@ -6,6 +6,7 @@ brew 'gh' # GitHub CLI
 brew 'stow' # Symlink manager for dotfiles
 brew 'bash' # Unix shell
 brew 'gnupg' # GNU Privacy Guard for encryption and signing
+brew 'unar' # Unarchiving tool for various archive formats
 
 # Backup management
 cask 'macfuse' # File system extension for macOS
