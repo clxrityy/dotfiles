@@ -43,3 +43,4 @@ cask 'docker-desktop' # Containerization platform
 cask 'wireshark-app' # Network protocol analyzer
 cask 'prismlauncher' # Minecraft launcher
 cask 'gyazo' # Screenshot tool
+cask 'crystalfetch' # Windows ISO image utility for macOS
