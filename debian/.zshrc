@@ -20,25 +20,34 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git:*' formats ' %F{magenta}[%b]%f'
-zstyle ':vcs_info:git:*' actionformats ' %F{magenta}[%b|%a]%f'
+zstyle ':vcs_info:git:*' formats ' %F{magenta}git:%b%f'
+zstyle ':vcs_info:git:*' actionformats ' %F{magenta}git:%b|%a%f'
 
-: "${DOTFILES_PROMPT_SYMBOL:=❯}"
-: "${DOTFILES_PROMPT_USER_COLOR:=cyan}"
-: "${DOTFILES_PROMPT_HOST_COLOR:=blue}"
-: "${DOTFILES_PROMPT_PATH_COLOR:=green}"
+: "${DOTFILES_PROMPT_SYMBOL:=›}"
+: "${DOTFILES_PROMPT_USER_COLOR:=244}"
+: "${DOTFILES_PROMPT_HOST_COLOR:=109}"
+: "${DOTFILES_PROMPT_PATH_COLOR:=111}"
 : "${DOTFILES_PROMPT_ERROR_COLOR:=red}"
+: "${DOTFILES_PROMPT_OK_COLOR:=yellow}"
 
 build_dotfiles_prompt() {
   local exit_code="$?"
   vcs_info
 
+  local host_part=""
   local status_part=""
-  if [[ "$exit_code" -ne 0 ]]; then
-    status_part="%F{${DOTFILES_PROMPT_ERROR_COLOR}}${exit_code}%f "
+
+  if [[ -n "${SSH_CONNECTION:-}" ]]; then
+    host_part=" %F{${DOTFILES_PROMPT_HOST_COLOR}}@%m%f"
   fi
 
-  PROMPT="%F{${DOTFILES_PROMPT_USER_COLOR}}%n%f@%F{${DOTFILES_PROMPT_HOST_COLOR}}%m%f %F{${DOTFILES_PROMPT_PATH_COLOR}}%~%f${vcs_info_msg_0_}\n${status_part}%F{yellow}${DOTFILES_PROMPT_SYMBOL}%f "
+  if [[ "$exit_code" -ne 0 ]]; then
+    status_part="%F{${DOTFILES_PROMPT_ERROR_COLOR}}${exit_code} ${DOTFILES_PROMPT_SYMBOL}%f"
+  else
+    status_part="%F{${DOTFILES_PROMPT_OK_COLOR}}${DOTFILES_PROMPT_SYMBOL}%f"
+  fi
+
+  PROMPT="%F{${DOTFILES_PROMPT_USER_COLOR}}%n%f${host_part} %F{${DOTFILES_PROMPT_PATH_COLOR}}%~%f${vcs_info_msg_0_}"$'\n'"${status_part} "
 }
 
 precmd_functions+=(build_dotfiles_prompt)
