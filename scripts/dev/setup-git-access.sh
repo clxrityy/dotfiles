@@ -30,6 +30,7 @@ GIT_USERNAME=""
 GIT_EMAIL=""
 AUTH_MODE="https"
 AUTH_FLOW="auto"
+SKIP_GH_AUTH="false"
 
 usage() {
   cat << EOF
@@ -48,12 +49,14 @@ $(print_common_flags_help)
   ${BLUE}--https${RESET}             Use HTTPS auth via GitHub CLI (default)
   ${BLUE}--web${RESET}               Force browser-based GitHub login
   ${BLUE}--device${RESET}            Avoid launching a local browser; use terminal/device flow
+  ${BLUE}--no-gh-auth${RESET}        Configure Git for SSH access without logging into GitHub CLI
 
 ${BOLD}Examples:${RESET}
   ${GREEN}make setup-git-access${RESET}
   ${GREEN}make setup-git-access ARGS="--username clxrityy --email 123+clxrityy@users.noreply.github.com"${RESET}
   ${GREEN}make setup-git-access ARGS="--ssh"${RESET}
   ${GREEN}make setup-git-access ARGS="--device"${RESET}
+  ${GREEN}make setup-git-access ARGS="--ssh --no-gh-auth"${RESET}
 EOF
 }
 
@@ -99,6 +102,10 @@ parse_cli() {
         AUTH_FLOW="device"
         shift
         ;;
+      --no-gh-auth)
+        SKIP_GH_AUTH="true"
+        shift
+        ;;
       -*)
         log_error "Unknown option: $1"
         usage
@@ -111,6 +118,11 @@ parse_cli() {
         ;;
     esac
   done
+
+  if [[ "$SKIP_GH_AUTH" == "true" && "$AUTH_MODE" != "ssh" ]]; then
+    log_error "--no-gh-auth is only supported together with --ssh"
+    exit 1
+  fi
 }
 
 need_local_cmd() {
@@ -202,6 +214,17 @@ login_with_gh() {
   esac
 }
 
+print_manual_ssh_steps() {
+  local pub_key_path="$1"
+
+  echo ""
+  echo -e "${BOLD}Manual GitHub SSH setup required${RESET}"
+  echo -e "  ${YELLOW}1.${RESET} Add this public key to GitHub: ${GREEN}${pub_key_path}${RESET}"
+  echo -e "  ${YELLOW}2.${RESET} For org private repos, authorize the key for the org if SAML/SSO is enforced"
+  echo -e "  ${YELLOW}3.${RESET} Test access with: ${GREEN}ssh -T git@github.com${RESET}"
+  echo ""
+}
+
 backup_existing_gitconfig_if_needed() {
   if [[ ! -e "$TARGET_GITCONFIG" ]]; then
     return 0
@@ -288,7 +311,6 @@ setup_https_auth() {
 }
 
 setup_ssh_auth() {
-  need_local_cmd gh
   need_local_cmd ssh-keygen
 
   local key_path="$HOME/.ssh/id_ed25519"
@@ -305,6 +327,17 @@ setup_ssh_auth() {
   fi
 
   run_cmd git config --global url."git@github.com:".insteadOf https://github.com/
+
+  if [[ "$SKIP_GH_AUTH" == "true" ]]; then
+    log_warning "Skipping GitHub CLI authentication; Git will use SSH only"
+    if [[ -f "$pub_key_path" ]]; then
+      print_manual_ssh_steps "$pub_key_path"
+    fi
+    log_success "GitHub SSH access configured without GitHub CLI authentication"
+    return 0
+  fi
+
+  need_local_cmd gh
   login_with_gh ssh
 
   if [[ -f "$pub_key_path" ]]; then
@@ -319,6 +352,7 @@ print_next_steps() {
   echo ""
   echo -e "${BOLD}Git access summary${RESET}"
   echo -e "  ${YELLOW}Mode:${RESET} ${AUTH_MODE}"
+  echo -e "  ${YELLOW}GitHub CLI auth:${RESET} ${SKIP_GH_AUTH}"
   echo -e "  ${YELLOW}Config:${RESET} ${TARGET_GITCONFIG}"
   echo -e "  ${YELLOW}Identity:${RESET} ${GIT_USERNAME} <${GIT_EMAIL}>"
   echo ""

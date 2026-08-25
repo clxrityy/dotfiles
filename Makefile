@@ -53,7 +53,7 @@ copy-package: ## Copy package files to target location (usage: make copy-package
 migrate-package: ## Migrate package to new name/scope (usage: make migrate-package <current_package> <new_package> <target_spec>)
 	@${DEV_DIR}/migrate-package.sh ${ARGS}
 
-setup-git-access: ## Bootstrap local Git identity and GitHub auth (usage: make setup-git-access [ARGS="--ssh --device"])
+setup-git-access: ## Bootstrap local Git identity and GitHub auth (usage: make setup-git-access [ARGS="--ssh --no-gh-auth"])
 	@${DEV_DIR}/setup-git-access.sh ${ARGS}
 
 # ---------------------------------------
