@@ -50,6 +50,13 @@ require_fedora() {
   fi
 }
 
+require_debian() {
+  if [[ ! -f /etc/debian_version ]]; then
+    log_error "This script is for Debian only."
+    exit 1
+  fi
+}
+
 get_arch_key() {
   # Normalized arch key: arm64 or x86_64 (otherwise raw uname -m)
   local arch

@@ -28,6 +28,9 @@ ensure_stow_installed() {
     fedora)
       log_info "Install with: sudo dnf install -y stow"
       ;;
+    debian)
+      log_info "Install with: sudo apt install -y stow"
+      ;;
     *)
       log_info "Install GNU Stow via your package manager."
       ;;

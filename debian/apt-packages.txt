@@ -1,0 +1,25 @@
+# debian/apt-packages.txt
+#
+# Purpose:
+#   Base CLI and workstation packages for Debian environments.
+#   Keep this list focused on shell/dev essentials that are broadly useful.
+
+git
+stow
+zsh
+curl
+ca-certificates
+build-essential
+htop
+fastfetch
+jq
+ripgrep
+fd-find
+fzf
+tmux
+bat
+unzip
+zip
+gnupg
+software-properties-common
+python3-venv

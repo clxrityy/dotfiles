@@ -46,7 +46,7 @@ ${BOLD}Usage:${RESET}
 
 ${BOLD}Description:${RESET}
   Root dotfiles installer. Detects OS, runs GNU Stow, then delegates to the
-  OS-specific installer under ${BLUE}./macos${RESET} or ${BLUE}./fedora${RESET}.
+  OS-specific installer under ${BLUE}./macos${RESET}, ${BLUE}./fedora${RESET}, or ${BLUE}./debian${RESET}.
 
 ${BOLD}Options:${RESET}
 $(print_common_flags_help)
@@ -56,6 +56,7 @@ ${BOLD}Notes:${RESET}
   - For OS-specific help:
       ${GREEN}./macos/install.sh --help${RESET}
       ${GREEN}./fedora/install.sh --help${RESET}
+  ${GREEN}./debian/install.sh --help${RESET}
 EOF
 }
 
@@ -106,9 +107,15 @@ main() {
               "${os_common_args[@]+"${os_common_args[@]}"}" \
               "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"
             ;;
+        debian)
+            log_info "Running Debian-specific installation..."
+            bash "$REPO_DIR/debian/install.sh" \
+              "${os_common_args[@]+"${os_common_args[@]}"}" \
+              "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"
+            ;;
         *)
             log_error "Unsupported OS: $os (${OSTYPE:-unknown})"
-            log_error "Supported: macOS, Fedora"
+            log_error "Supported: macOS, Fedora, Debian"
             exit 1
             ;;
     esac

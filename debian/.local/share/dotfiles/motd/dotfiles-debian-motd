@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+# debian/.local/share/dotfiles/motd/dotfiles-debian-motd
+#
+# Purpose:
+#   Render a custom Debian MOTD with personalization and quick system health.
+
+set -euo pipefail
+
+CONFIG_FILE="/etc/default/dotfiles-motd"
+
+if [[ -f "$CONFIG_FILE" ]]; then
+  # shellcheck source=/dev/null
+  source "$CONFIG_FILE"
+fi
+
+: "${MOTD_OWNER:=friend}"
+: "${MOTD_ROLE:=Debian workstation}"
+: "${MOTD_TAGLINE:=Welcome back. Build something good today.}"
+: "${MOTD_SERVICES:=ssh docker tailscaled}"
+
+get_uptime_pretty() {
+  uptime -p 2>/dev/null | sed 's/^up //' || printf '%s' 'unknown'
+}
+
+get_load_average() {
+  awk '{print $1 ", " $2 ", " $3}' /proc/loadavg 2>/dev/null || printf '%s' 'unknown'
+}
+
+get_memory_summary() {
+  if command -v free >/dev/null 2>&1; then
+    free -h | awk '/^Mem:/ {print $3 " / " $2}'
+  else
+    printf '%s' 'unknown'
+  fi
+}
+
+get_root_disk_summary() {
+  df -h / 2>/dev/null | awk 'NR==2 {print $3 " / " $2 " (" $5 ")"}' || printf '%s' 'unknown'
+}
+
+get_ip_summary() {
+  hostname -I 2>/dev/null | awk '{$1=$1; print}' || printf '%s' 'unavailable'
+}
+
+get_updates_count() {
+  if ! command -v apt >/dev/null 2>&1; then
+    printf '%s' 'n/a'
+    return 0
+  fi
+
+  apt list --upgradable 2>/dev/null | awk 'NR>1 && NF {count++} END {print count+0}'
+}
+
+get_service_status() {
+  local service_name="$1"
+
+  if ! command -v systemctl >/dev/null 2>&1; then
+    printf '%s' 'unknown'
+    return 0
+  fi
+
+  if ! systemctl list-unit-files --type=service --no-legend 2>/dev/null | awk '{print $1}' | grep -qx "${service_name}.service"; then
+    printf '%s' 'not-installed'
+    return 0
+  fi
+
+  if systemctl is-active --quiet "$service_name"; then
+    printf '%s' 'active'
+  else
+    printf '%s' 'inactive'
+  fi
+}
+
+print_services() {
+  local service_name status
+  for service_name in $MOTD_SERVICES; do
+    status="$(get_service_status "$service_name")"
+    printf '  %-12s %s\n' "$service_name" "$status"
+  done
+}
+
+printf '\n'
+printf '  %s\n' '┌──────────────────────────────────────────────┐'
+printf '  %s\n' "│ Welcome back, ${MOTD_OWNER}."
+printf '  %s\n' "│ ${MOTD_ROLE}"
+printf '  %s\n' "│ ${MOTD_TAGLINE}"
+printf '  %s\n' '└──────────────────────────────────────────────┘'
+printf '\n'
+printf '  %-14s %s\n' 'Host' "$(hostname)"
+printf '  %-14s %s\n' 'Uptime' "$(get_uptime_pretty)"
+printf '  %-14s %s\n' 'Load avg' "$(get_load_average)"
+printf '  %-14s %s\n' 'Memory' "$(get_memory_summary)"
+printf '  %-14s %s\n' 'Root disk' "$(get_root_disk_summary)"
+printf '  %-14s %s\n' 'IP addresses' "$(get_ip_summary)"
+printf '  %-14s %s\n' 'APT updates' "$(get_updates_count) pending"
+printf '\n'
+printf '  Services\n'
+print_services
+printf '\n'

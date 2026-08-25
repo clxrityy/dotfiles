@@ -29,15 +29,18 @@ Each OS folder contains specific configurations, scripts, and installation instr
 
 - [macOS](./macos/README.md)
 - [Fedora](./fedora/README.md)
+- [Debian](./debian/README.md)
 
 <table>
   <tr>
     <th><a href="./macos/README.md"><img src="https://img.shields.io/badge/macOS-os?style=for-the-badge&logo=apple&logoColor=%23000000&color=%23ffffff" alt="macOS"></a></th>
     <th><a href="./fedora/README.md"><img src="https://img.shields.io/badge/fedora-os?style=for-the-badge&logo=fedora&logoColor=%2351A2DA&color=%23ffffff" alt="Fedora"></a></th>
+    <th><a href="./debian/README.md"><img src="https://img.shields.io/badge/Debian-os?style=for-the-badge&logo=debian&logoColor=%23A81D33&color=%23ffffff" alt="Debian"></a></th>
   </tr>
   <tr>
     <td><img src="./macos/example.gif" alt="macOS Example" width="200"/></td>
     <td><img src="./fedora/example.png" alt="Fedora Example" width="200"/></td>
+    <td><code>GNOME + custom MOTD</code></td>
   </tr>
 </table>
 
