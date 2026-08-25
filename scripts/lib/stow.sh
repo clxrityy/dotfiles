@@ -38,6 +38,27 @@ ensure_stow_installed() {
   exit 1
 }
 
+parse_stow_conflict_target() {
+  local line="$1"
+
+  # Older Stow output style:
+  #   * cannot stow ../foo over existing target .bashrc since neither a link nor a directory
+  if [[ "$line" =~ existing\ target\ (.+)\ since ]]; then
+    printf '%s\n' "${BASH_REMATCH[1]}"
+    return 0
+  fi
+
+  # Newer Stow output styles:
+  #   * existing target is neither a link nor a directory: .bashrc
+  #   * existing target is stowed to a different package: .bashrc
+  if [[ "$line" =~ existing\ target[^:]*:\ (.+)$ ]]; then
+    printf '%s\n' "${BASH_REMATCH[1]}"
+    return 0
+  fi
+
+  return 1
+}
+
 # -----------------------------------------------------------------
 # backup_stow_conflicts
 # -----------------------------------------------------------------
@@ -78,11 +99,10 @@ backup_stow_conflicts() {
 
   # Parse conflict lines to extract the target-relative file paths.
   # Format: "* cannot stow <link> over existing target <rel_path> since ..."
-  local rel_path target_file dest
+  local rel_path target_file dest moved_any=false
   while IFS= read -r line; do
-    # Extract the relative path between "existing target " and " since".
-    if [[ "$line" =~ existing\ target\ (.+)\ since ]]; then
-      rel_path="${BASH_REMATCH[1]}"
+    rel_path=""
+    if rel_path="$(parse_stow_conflict_target "$line")"; then
       target_file="$stow_target/$rel_path"
 
       # Safety check: only move regular files (not symlinks or dirs).
@@ -91,11 +111,16 @@ backup_stow_conflicts() {
         run_cmd mkdir -p "$(dirname "$dest")"
         log_debug "Backing up: $target_file -> $dest"
         run_cmd mv "$target_file" "$dest"
+        moved_any=true
       fi
     fi
   done <<< "$sim_output"
 
-  log_success "Conflicting files for '$pkg_name' backed up"
+  if [[ "$moved_any" == "true" ]]; then
+    log_success "Conflicting files for '$pkg_name' backed up"
+  else
+    log_warning "Stow reported conflicts for '$pkg_name', but no regular files were moved automatically"
+  fi
 }
 
 # -----------------------------------------------------------------
