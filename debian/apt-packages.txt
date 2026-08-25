@@ -5,7 +5,6 @@
 #   Keep this list focused on shell/dev essentials that are broadly useful.
 
 git
-gh
 stow
 zsh
 curl

@@ -36,6 +36,7 @@ bash debian/install.sh
 
 ## Notes
 
+- `gh` is installed separately from the base apt package list; if your Debian repos do not provide it, the installer adds the official GitHub CLI apt source and retries.
 - GNOME auto-tiling is installed on a best-effort basis using distro packages when available.
 - Prompt customization belongs in `~/.zshrc.local` to keep the tracked config clean.
 - MOTD personalization belongs in `/etc/default/dotfiles-motd`.

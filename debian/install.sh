@@ -207,6 +207,64 @@ install_packages_from_file() {
 	log_success "$label installed"
 }
 
+ensure_github_cli_repository() {
+	local keyring_path="/etc/apt/keyrings/githubcli-archive-keyring.gpg"
+	local source_list_path="/etc/apt/sources.list.d/github-cli.list"
+	local repo_line
+	local tmp_file
+
+	repo_line="deb [arch=$(dpkg --print-architecture) signed-by=$keyring_path] https://cli.github.com/packages stable main"
+
+	need_cmd curl
+	need_cmd dpkg
+
+	log_info "Configuring the GitHub CLI apt repository..."
+	run_cmd sudo install -d -m 0755 /etc/apt/keyrings /etc/apt/sources.list.d
+
+	tmp_file="$(mktemp)"
+	run_cmd curl -fsSL -o "$tmp_file" https://cli.github.com/packages/githubcli-archive-keyring.gpg
+	run_cmd sudo install -m 0644 "$tmp_file" "$keyring_path"
+	printf '%s\n' "$repo_line" > "$tmp_file"
+	run_cmd sudo install -m 0644 "$tmp_file" "$source_list_path"
+	rm -f "$tmp_file"
+
+	APT_UPDATED=false
+	apt_update_once
+}
+
+install_github_cli() {
+	if [[ "$SKIP_PACKAGES" == true ]]; then
+		log_info "Skipping GitHub CLI installation (--skip-packages flag set)"
+		return 0
+	fi
+
+	if command -v gh >/dev/null 2>&1; then
+		log_info "GitHub CLI is already installed"
+		return 0
+	fi
+
+	apt_update_once
+
+	if apt-cache show gh >/dev/null 2>&1; then
+		log_info "Installing GitHub CLI from the configured apt repositories..."
+		run_cmd sudo apt install -y gh
+		log_success "GitHub CLI installed"
+		return 0
+	fi
+
+	log_warning "GitHub CLI is not available in the current apt sources; adding the official GitHub CLI repository"
+	ensure_github_cli_repository
+
+	if ! apt-cache show gh >/dev/null 2>&1; then
+		log_error "GitHub CLI is still unavailable after configuring its apt repository"
+		exit 1
+	fi
+
+	log_info "Installing GitHub CLI from the official GitHub apt repository..."
+	run_cmd sudo apt install -y gh
+	log_success "GitHub CLI installed"
+}
+
 install_first_available_package() {
 	local label="$1"
 	shift
@@ -221,6 +279,7 @@ install_first_available_package() {
 		fi
 	done
 
+		install_github_cli
 	log_warning "Could not find an apt package for $label (${*})"
 	return 1
 }
