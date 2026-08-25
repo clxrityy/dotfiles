@@ -29,6 +29,7 @@ source "$LIB_DIR/os.sh"
 GIT_USERNAME=""
 GIT_EMAIL=""
 AUTH_MODE="https"
+AUTH_FLOW="auto"
 
 usage() {
   cat << EOF
@@ -45,11 +46,14 @@ $(print_common_flags_help)
   ${BLUE}--email <email>${RESET}     Set Git user.email
   ${BLUE}--ssh${RESET}               Prefer SSH auth instead of HTTPS
   ${BLUE}--https${RESET}             Use HTTPS auth via GitHub CLI (default)
+  ${BLUE}--web${RESET}               Force browser-based GitHub login
+  ${BLUE}--device${RESET}            Avoid launching a local browser; use terminal/device flow
 
 ${BOLD}Examples:${RESET}
   ${GREEN}make setup-git-access${RESET}
   ${GREEN}make setup-git-access ARGS="--username clxrityy --email 123+clxrityy@users.noreply.github.com"${RESET}
   ${GREEN}make setup-git-access ARGS="--ssh"${RESET}
+  ${GREEN}make setup-git-access ARGS="--device"${RESET}
 EOF
 }
 
@@ -87,6 +91,14 @@ parse_cli() {
         AUTH_MODE="https"
         shift
         ;;
+      --web)
+        AUTH_FLOW="web"
+        shift
+        ;;
+      --device)
+        AUTH_FLOW="device"
+        shift
+        ;;
       -*)
         log_error "Unknown option: $1"
         usage
@@ -122,6 +134,74 @@ prompt_if_empty() {
   printf -v "$var_name" '%s' "$current_value"
 }
 
+has_local_browser() {
+  local browser_cmd="${BROWSER:-}"
+
+  if [[ -n "$browser_cmd" ]]; then
+    browser_cmd="${browser_cmd%% *}"
+    if command -v "$browser_cmd" >/dev/null 2>&1; then
+      return 0
+    fi
+  fi
+
+  case "$(uname -s)" in
+    Darwin)
+      command -v open >/dev/null 2>&1
+      return
+      ;;
+  esac
+
+  local candidate
+  for candidate in \
+    firefox \
+    firefox-esr \
+    chromium \
+    chromium-browser \
+    google-chrome \
+    google-chrome-stable \
+    brave-browser \
+    microsoft-edge \
+    vivaldi \
+    qutebrowser; do
+    if command -v "$candidate" >/dev/null 2>&1; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+login_with_gh() {
+  local protocol="$1"
+  local login_args=(gh auth login --git-protocol "$protocol")
+
+  case "$AUTH_FLOW" in
+    web)
+      log_info "Using browser-based GitHub authentication..."
+      run_cmd "${login_args[@]}" --web
+      ;;
+    device)
+      log_info "Using terminal-based GitHub authentication (no local browser required)..."
+      log_info "Follow the one-time code prompt from gh to finish sign-in."
+      run_cmd "${login_args[@]}"
+      ;;
+    auto)
+      if has_local_browser; then
+        log_info "Using browser-based GitHub authentication..."
+        run_cmd "${login_args[@]}" --web
+      else
+        log_warning "No suitable local browser detected; falling back to terminal-based GitHub authentication"
+        log_info "Follow the one-time code prompt from gh to finish sign-in on this or another device."
+        run_cmd "${login_args[@]}"
+      fi
+      ;;
+    *)
+      log_error "Unsupported auth flow: $AUTH_FLOW"
+      exit 1
+      ;;
+  esac
+}
+
 backup_existing_gitconfig_if_needed() {
   if [[ ! -e "$TARGET_GITCONFIG" ]]; then
     return 0
@@ -140,7 +220,8 @@ backup_existing_gitconfig_if_needed() {
     fi
   fi
 
-  local backup_path="$TARGET_GITCONFIG.bak.$(date +%Y%m%d_%H%M%S)"
+  local backup_path
+  backup_path="$TARGET_GITCONFIG.bak.$(date +%Y%m%d_%H%M%S)"
   run_cmd cp "$TARGET_GITCONFIG" "$backup_path"
   log_success "Backed up existing ~/.gitconfig to $backup_path"
 }
@@ -201,7 +282,7 @@ setup_https_auth() {
 
   log_info "Configuring GitHub HTTPS authentication via gh..."
   run_cmd git config --global credential."https://github.com".helper '!gh auth git-credential'
-  run_cmd gh auth login --git-protocol https --web
+  login_with_gh https
   run_cmd gh auth setup-git
   log_success "GitHub HTTPS authentication configured"
 }
@@ -224,7 +305,7 @@ setup_ssh_auth() {
   fi
 
   run_cmd git config --global url."git@github.com:".insteadOf https://github.com/
-  run_cmd gh auth login --git-protocol ssh --web
+  login_with_gh ssh
 
   if [[ -f "$pub_key_path" ]]; then
     log_info "Attempting to upload SSH public key to GitHub..."
