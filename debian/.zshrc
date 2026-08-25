@@ -20,8 +20,8 @@ HISTSIZE=10000
 SAVEHIST=10000
 
 zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:git:*' formats ' %F{magenta}git:%b%f'
-zstyle ':vcs_info:git:*' actionformats ' %F{magenta}git:%b|%a%f'
+zstyle ':vcs_info:git:*' formats ' %F{rgb(0 136 255)}git:%b%f'
+zstyle ':vcs_info:git:*' actionformats ' %F{rgb(51 90 243)}git:%b|%a%f'
 
 : "${DOTFILES_PROMPT_SYMBOL:=›}"
 : "${DOTFILES_PROMPT_USER_COLOR:=244}"
