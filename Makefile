@@ -8,7 +8,7 @@
 SCRIPTS_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))/scripts
 DEV_DIR := $(SCRIPTS_DIR)/dev
 # Args forwarding for script-wrapper targets
-SCRIPT_ARG_TARGETS := copy-package migrate-package ssh2-to-openssh install
+SCRIPT_ARG_TARGETS := copy-package migrate-package setup-git-access ssh2-to-openssh install
 GOAL_ARGS := $(filter-out --,$(wordlist 2,$(words $(MAKECMDGOALS)), $(MAKECMDGOALS)))
 
 # Allow explicit ARGS="..." to override, otherwise fallback to goal-based args
@@ -52,6 +52,9 @@ copy-package: ## Copy package files to target location (usage: make copy-package
 
 migrate-package: ## Migrate package to new name/scope (usage: make migrate-package <current_package> <new_package> <target_spec>)
 	@${DEV_DIR}/migrate-package.sh ${ARGS}
+
+setup-git-access: ## Bootstrap local Git identity and GitHub auth (usage: make setup-git-access [ARGS="--ssh"])
+	@${DEV_DIR}/setup-git-access.sh ${ARGS}
 
 # ---------------------------------------
 # USB / Ventoy setup

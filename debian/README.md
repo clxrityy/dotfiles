@@ -39,3 +39,4 @@ bash debian/install.sh
 - GNOME auto-tiling is installed on a best-effort basis using distro packages when available.
 - Prompt customization belongs in `~/.zshrc.local` to keep the tracked config clean.
 - MOTD personalization belongs in `/etc/default/dotfiles-motd`.
+- Git identity/auth bootstrap is available via `make setup-git-access`.
