@@ -29,7 +29,7 @@
   },
   "tabnine.experimentalAutoImports": true,
   "[java]": {
-    "editor.defaultFormatter": "Oracle.oracle-java",
+    "editor.defaultFormatter": "redhat.java",
   },
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer",
@@ -121,7 +121,7 @@
     "vscode-insiders",
     "docker-desktop",
   ],
-  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.ignoreTrimWhitespace": true,
   "editor.accessibilitySupport": "off",
   "github.copilot.nextEditSuggestions.enabled": true,
   "editor.semanticHighlighting.enabled": false,
@@ -136,7 +136,6 @@
   "go.toolsManagement.autoUpdate": true,
   "editor.inlineSuggest.edits.showCollapsed": true,
   "editor.largeFileOptimizations": false,
-  "workbench.panel.showLabels": false,
   "chat.mcp.serverSampling": {
     "Nx MCP Server: Nx Mcp Server": {
       "allowedModels": [
@@ -286,7 +285,7 @@
     },
   ],
   "workbench.activityBar.location": "top",
-  "markdown-preview-enhanced.previewTheme": "github-dark.css",
+  "markdown-preview-enhanced.previewTheme": "vscode.css",
   "markdown-preview-enhanced.codeBlockTheme": "auto.css",
   "jdk.telemetry.enabled": false,
   "[markdown]": {
@@ -341,10 +340,32 @@
     "org.mockito.ArgumentMatchers.*",
     "org.mockito.Answers.*",
   ],
-  "diffEditor.hideUnchangedRegions.enabled": true,
   "chat.tips.enabled": false,
   "workbench.preferredLightColorTheme": "paddy-genmaicha",
   "workbench.navigationControl.enabled": false,
   "chat.titleBar.openInAgentsWindow.enabled": false,
   "chat.agent.maxRequests": 10,
+  "vscode-color-picker.languages": [
+    "md",
+    "markdown",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "postcss",
+    "xml",
+    "html",
+    "css",
+    "scss",
+    "less",
+    "json",
+    "jsonc",
+    "yaml",
+    "mdx",
+  ],
+  "workbench.panel.showLabels": false,
+  "chat.agent.sandbox.enabled": "on",
+  "jdk.maven.userSettings": "",
+  "dictation.enabled": false,
+  "chat.editing.confirmEditRequestRemoval": false,
 }
