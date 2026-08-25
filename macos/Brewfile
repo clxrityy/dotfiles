@@ -45,3 +45,4 @@ cask 'prismlauncher' # Minecraft launcher
 cask 'gyazo' # Screenshot tool
 cask 'utm' # VM manager for macOS
 cask 'crystalfetch' # Windows ISO image utility for macOS
+cask 'raycast' # Window management for macOS
