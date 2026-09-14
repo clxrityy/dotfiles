@@ -265,6 +265,14 @@ install_github_cli() {
 	log_warning "GitHub CLI is not available in the current apt sources; adding the official GitHub CLI repository"
 	ensure_github_cli_repository
 
+	if [[ "$DRY_RUN" == "true" ]]; then
+		log_info "Dry-run mode: skipping post-repository GitHub CLI availability check"
+		log_info "Dry-run mode: assuming GitHub CLI would be installable after repository configuration"
+		run_cmd_as_root apt install -y gh
+		log_success "GitHub CLI install simulated"
+		return 0
+	fi
+
 	if ! apt-cache show gh >/dev/null 2>&1; then
 		log_error "GitHub CLI is still unavailable after configuring its apt repository"
 		exit 1
