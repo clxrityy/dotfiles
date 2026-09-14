@@ -99,7 +99,7 @@ backup_stow_conflicts() {
 
   # Parse conflict lines to extract the target-relative file paths.
   # Format: "* cannot stow <link> over existing target <rel_path> since ..."
-  local rel_path target_file dest moved_any=false
+  local rel_path target_file dest moved_any=false dry_run_conflicts=false
   while IFS= read -r line; do
     rel_path=""
     if rel_path="$(parse_stow_conflict_target "$line")"; then
@@ -111,13 +111,19 @@ backup_stow_conflicts() {
         run_cmd mkdir -p "$(dirname "$dest")"
         log_debug "Backing up: $target_file -> $dest"
         run_cmd mv "$target_file" "$dest"
-        moved_any=true
+        if [[ "${DRY_RUN:-false}" == "true" ]]; then
+          dry_run_conflicts=true
+        else
+          moved_any=true
+        fi
       fi
     fi
   done <<< "$sim_output"
 
   if [[ "$moved_any" == "true" ]]; then
     log_success "Conflicting files for '$pkg_name' backed up"
+  elif [[ "$dry_run_conflicts" == "true" ]]; then
+    log_info "Dry-run: conflicting files for '$pkg_name' would be backed up"
   else
     log_warning "Stow reported conflicts for '$pkg_name', but no regular files were moved automatically"
   fi
