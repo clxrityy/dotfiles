@@ -31,4 +31,39 @@ DRY_RUN=false
 # Real execution -- echo should succeed
 assert_success "run_cmd executes real commands" run_cmd echo "hello"
 
+# --- run_cmd_as_root ---
+
+run_cmd() {
+  printf '%s' "$*"
+}
+
+need_cmd() {
+  local name="$1"
+  [[ "$name" == "${MISSING_CMD:-}" ]] && return 1
+  return 0
+}
+
+id() {
+  if [[ "$1" == "-u" ]]; then
+    printf '%s\n' "${TEST_UID:-1000}"
+    return 0
+  fi
+
+  command id "$@"
+}
+
+TEST_UID=0
+output="$(run_cmd_as_root apt update 2>&1)"
+assert_eq "run_cmd_as_root bypasses sudo for root" "apt update" "$output"
+
+TEST_UID=1000
+output="$(run_cmd_as_root apt update 2>&1)"
+assert_eq "run_cmd_as_root uses sudo for non-root" "sudo apt update" "$output"
+
+MISSING_CMD=sudo
+TEST_UID=1000
+output="$(run_cmd_as_root apt update 2>&1)"
+assert_eq "run_cmd_as_root fails when sudo is unavailable" "1" "$?"
+assert_eq "run_cmd_as_root emits no command when sudo is unavailable" "" "$output"
+
 test_summary

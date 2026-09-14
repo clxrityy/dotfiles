@@ -1,0 +1,17 @@
+# debian/gnome-packages.txt
+#
+# Purpose:
+#   Debian GNOME desktop packages for a mouse-friendly workstation setup.
+#   Auto-tiling extensions are installed separately on a best-effort basis.
+
+gnome-shell
+gnome-session
+gdm3
+gnome-terminal
+gnome-control-center
+gnome-tweaks
+gnome-shell-extensions
+nautilus
+network-manager-gnome
+fonts-jetbrains-mono
+fonts-noto-color-emoji

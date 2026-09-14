@@ -1,0 +1,9 @@
+# /etc/default/dotfiles-motd
+#
+# Copy customized values here to personalize the Debian MOTD.
+
+MOTD_OWNER="clarity"
+MOTD_ROLE="Debian workstation"
+MOTD_TAGLINE="Linux where it counts, familiar where it helps."
+# Space-separated systemd service names without the .service suffix.
+MOTD_SERVICES="ssh docker tailscaled"

@@ -9,9 +9,9 @@ brew 'gnupg' # GNU Privacy Guard for encryption and signing
 brew 'unar' # Unarchiving tool for various archive formats
 
 # Backup management
-cask 'macfuse' # File system extension for macOS
-brew 'borgbackup/tap/borgbackup-fuse' # FUSE-based file system for BorgBackup
-cask 'vorta' # BorgBackup GUI client
+# cask 'macfuse' # File system extension for macOS
+# brew 'borgbackup/tap/borgbackup-fuse' # FUSE-based file system for BorgBackup
+# cask 'vorta' # BorgBackup GUI client
 
 # Development tools
 brew 'node' # JavaScript runtime
@@ -44,5 +44,4 @@ cask 'wireshark-app' # Network protocol analyzer
 cask 'prismlauncher' # Minecraft launcher
 cask 'gyazo' # Screenshot tool
 cask 'utm' # VM manager for macOS
-cask 'crystalfetch' # Windows ISO image utility for macOS
-cask 'raycast' # Window management for macOS
+# cask 'crystalfetch' # Windows ISO image utility for macOS

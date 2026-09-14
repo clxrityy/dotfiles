@@ -1,5 +1,25 @@
+# git/example.gitconfig
+#
+# Purpose:
+#   Tracked starter config for a local ~/.gitconfig.
+#   Copy this into place with `make setup-git-access`, then let the setup
+#   script write machine-specific identity/auth settings.
+
 [user]
-	name = username # Set your Git username
-	email = 67580224+username@users.noreply.github.com # Set your Git email
+	name = Your Name
+	email = 12345678+github-username@users.noreply.github.com
+
 [core]
-	editor = code # Set VSCode as the default editor
+	editor = code
+
+[init]
+	defaultBranch = main
+
+[push]
+	autoSetupRemote = true
+
+[credential]
+	helper = cache
+
+[credential "https://github.com"]
+	helper = !gh auth git-credential

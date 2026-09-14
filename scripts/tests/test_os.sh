@@ -36,4 +36,10 @@ case "$arch" in
     ;;
 esac
 
+  # Debian helper should exist now that Debian has a first-class installer.
+  assert_success "require_debian function exists" bash -lc "source '$LIB_DIR/os.sh'; declare -F require_debian >/dev/null"
+
+  # Root installer should route Debian explicitly.
+  assert_success "root installer routes Debian" grep -q 'debian)' "$REPO_DIR/install.sh"
+
 test_summary
