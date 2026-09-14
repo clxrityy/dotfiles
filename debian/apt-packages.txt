@@ -18,6 +18,7 @@ fd-find
 fzf
 tmux
 bat
+fastfetch
 unzip
 zip
 gnupg
