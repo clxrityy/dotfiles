@@ -171,7 +171,7 @@ apt_update_once() {
 	fi
 
 	log_info "Updating apt package index..."
-	run_cmd sudo apt update
+	run_cmd_as_root apt update
 	APT_UPDATED=true
 }
 
@@ -203,7 +203,7 @@ install_packages_from_file() {
 
 	apt_update_once
 	log_info "Installing $label..."
-	run_cmd sudo apt install -y "${packages[@]}"
+	run_cmd_as_root apt install -y "${packages[@]}"
 	log_success "$label installed"
 }
 
@@ -219,13 +219,13 @@ ensure_github_cli_repository() {
 	need_cmd dpkg
 
 	log_info "Configuring the GitHub CLI apt repository..."
-	run_cmd sudo install -d -m 0755 /etc/apt/keyrings /etc/apt/sources.list.d
+	run_cmd_as_root install -d -m 0755 /etc/apt/keyrings /etc/apt/sources.list.d
 
 	tmp_file="$(mktemp)"
 	run_cmd curl -fsSL -o "$tmp_file" https://cli.github.com/packages/githubcli-archive-keyring.gpg
-	run_cmd sudo install -m 0644 "$tmp_file" "$keyring_path"
+	run_cmd_as_root install -m 0644 "$tmp_file" "$keyring_path"
 	printf '%s\n' "$repo_line" > "$tmp_file"
-	run_cmd sudo install -m 0644 "$tmp_file" "$source_list_path"
+	run_cmd_as_root install -m 0644 "$tmp_file" "$source_list_path"
 	rm -f "$tmp_file"
 
 	APT_UPDATED=false
@@ -247,7 +247,7 @@ install_github_cli() {
 
 	if apt-cache show gh >/dev/null 2>&1; then
 		log_info "Installing GitHub CLI from the configured apt repositories..."
-		run_cmd sudo apt install -y gh
+		run_cmd_as_root apt install -y gh
 		log_success "GitHub CLI installed"
 		return 0
 	fi
@@ -261,7 +261,7 @@ install_github_cli() {
 	fi
 
 	log_info "Installing GitHub CLI from the official GitHub apt repository..."
-	run_cmd sudo apt install -y gh
+	run_cmd_as_root apt install -y gh
 	log_success "GitHub CLI installed"
 }
 
@@ -273,7 +273,7 @@ install_first_available_package() {
 	for package_name in "$@"; do
 		if apt-cache show "$package_name" >/dev/null 2>&1; then
 			log_info "Installing $label via package: $package_name"
-			run_cmd sudo apt install -y "$package_name"
+			run_cmd_as_root apt install -y "$package_name"
 			log_success "$label installed"
 			return 0
 		fi
@@ -338,11 +338,11 @@ install_custom_motd() {
 	fi
 
 	log_info "Installing custom Debian MOTD..."
-	run_cmd sudo install -d /usr/local/bin /etc/update-motd.d /etc/default
-	run_cmd sudo install -m 0755 "$MOTD_SCRIPT_SOURCE" /usr/local/bin/dotfiles-debian-motd
+	run_cmd_as_root install -d /usr/local/bin /etc/update-motd.d /etc/default
+	run_cmd_as_root install -m 0755 "$MOTD_SCRIPT_SOURCE" /usr/local/bin/dotfiles-debian-motd
 
 	if [[ ! -f /etc/default/dotfiles-motd ]]; then
-		run_cmd sudo install -m 0644 "$MOTD_DEFAULTS_EXAMPLE" /etc/default/dotfiles-motd
+		run_cmd_as_root install -m 0644 "$MOTD_DEFAULTS_EXAMPLE" /etc/default/dotfiles-motd
 		log_success "Installed MOTD personalization template at /etc/default/dotfiles-motd"
 	else
 		log_info "Keeping existing MOTD personalization file: /etc/default/dotfiles-motd"
@@ -354,7 +354,7 @@ install_custom_motd() {
 #!/usr/bin/env bash
 exec /usr/local/bin/dotfiles-debian-motd
 EOF
-	run_cmd sudo install -m 0755 "$wrapper_file" /etc/update-motd.d/95-dotfiles-motd
+	run_cmd_as_root install -m 0755 "$wrapper_file" /etc/update-motd.d/95-dotfiles-motd
 	rm -f "$wrapper_file"
 
 	log_success "Custom Debian MOTD installed"

@@ -19,6 +19,10 @@ need_cmd() {
   fi
 }
 
+is_root_user() {
+  [[ "$(id -u)" -eq 0 ]]
+}
+
 # Print a shell-escaped preview of a command.
 _print_cmd_preview() {
   local out=""
@@ -41,4 +45,17 @@ run_cmd() {
 
   log_debug "Executing: $(_print_cmd_preview "$@")"
   "$@"
+}
+
+run_cmd_as_root() {
+  # Usage:
+  #   run_cmd_as_root apt update
+  #   run_cmd_as_root install -d /etc/example
+  if is_root_user; then
+    run_cmd "$@"
+    return 0
+  fi
+
+  need_cmd sudo || return 1
+  run_cmd sudo "$@"
 }
