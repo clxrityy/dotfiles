@@ -133,6 +133,22 @@ need_local_cmd() {
   fi
 }
 
+is_template_identity_value() {
+  local key="$1"
+  local value="$2"
+
+  case "$key:$value" in
+    name:"Your Name")
+      return 0
+      ;;
+    email:"12345678+github-username@users.noreply.github.com")
+      return 0
+      ;;
+  esac
+
+  return 1
+}
+
 prompt_if_empty() {
   local var_name="$1"
   local prompt_text="$2"
@@ -274,6 +290,13 @@ configure_identity() {
   local existing_name existing_email
   existing_name="$(git config --global --get user.name || true)"
   existing_email="$(git config --global --get user.email || true)"
+
+  if is_template_identity_value name "$existing_name"; then
+    existing_name=""
+  fi
+  if is_template_identity_value email "$existing_email"; then
+    existing_email=""
+  fi
 
   if [[ -z "$GIT_USERNAME" ]]; then
     GIT_USERNAME="$existing_name"
