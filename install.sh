@@ -79,6 +79,18 @@ main() {
     log_debug "Repo: $REPO_DIR"
     log_debug "Flags: force=$FORCE, verbose=$VERBOSE, dry-run=$DRY_RUN"
 
+    local -a os_common_args=()
+    if [[ "$FORCE" == "true" ]]; then os_common_args+=("--force"); fi
+    if [[ "$VERBOSE" == "true" ]]; then os_common_args+=("--verbose"); fi
+    if [[ "$DRY_RUN" == "true" ]]; then os_common_args+=("--dry-run"); fi
+
+    if [[ "$os" == "debian" ]]; then
+        log_info "Bootstrapping Debian packages required before GNU Stow..."
+        bash "$REPO_DIR/debian/install.sh" \
+          "${os_common_args[@]+"${os_common_args[@]}"}" \
+          --bootstrap-packages
+    fi
+
     # Stow dotfiles first (common to all OS).
     log_info "Symlinking dotfiles using GNU Stow..."
     ensure_stow_installed "$os"
@@ -89,11 +101,6 @@ main() {
     # Important:
     #   We pass common flags through explicitly so running `install.sh --dry-run`
     #   also runs OS installers in dry-run mode.
-    local -a os_common_args=()
-    if [[ "$FORCE" == "true" ]]; then os_common_args+=("--force"); fi
-    if [[ "$VERBOSE" == "true" ]]; then os_common_args+=("--verbose"); fi
-    if [[ "$DRY_RUN" == "true" ]]; then os_common_args+=("--dry-run"); fi
-
     case "$os" in
         macos)
             log_info "Running macOS-specific installation..."

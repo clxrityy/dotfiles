@@ -44,6 +44,7 @@ SKIP_PACKAGES=false
 SKIP_DESKTOP=false
 SKIP_MOTD=false
 SKIP_DEFAULTS=false
+BOOTSTRAP_PACKAGES_ONLY=false
 
 APT_UPDATED=false
 APT_BASE_PACKAGES_FILE="$SCRIPT_DIR/apt-packages.txt"
@@ -62,6 +63,7 @@ ${BOLD}Description:${RESET}
 
 ${BOLD}Options:${RESET}
 $(print_common_flags_help)
+	${BLUE}--bootstrap-packages${RESET} Install only essential Debian packages needed before stowing dotfiles
 	${BLUE}--skip-packages${RESET}   Skip apt package installation
 	${BLUE}--skip-desktop${RESET}    Skip GNOME desktop packages and defaults
 	${BLUE}--skip-motd${RESET}       Skip custom MOTD installation
@@ -83,6 +85,10 @@ fi
 
 while [[ $# -gt 0 ]]; do
 	case "$1" in
+		--bootstrap-packages)
+			BOOTSTRAP_PACKAGES_ONLY=true
+			shift
+			;;
 		--skip-packages)
 			SKIP_PACKAGES=true
 			shift
@@ -127,13 +133,17 @@ get_pretty_name() {
 	fi
 }
 
-validate_context() {
+validate_package_context() {
 	require_debian
 
 	if [[ ! -f "$APT_BASE_PACKAGES_FILE" ]]; then
 		log_error "Missing expected file: $APT_BASE_PACKAGES_FILE"
 		exit 1
 	fi
+}
+
+validate_context() {
+	validate_package_context
 
 	if [[ ! -f "$APT_DESKTOP_PACKAGES_FILE" ]]; then
 		log_error "Missing expected file: $APT_DESKTOP_PACKAGES_FILE"
@@ -399,6 +409,14 @@ print_post_install() {
 }
 
 main() {
+	if [[ "$BOOTSTRAP_PACKAGES_ONLY" == true ]]; then
+		validate_package_context
+		log_info "Bootstrapping Debian base packages required before stowing dotfiles..."
+		install_essentials
+		log_success "Debian package bootstrap complete"
+		return 0
+	fi
+
 	validate_context
 	print_banner
 	confirm_or_exit "Proceed with installation?"
