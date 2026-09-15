@@ -40,6 +40,9 @@ load_packages_conf
 assert_success "root stow ignore file exists" test -f "$REPO_DIR/.stow-local-ignore"
 assert_success "nested stow ignore file exists: os/.stow-local-ignore" test -f "$REPO_DIR/os/.stow-local-ignore"
 assert_success "nested stow ignore file matches root" cmp -s "$REPO_DIR/.stow-local-ignore" "$REPO_DIR/os/.stow-local-ignore"
+assert_success "macOS zprofile exists" test -f "$REPO_DIR/os/macos/.zprofile"
+assert_success "macOS zprofile has Intel Homebrew fallback" grep -q '/usr/local/bin/brew' "$REPO_DIR/os/macos/.zprofile"
+assert_success "macOS zprofile guards brew init" grep -q 'if \[\[ -x /opt/homebrew/bin/brew \]\]; then' "$REPO_DIR/os/macos/.zprofile"
 
 i=0
 # shellcheck disable=SC2154
