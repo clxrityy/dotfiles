@@ -326,10 +326,9 @@
   "remote-explorer.collapseRecentFolders": true,
   "remote.SSH.showLoginTerminal": true,
   "remote.SSH.useLocalServer": true,
-  "chat.viewSessions.orientation": "stacked",
   "terminal.integrated.initialHint": false,
   "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "java.completion.favoriteStaticMembers": [
     "org.junit.Assert.*",
@@ -370,5 +369,5 @@
   "jdk.maven.userSettings": "",
   "dictation.enabled": false,
   "chat.editing.confirmEditRequestRemoval": false,
-  "workbench.preferredDarkColorTheme": "Material Night Eighties"
+  "workbench.preferredDarkColorTheme": "Material Night Eighties",
 }
