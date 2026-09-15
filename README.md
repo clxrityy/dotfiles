@@ -20,27 +20,27 @@ A comprehensive repository containing all files and configurations to restore an
 
 ## Operating systems
 
-Each OS folder contains specific configurations, scripts, and installation instructions.
+Each OS folder under `os/` contains specific configurations, scripts, and installation instructions.
 
 > Note: shared shell configs and repo-wide config live outside OS folders:
 >
 > - `shell/` (e.g. `.bash_profile`)
 > - `common/` (e.g. `.editorconfig`)
 
-- [macOS](./macos/README.md)
-- [Fedora](./fedora/README.md)
-- [Debian](./debian/README.md)
+- [macOS](./os/macos/README.md)
+- [Fedora](./os/fedora/README.md)
+- [Debian](./os/debian/README.md)
 
 <table>
-  <tr>
-    <th><a href="./macos/README.md"><img src="https://img.shields.io/badge/macOS-os?style=for-the-badge&logo=apple&logoColor=%23000000&color=%23ffffff" alt="macOS"></a></th>
-    <th><a href="./fedora/README.md"><img src="https://img.shields.io/badge/fedora-os?style=for-the-badge&logo=fedora&logoColor=%2351A2DA&color=%23ffffff" alt="Fedora"></a></th>
-    <th><a href="./debian/README.md"><img src="https://img.shields.io/badge/Debian-os?style=for-the-badge&logo=debian&logoColor=%23A81D33&color=%23ffffff" alt="Debian"></a></th>
+  <tr style="text-align:center;">
+    <th><a href="./os/macos/README.md"><img src="https://img.shields.io/badge/macOS-os?style=for-the-badge&logo=apple&logoColor=%23000000&color=%23ffffff" alt="macOS"></a></th>
+    <th><a href="./os/fedora/README.md"><img src="https://img.shields.io/badge/fedora-os?style=for-the-badge&logo=fedora&logoColor=%2351A2DA&color=%23ffffff" alt="Fedora"></a></th>
+    <th><a href="./os/debian/README.md"><img src="https://img.shields.io/badge/Debian-os?style=for-the-badge&logo=debian&logoColor=%23A81D33&color=%23ffffff" alt="Debian"></a></th>
   </tr>
   <tr>
-    <td><img src="./macos/example.gif" alt="macOS Example" width="200"/></td>
-    <td><img src="./fedora/example.png" alt="Fedora Example" width="200"/></td>
-    <td><code>GNOME + custom MOTD</code></td>
+    <td><img src="./.github/img/macos.gif" alt="macOS Example" width="200"/></td>
+    <td><img src="./.github/img/fedora.png" alt="Fedora Example" width="200"/></td>
+    <td><img src="./.github/img/debian.png" alt="Debian Example" width="200"/></td>
   </tr>
 </table>
 
@@ -54,7 +54,9 @@ View all scripts/utilities and how to use them by running:
 make help
 ```
 
-> **Note**: When using `make` to execute script-wrapper targets, pass arguments like:
+> [!NOTE]
+> 
+> When using `make` to execute script-wrapper targets, pass arguments like:
 >
 > ```bash
 > make <target> ARGS="<args to pass to script>"

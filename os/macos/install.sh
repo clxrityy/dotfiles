@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# macos/install.sh
+# os/macos/install.sh
 #
 # Purpose:
 #   macOS-specific installer invoked by the root ./install.sh orchestrator.
@@ -23,7 +23,7 @@ set -euo pipefail
 
 # Resolve directories.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Shared libraries (colors/logging/args/run/prompt/etc.).
 LIB_DIR="$REPO_DIR/scripts/lib"
@@ -344,7 +344,7 @@ link_vscode_settings() {
     fi
     log_debug "VSCode detected"
 
-    local src="$REPO_DIR/macos/.vscode/settings.json"
+    local src="$REPO_DIR/os/macos/.vscode/settings.json"
     local dest_dir="$HOME/Library/Application Support/Code/User"
     local dest="$dest_dir/settings.json"
 
@@ -405,9 +405,9 @@ print_post_install() {
     echo -e "  ${BLUE}Tip:${RESET} If fonts look broken, install a Nerd Font:"
     echo -e "       ${GREEN}brew install --cask font-meslo-lg-nerd-font${RESET}"
     echo ""
-        echo -e "  ${BLUE}Note:${RESET} VSCode settings.json is symlinked and hidden from git status."
+    echo -e "  ${BLUE}Note:${RESET} VSCode settings.json is symlinked and hidden from git status."
     echo -e "       To commit settings changes:"
-    echo -e "       ${GREEN}git update-index --no-assume-unchanged macos/.vscode/settings.json${RESET}"
+    echo -e "       ${GREEN}git update-index --no-assume-unchanged os/macos/.vscode/settings.json${RESET}"
     echo ""
 }
 

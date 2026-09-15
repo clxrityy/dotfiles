@@ -1,4 +1,4 @@
-# debian/apt-packages.txt
+# os/debian/apt-packages.txt
 #
 # Purpose:
 #   Base CLI and workstation packages for Debian environments.

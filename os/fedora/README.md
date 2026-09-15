@@ -1,4 +1,4 @@
-# `~/.dotfiles/fedora`
+# `~/.dotfiles/os/fedora`
 
 ## Files included
 
@@ -35,9 +35,5 @@ bash install.sh
 To run only the Fedora steps (without stow), from the repo root:
 
 ```bash
-bash fedora/install.sh
+bash os/fedora/install.sh
 ```
-
----
-
-![Example](./example.png)

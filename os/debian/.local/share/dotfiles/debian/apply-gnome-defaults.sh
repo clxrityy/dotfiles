@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# debian/.local/share/dotfiles/debian/apply-gnome-defaults.sh
+# os/debian/.local/share/dotfiles/debian/apply-gnome-defaults.sh
 #
 # Purpose:
 #   Apply GNOME defaults for a Debian workstation that feels polished without

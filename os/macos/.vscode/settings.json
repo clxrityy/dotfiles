@@ -5,60 +5,60 @@
   "redhat.telemetry.enabled": false,
   "tailwindcss-intellisense.trace.server": "verbose",
   "[typescriptreact]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "workbench.startupEditor": "readme",
   "[css]": {
-    "editor.defaultFormatter": "vscode.css-language-features",
+    "editor.defaultFormatter": "vscode.css-language-features"
   },
   "[typescript]": {
     "breadcrumbs.showArrays": true,
-    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "[mdx]": {
-    "editor.defaultFormatter": "vscode.markdown-language-features",
+    "editor.defaultFormatter": "vscode.markdown-language-features"
   },
   "[json]": {
-    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "tabnine.experimentalAutoImports": true,
   "[java]": {
-    "editor.defaultFormatter": "redhat.java",
+    "editor.defaultFormatter": "redhat.java"
   },
   "[rust]": {
-    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
   "[ini]": {
-    "editor.defaultFormatter": "xshrim.txt-syntax",
+    "editor.defaultFormatter": "xshrim.txt-syntax"
   },
   "[javascriptreact]": {
-    "editor.defaultFormatter": "dsznajder.es7-react-js-snippets",
+    "editor.defaultFormatter": "dsznajder.es7-react-js-snippets"
   },
   "[svg]": {
-    "editor.defaultFormatter": "jock.svg",
+    "editor.defaultFormatter": "jock.svg"
   },
   "chat.useClaudeMdFile": true,
   "window.menuStyle": "inherit",
   "explorer.confirmDragAndDrop": false,
   "[html]": {
-    "editor.defaultFormatter": "vscode.html-language-features",
+    "editor.defaultFormatter": "vscode.html-language-features"
   },
   "diffEditor.codeLens": true,
   "*.updateImportsOnFileMove.enabled": "always",
   "http.proxyAuthorization": null,
   "terminal.integrated.automationProfile.linux": {
     "path": "/bin/bash",
-    "args": [],
+    "args": []
   },
   "terminal.integrated.defaultProfile.osx": "zsh",
   "[xml]": {
-    "editor.defaultFormatter": "DotJoshJohnson.xml",
+    "editor.defaultFormatter": "DotJoshJohnson.xml"
   },
   "workbench.editorAssociations": {
     "*.copilotmd": "vscode.markdown.preview.editor",
@@ -66,7 +66,7 @@
     "*.jar": "default",
     "*.db": "default",
     "*.VSIXPackage": "default",
-    "*.xls": "default",
+    "*.xls": "default"
   },
   "github.copilot.enable": {
     "*": true,
@@ -74,41 +74,44 @@
     "markdown": true,
     "scminput": false,
     "perl": false,
-    "json": true,
+    "json": true
   },
   "github.copilot.advanced": {
     "autoTrigger": {
-      "enabled": true,
+      "enabled": true
     },
     "inlayHints": {
-      "enabled": true,
+      "enabled": true
     },
     "debugLog": {
-      "enabled": true,
+      "enabled": true
     },
     "experimental": {
       "autoTriggerInlineSuggestions": {
-        "enabled": true,
-      },
+        "enabled": true
+      }
     },
     "chat": {
-      "enabled": true,
+      "enabled": true
     },
     "inEditor": {
-      "enabled": true,
+      "enabled": true
     },
-    "inEditor.autoTriggerDelayMs": 100,
+    "inEditor.autoTriggerDelayMs": 100
   },
   "github.copilot.chat.localeOverride": "en",
   "files.associations": {
-    "*.tsx": "typescriptreact",
+    "*.tsx": "typescriptreact"
   },
   "markdown-preview-enhanced.enablePreviewZenMode": false,
   "settingsSync.ignoredExtensions": ["drcika.apc-extension"],
-  "workbench.settings.applyToAllProfiles": ["vercelVSCode.accessToken", "workbench.colorCustomizations"],
+  "workbench.settings.applyToAllProfiles": [
+    "vercelVSCode.accessToken",
+    "workbench.colorCustomizations"
+  ],
   "editor.unicodeHighlight.invisibleCharacters": false,
   "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "yaml.maxItemsComputed": 10000,
   "makefile.configureOnOpen": true,
@@ -119,7 +122,7 @@
     "mailto",
     "vscode",
     "vscode-insiders",
-    "docker-desktop",
+    "docker-desktop"
   ],
   "diffEditor.ignoreTrimWhitespace": true,
   "editor.accessibilitySupport": "off",
@@ -131,7 +134,7 @@
   "python.createEnvironment.trigger": "off",
   "git.openRepositoryInParentFolders": "always",
   "yaml.schemas": {
-    "file://${HOME}/.vscode/extensions/continue.continue-1.1.76-darwin-arm64/config-yaml-schema.json": ".continue/**/*.yaml",
+    "file://${HOME}/.vscode/extensions/continue.continue-1.1.76-darwin-arm64/config-yaml-schema.json": ".continue/**/*.yaml"
   },
   "go.toolsManagement.autoUpdate": true,
   "editor.inlineSuggest.edits.showCollapsed": true,
@@ -143,9 +146,9 @@
         "copilot/claude-3.7-sonnet",
         "copilot/claude-3.7-sonnet-thought",
         "copilot/claude-sonnet-4",
-        "copilot/claude-sonnet-4.5",
-      ],
-    },
+        "copilot/claude-sonnet-4.5"
+      ]
+    }
   },
   "chat.agent.thinkingStyle": "fixedScrolling",
   "chat.checkpoints.showFileChanges": true,
@@ -155,7 +158,7 @@
   "chat.editRequests": "input",
   "chat.mcp.autostart": "never",
   "chat.tools.edits.autoApprove": {
-    "**/.idea/**": false,
+    "**/.idea/**": false
   },
   "chat.tools.terminal.enableAutoApprove": false,
   "inlineChat.accessibleDiffView": "on",
@@ -177,12 +180,12 @@
     "editor.quickSuggestions": {
       "other": true,
       "comments": false,
-      "strings": true,
+      "strings": true
     },
-    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "[github-actions-workflow]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "workbench.editor.empty.hint": "hidden",
   "editor.inlayHints.enabled": "off",
@@ -193,7 +196,7 @@
     ".github/instructions": true,
     ".claude/rules": true,
     "~/.copilot/instructions": true,
-    "~/.claude/rules": true,
+    "~/.claude/rules": true
   },
   "github.copilot.chat.alternateGptPrompt.enabled": true,
   "github.copilot.chat.completionsFetcher": "electron-fetch",
@@ -228,24 +231,24 @@
     "bash": {
       "path": "bash",
       "args": ["-l"],
-      "icon": "terminal-bash",
+      "icon": "terminal-bash"
     },
     "zsh": {
       "path": "zsh",
-      "args": ["-l"],
+      "args": ["-l"]
     },
     "fish": {
       "path": "fish",
-      "args": ["-l"],
+      "args": ["-l"]
     },
     "tmux": {
       "path": "tmux",
-      "icon": "terminal-tmux",
+      "icon": "terminal-tmux"
     },
     "pwsh": {
       "path": "pwsh",
-      "icon": "terminal-powershell",
-    },
+      "icon": "terminal-powershell"
+    }
   },
   "git.ignoreRebaseWarning": true,
   "workbench.externalBrowser": "/Applications/Safari.app",
@@ -260,36 +263,36 @@
     "https://www.rust-lang.org": true,
     "https://doc.rust-lang.org/book": true,
     "https://doc.rust-lang.org": true,
-    "https://doc.rust-lang.org/reference": true,
+    "https://doc.rust-lang.org/reference": true
   },
   "github.copilot.chat.anthropic.tools.websearch.enabled": true,
   "github.copilot.chat.anthropic.tools.websearch.maxUses": 9,
   "github.copilot.chat.anthropic.tools.websearch.userLocation": {
     "timezone": "America/Los_Angeles",
     "country": "US",
-    "region": "CA",
+    "region": "CA"
   },
   "github.copilot.chat.copilotMemory.enabled": true,
   "github.copilot.chat.codesearch.enabled": true,
   "github.copilot.chat.commitMessageGeneration.instructions": [
     {
-      "text": "Add clear message with a format like <type>(<scope>): <description>\n Examples:\n - feat(auth): add login functionality\n - fix(api): correct data fetching bug",
-    },
+      "text": "Add clear message with a format like <type>(<scope>): <description>\n Examples:\n - feat(auth): add login functionality\n - fix(api): correct data fetching bug"
+    }
   ],
   "github.copilot.chat.switchAgent.enabled": true,
   "github.copilot.chat.virtualTools.threshold": 64,
   "github.copilot.chat.scopeSelection": true,
   "github.copilot.chat.reviewSelection.instructions": [
     {
-      "file": ".copilot-review-instructions.md",
-    },
+      "file": ".copilot-review-instructions.md"
+    }
   ],
   "workbench.activityBar.location": "top",
   "markdown-preview-enhanced.previewTheme": "vscode.css",
   "markdown-preview-enhanced.codeBlockTheme": "auto.css",
   "jdk.telemetry.enabled": false,
   "[markdown]": {
-    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint",
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
   },
   "json.schemaDownload.trustedDomains": {
     "https://schemastore.azurewebsites.net/": true,
@@ -301,13 +304,13 @@
     "https://developer.microsoft.com/json-schemas/": true,
     "https://raw.githubusercontent.com/": true,
     "https://schema.tauri.app": true,
-    "https://biomejs.dev": true,
+    "https://biomejs.dev": true
   },
   "vscode_custom_css.imports": [
-    "file:///Users/clarity/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js",
+    "file:///Users/clarity/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
   ],
   "js/ts.updateImportsOnFileMove.enabled": "always",
-  "workbench.iconTheme": "sweet-vscode-icons",
+  "workbench.iconTheme": "vscode-icons",
   "biome.suggestInstallingGlobally": false,
   "github.copilot.chat.agentDebugLog.fileLogging.enabled": true,
   "github.copilot.chat.conversationTranscriptLookup.enabled": true,
@@ -316,18 +319,16 @@
   "workbench.browser.showInTitleBar": false,
   "chat.agent.thinking.phrases": {
     "mode": "append",
-    "phrases": [],
+    "phrases": []
   },
   "remote.SSH.defaultForwardedPorts": [],
   "remote.SSH.useExecServer": false,
   "remote-explorer.collapseRecentFolders": true,
   "remote.SSH.showLoginTerminal": true,
   "remote.SSH.useLocalServer": true,
-  "chat.viewSessions.orientation": "stacked",
   "terminal.integrated.initialHint": false,
-  "workbench.preferredDarkColorTheme": "paddy-leipzig-upright",
   "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "vscode.json-language-features"
   },
   "java.completion.favoriteStaticMembers": [
     "org.junit.Assert.*",
@@ -338,7 +339,7 @@
     "org.junit.jupiter.api.DynamicTest.*",
     "org.mockito.Mockito.*",
     "org.mockito.ArgumentMatchers.*",
-    "org.mockito.Answers.*",
+    "org.mockito.Answers.*"
   ],
   "chat.tips.enabled": false,
   "workbench.preferredLightColorTheme": "paddy-genmaicha",
@@ -361,11 +362,12 @@
     "json",
     "jsonc",
     "yaml",
-    "mdx",
+    "mdx"
   ],
   "workbench.panel.showLabels": false,
   "chat.agent.sandbox.enabled": "on",
   "jdk.maven.userSettings": "",
   "dictation.enabled": false,
   "chat.editing.confirmEditRequestRemoval": false,
+  "workbench.preferredDarkColorTheme": "Material Night Eighties",
 }

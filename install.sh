@@ -46,7 +46,7 @@ ${BOLD}Usage:${RESET}
 
 ${BOLD}Description:${RESET}
   Root dotfiles installer. Detects OS, runs GNU Stow, then delegates to the
-  OS-specific installer under ${BLUE}./macos${RESET}, ${BLUE}./fedora${RESET}, or ${BLUE}./debian${RESET}.
+  OS-specific installer under ${BLUE}./os/macos${RESET}, ${BLUE}./os/fedora${RESET}, or ${BLUE}./os/debian${RESET}.
 
 ${BOLD}Options:${RESET}
 $(print_common_flags_help)
@@ -54,9 +54,9 @@ $(print_common_flags_help)
 ${BOLD}Notes:${RESET}
   - OS-specific flags are supported and passed through.
   - For OS-specific help:
-      ${GREEN}./macos/install.sh --help${RESET}
-      ${GREEN}./fedora/install.sh --help${RESET}
-  ${GREEN}./debian/install.sh --help${RESET}
+      ${GREEN}./os/macos/install.sh --help${RESET}
+      ${GREEN}./os/fedora/install.sh --help${RESET}
+  ${GREEN}./os/debian/install.sh --help${RESET}
 EOF
 }
 
@@ -86,7 +86,7 @@ main() {
 
     if [[ "$os" == "debian" ]]; then
         log_info "Bootstrapping Debian packages required before GNU Stow..."
-        bash "$REPO_DIR/debian/install.sh" \
+        bash "$REPO_DIR/os/debian/install.sh" \
           "${os_common_args[@]+"${os_common_args[@]}"}" \
           --bootstrap-packages
     fi
@@ -104,19 +104,19 @@ main() {
     case "$os" in
         macos)
             log_info "Running macOS-specific installation..."
-            bash "$REPO_DIR/macos/install.sh" \
+            bash "$REPO_DIR/os/macos/install.sh" \
               "${os_common_args[@]+"${os_common_args[@]}"}" \
               "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"
             ;;
         fedora)
             log_info "Running Fedora-specific installation..."
-            bash "$REPO_DIR/fedora/install.sh" \
+            bash "$REPO_DIR/os/fedora/install.sh" \
               "${os_common_args[@]+"${os_common_args[@]}"}" \
               "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"
             ;;
         debian)
             log_info "Running Debian-specific installation..."
-            bash "$REPO_DIR/debian/install.sh" \
+            bash "$REPO_DIR/os/debian/install.sh" \
               "${os_common_args[@]+"${os_common_args[@]}"}" \
               "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"
             ;;

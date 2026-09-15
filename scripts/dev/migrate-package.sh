@@ -107,10 +107,43 @@ validate_package_key() {
   local label="$1"
   local value="$2"
 
-  # Match repo convention used by test_config.sh
-  if [[ ! "$value" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+  # Match repo convention used by test_config.sh.
+  # Package keys may be nested paths such as os/macos.
+  if [[ ! "$value" =~ ^[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)*$ ]]; then
     log_error "Invalid ${label}: '$value'"
-    log_error "Package keys must match ^[a-zA-Z0-9_-]+$ (no '/', '~', ':', or path-like values)."
+    log_error "Package keys must match ^[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)*$."
+    exit 1
+  fi
+}
+
+validate_nested_stow_ignore() {
+  local label="$1"
+  local package_name="$2"
+  local package_dir
+
+  package_dir="$(dirname "$package_name")"
+  if [[ "$package_dir" == "." ]]; then
+    return 0
+  fi
+
+  local stow_root="$REPO_DIR/$package_dir"
+  local nested_ignore_file="$stow_root/.stow-local-ignore"
+  local root_ignore_file="$REPO_DIR/.stow-local-ignore"
+
+  if [[ ! -f "$root_ignore_file" ]]; then
+    log_error "Missing root Stow ignore file: $root_ignore_file"
+    exit 1
+  fi
+
+  if [[ ! -f "$nested_ignore_file" ]]; then
+    log_error "Nested ${label} '$package_name' requires $nested_ignore_file"
+    log_error "Copy the repo root Stow ignore rules there before using nested package keys."
+    exit 1
+  fi
+
+  if ! cmp -s "$root_ignore_file" "$nested_ignore_file"; then
+    log_error "Nested ${label} '$package_name' must keep $nested_ignore_file in sync with $root_ignore_file"
+    log_error "Update the nested ignore file before migrating nested package keys."
     exit 1
   fi
 }
@@ -218,6 +251,9 @@ validate_preconditions() {
     log_error "Missing packages.conf: $PACKAGES_CONF"
     exit 1
   fi
+
+  validate_nested_stow_ignore "current-package" "$CURRENT_PACKAGE"
+  validate_nested_stow_ignore "new-package" "$NEW_PACKAGE"
 
   if [[ ! -d "$REPO_DIR/$CURRENT_PACKAGE" ]]; then
     log_error "Current package directory does not exist: $REPO_DIR/$CURRENT_PACKAGE"

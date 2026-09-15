@@ -3,7 +3,7 @@
 #
 # Purpose:
 #   Read current macOS defaults and system settings, then regenerate
-#   the macos/.macos script with the live values from this machine.
+#   the os/macos/.macos script with the live values from this machine.
 #
 # Usage:
 #   ./scripts/dev/write-settings.sh [--dry-run]
@@ -15,7 +15,7 @@
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-MACOS_FILE="$REPO_DIR/macos/.macos"
+MACOS_FILE="$REPO_DIR/os/macos/.macos"
 TEMPLATE_FILE="$MACOS_FILE"  # We read the existing file as template
 
 # shellcheck source=/dev/null
