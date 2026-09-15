@@ -32,7 +32,7 @@ Each OS folder under `os/` contains specific configurations, scripts, and instal
 - [Debian](./os/debian/README.md)
 
 <table>
-  <tr>
+  <tr style="text-align:center;">
     <th><a href="./os/macos/README.md"><img src="https://img.shields.io/badge/macOS-os?style=for-the-badge&logo=apple&logoColor=%23000000&color=%23ffffff" alt="macOS"></a></th>
     <th><a href="./os/fedora/README.md"><img src="https://img.shields.io/badge/fedora-os?style=for-the-badge&logo=fedora&logoColor=%2351A2DA&color=%23ffffff" alt="Fedora"></a></th>
     <th><a href="./os/debian/README.md"><img src="https://img.shields.io/badge/Debian-os?style=for-the-badge&logo=debian&logoColor=%23A81D33&color=%23ffffff" alt="Debian"></a></th>
@@ -54,7 +54,9 @@ View all scripts/utilities and how to use them by running:
 make help
 ```
 
-> **Note**: When using `make` to execute script-wrapper targets, pass arguments like:
+> [!NOTE]
+> 
+> When using `make` to execute script-wrapper targets, pass arguments like:
 >
 > ```bash
 > make <target> ARGS="<args to pass to script>"
