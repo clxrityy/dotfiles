@@ -120,7 +120,7 @@ backup_stow_conflicts() {
 
   # Parse conflict lines to extract the target-relative file paths.
   # Format: "* cannot stow <link> over existing target <rel_path> since ..."
-  local rel_path target_file dest moved_any=false dry_run_conflicts=false
+  local rel_path target_file dest moved_any=false dry_run_conflicts=false removed_symlink=false
   while IFS= read -r line; do
     rel_path=""
     if rel_path="$(parse_stow_conflict_target "$line")"; then
@@ -137,12 +137,22 @@ backup_stow_conflicts() {
         else
           moved_any=true
         fi
+      elif [[ -L "$target_file" && ! -e "$target_file" ]]; then
+        log_debug "Removing dangling symlink: $target_file"
+        run_cmd rm "$target_file"
+        if [[ "${DRY_RUN:-false}" == "true" ]]; then
+          dry_run_conflicts=true
+        else
+          removed_symlink=true
+        fi
       fi
     fi
   done <<< "$sim_output"
 
   if [[ "$moved_any" == "true" ]]; then
     log_success "Conflicting files for '$pkg_name' backed up"
+  elif [[ "$removed_symlink" == "true" ]]; then
+    log_success "Dangling symlinks for '$pkg_name' removed"
   elif [[ "$dry_run_conflicts" == "true" ]]; then
     log_info "Dry-run: conflicting files for '$pkg_name' would be backed up"
   else

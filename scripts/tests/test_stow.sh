@@ -24,4 +24,32 @@ assert_eq "parse alternate new-style stow conflict" ".config/starship.toml" "$pa
 assert_eq "parse not-owned-by-stow conflict" ".zshrc" "$parsed_not_owned"
 assert_failure "ignore non-conflict line" bash -lc "source '$LIB_DIR/run.sh'; source '$LIB_DIR/stow.sh'; parse_stow_conflict_target 'plain line without conflict'"
 
+# --- dangling symlink cleanup ---
+
+tmp_dir="$(mktemp -d)"
+stow_dir="$tmp_dir/os"
+stow_target="$tmp_dir/target"
+backup_dir="$tmp_dir/backup"
+mkdir -p "$stow_dir/macos" "$stow_target" "$backup_dir"
+ln -s "$stow_dir/macos/.zshrc" "$stow_target/.zshrc"
+
+stow_calls=()
+
+stow() {
+	cat <<'EOF'
+* existing target is not owned by stow: .zshrc
+EOF
+	return 1
+}
+
+run_cmd() {
+	stow_calls+=("$*")
+	"$@"
+}
+
+backup_stow_conflicts "$stow_dir" "macos" "$stow_target" "$backup_dir"
+
+assert_eq "dangling symlink removed" "no entry" "$(test -e "$stow_target/.zshrc" && printf 'entry' || printf 'no entry')"
+assert_eq "dangling symlink cleanup uses rm" "rm $stow_target/.zshrc" "${stow_calls[0]}"
+
 test_summary
