@@ -107,10 +107,11 @@ validate_package_key() {
   local label="$1"
   local value="$2"
 
-  # Match repo convention used by test_config.sh
-  if [[ ! "$value" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+  # Match repo convention used by test_config.sh.
+  # Package keys may be nested paths such as os/macos.
+  if [[ ! "$value" =~ ^[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)*$ ]]; then
     log_error "Invalid ${label}: '$value'"
-    log_error "Package keys must match ^[a-zA-Z0-9_-]+$ (no '/', '~', ':', or path-like values)."
+    log_error "Package keys must match ^[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)*$."
     exit 1
   fi
 }

@@ -19,7 +19,7 @@ if [[ -f "$packages_file" ]]; then
     clean="$(echo "$clean" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')"
     [[ -z "$clean" ]] && continue
     # Validate format
-    if [[ "$clean" =~ ^[a-zA-Z0-9_-]+=([a-zA-Z0-9_-]+)(:.+)?$ ]]; then
+    if [[ "$clean" =~ ^[a-zA-Z0-9_-]+(/[a-zA-Z0-9_-]+)*=([a-zA-Z0-9_-]+)(:.+)?$ ]]; then
       assert_eq "packages.conf:$line_num valid format" "valid" "valid"
     else
       assert_eq "packages.conf:$line_num valid format" "valid" "INVALID: $clean"

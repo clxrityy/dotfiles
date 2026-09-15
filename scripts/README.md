@@ -19,7 +19,7 @@ Scripts for managing, utilizing, and developing the dotfiles & environments
 
 - [x] **`dev/`**: Development-related scripts
   - [x] `copy-package.sh`: Copy a specified package's live target contents into a destination directory (via [`packages.conf`](../packages.conf))
-  - [x] `macos-write-settings.sh`: Reads current macOS defaults and system settings and writes them to [`macos/.macos`](../macos/.macos)
+  - [x] `macos-write-settings.sh`: Reads current macOS defaults and system settings and writes them to [`os/macos/.macos`](../os/macos/.macos)
   - [x] `migrate-package.sh`: Migrate a single package
     - Unstow current package from its target
     - Rename package directory

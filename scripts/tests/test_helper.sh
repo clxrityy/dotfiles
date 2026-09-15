@@ -50,14 +50,16 @@ assert_success() {
   # Usage: assert_success "description" <command...>
   # Runs a command and asserts exit code 0
   local desc="$1"; shift
+  local exit_code=0
   _TESTS_RUN=$((_TESTS_RUN + 1))
 
   if "$@" >/dev/null 2>&1; then
     _TESTS_PASSED=$((_TESTS_PASSED + 1))
     printf '  [PASS] %s\n' "$desc"
   else
+    exit_code=$?
     _TESTS_FAILED=$((_TESTS_FAILED + 1))
-    printf '  [FAIL] %s (exit code: %d)\n' "$desc" "$?"
+    printf '  [FAIL] %s (exit code: %d)\n' "$desc" "$exit_code"
   fi
 }
 

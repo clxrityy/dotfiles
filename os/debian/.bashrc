@@ -1,5 +1,5 @@
 # shellcheck shell=bash
-# debian/.bashrc
+# os/debian/.bashrc
 #
 # Purpose:
 #   Bash configuration specific to Debian.

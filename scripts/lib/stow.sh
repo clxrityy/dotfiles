@@ -38,6 +38,27 @@ ensure_stow_installed() {
   exit 1
 }
 
+cleanup_legacy_root_package() {
+  local repo_dir="$1"
+  local stow_target="$2"
+  local pkg_name="$3"
+  local label="$4"
+
+  # When a package moves from "macos" to "os/macos", existing links in the
+  # target may still be owned by the old root-level package. Unstow that legacy
+  # package first so the nested package can take over cleanly.
+  if [[ "$label" != */* ]]; then
+    return 0
+  fi
+
+  if [[ ! -d "$repo_dir/$pkg_name" ]]; then
+    return 0
+  fi
+
+  log_info "Cleaning up legacy root package '$pkg_name' before stowing '$label'"
+  run_cmd stow -D --no-folding -d "$repo_dir" -t "$stow_target" "$pkg_name" || true
+}
+
 parse_stow_conflict_target() {
   local line="$1"
 
@@ -152,6 +173,9 @@ stow_package() {
   local backup_dir="$4"
   local label="$5"
   local scope="$6"
+  local repo_dir="$7"
+
+  cleanup_legacy_root_package "$repo_dir" "$stow_target" "$pkg_name" "$label"
 
   # Let stow identify its own conflicts, then move only those files.
   backup_stow_conflicts "$stow_dir" "$pkg_name" "$stow_target" "$backup_dir"
@@ -209,7 +233,7 @@ stow_packages_for_os() {
     run_cmd mkdir -p "$stow_target"
 
     # Stow requires a single-level package name — split nested paths so
-    # "macos/editors/nvim" becomes: -d "$repo_dir/macos/editors"  nvim
+    # "os/macos/editors/nvim" becomes: -d "$repo_dir/os/macos/editors"  nvim
     pkg_dir="$(dirname "$name")"
     pkg_name="$(basename "$name")"
 
@@ -222,7 +246,7 @@ stow_packages_for_os() {
       stow_dir="$repo_dir/$pkg_dir"
     fi
 
-    stow_package "$stow_dir" "$pkg_name" "$stow_target" "$backup_dir" "$name" "$scope"
+    stow_package "$stow_dir" "$pkg_name" "$stow_target" "$backup_dir" "$name" "$scope" "$repo_dir"
   done
 
   log_debug "Stowed all applicable packages from packages.conf"
@@ -230,7 +254,7 @@ stow_packages_for_os() {
   # Stow the private package last if it exists.
   if [[ -d "$repo_dir/private" ]]; then
     log_debug "Found 'private' package directory"
-    stow_package "$repo_dir" "private" "$HOME" "$backup_dir" "private" "all"
+    stow_package "$repo_dir" "private" "$HOME" "$backup_dir" "private" "all" "$repo_dir"
   else
     log_debug "'private' package directory not found - skipping."
   fi

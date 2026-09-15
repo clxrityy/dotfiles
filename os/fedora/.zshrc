@@ -1,4 +1,4 @@
-# fedora/.zshrc
+# os/fedora/.zshrc
 #
 # Purpose:
 #   Zsh configuration specific to Fedora.

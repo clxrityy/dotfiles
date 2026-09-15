@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# debian/install.sh
+# os/debian/install.sh
 #
 # Purpose:
 #   Debian-specific installer invoked by the root ./install.sh orchestrator.
@@ -18,7 +18,7 @@ set -euo pipefail
 
 # Resolve directories.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Shared libraries.
 LIB_DIR="$REPO_DIR/scripts/lib"
@@ -297,7 +297,7 @@ install_first_available_package() {
 		fi
 	done
 
-		install_github_cli
+	install_github_cli
 	log_warning "Could not find an apt package for $label (${*})"
 	return 1
 }
