@@ -36,6 +36,11 @@ source "$LIB_DIR/packages.sh"
 packages_conf_dir="$REPO_DIR/packages.conf"
 load_packages_conf
 
+# --- Verify nested stow roots keep the same ignore rules ---
+assert_success "root stow ignore file exists" test -f "$REPO_DIR/.stow-local-ignore"
+assert_success "nested stow ignore file exists: os/.stow-local-ignore" test -f "$REPO_DIR/os/.stow-local-ignore"
+assert_success "nested stow ignore file matches root" cmp -s "$REPO_DIR/.stow-local-ignore" "$REPO_DIR/os/.stow-local-ignore"
+
 i=0
 # shellcheck disable=SC2154
 while [[ $i -lt ${#packages_conf[@]} ]]; do
