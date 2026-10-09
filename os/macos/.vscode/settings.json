@@ -58,7 +58,7 @@
   },
   "terminal.integrated.defaultProfile.osx": "zsh",
   "[xml]": {
-    "editor.defaultFormatter": "DotJoshJohnson.xml"
+    "editor.defaultFormatter": "redhat.vscode-xml"
   },
   "workbench.editorAssociations": {
     "*.copilotmd": "vscode.markdown.preview.editor",
@@ -104,7 +104,9 @@
     "*.tsx": "typescriptreact"
   },
   "markdown-preview-enhanced.enablePreviewZenMode": false,
-  "settingsSync.ignoredExtensions": ["drcika.apc-extension"],
+  "settingsSync.ignoredExtensions": [
+    "drcika.apc-extension"
+  ],
   "workbench.settings.applyToAllProfiles": [
     "vercelVSCode.accessToken",
     "workbench.colorCustomizations"
@@ -230,16 +232,22 @@
   "terminal.integrated.profiles.osx": {
     "bash": {
       "path": "bash",
-      "args": ["-l"],
+      "args": [
+        "-l"
+      ],
       "icon": "terminal-bash"
     },
     "zsh": {
       "path": "zsh",
-      "args": ["-l"]
+      "args": [
+        "-l"
+      ]
     },
     "fish": {
       "path": "fish",
-      "args": ["-l"]
+      "args": [
+        "-l"
+      ]
     },
     "tmux": {
       "path": "tmux",
@@ -310,7 +318,7 @@
     "file:///Users/clarity/.vscode/extensions/brandonkirbyson.vscode-animations-2.0.7/dist/updateHandler.js"
   ],
   "js/ts.updateImportsOnFileMove.enabled": "always",
-  "workbench.iconTheme": "vscode-icons",
+  "workbench.iconTheme": "material-icon-theme",
   "biome.suggestInstallingGlobally": false,
   "github.copilot.chat.agentDebugLog.fileLogging.enabled": true,
   "github.copilot.chat.conversationTranscriptLookup.enabled": true,
@@ -369,5 +377,7 @@
   "jdk.maven.userSettings": "",
   "dictation.enabled": false,
   "chat.editing.confirmEditRequestRemoval": false,
-  "workbench.preferredDarkColorTheme": "Material Night Eighties",
+  "chat.viewSessions.orientation": "stacked",
+  "security.workspace.trust.untrustedFiles": "open",
+  "workbench.preferredDarkColorTheme": "Bearded Theme Black & Amethyst",
 }
