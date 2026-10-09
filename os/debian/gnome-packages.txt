@@ -1,4 +1,4 @@
-# debian/gnome-packages.txt
+# os/debian/gnome-packages.txt
 #
 # Purpose:
 #   Debian GNOME desktop packages for a mouse-friendly workstation setup.

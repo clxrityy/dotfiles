@@ -17,10 +17,9 @@ pad_line() {
     local text="$1"
     local stripped visible_len padding
 
-    # Strip ANSI escape sequences so width math uses only visible characters.
-    # - CSI: ESC [ ... command   (colors/styles like setaf, bold, sgr0 tail)
-    # - SCS: ESC ( X             (macOS tput sgr0 commonly emits ESC(B)
-    stripped="$(printf '%s' "$text" | sed -E $'s/\x1B\\[[0-?]*[ -/]*[@-~]//g; s/\x1B\\([0-9A-Za-z]//g')"
+    # Strip common ANSI escape sequences so width math uses only visible
+    # characters. Keep the pattern BSD-sed-safe for macOS.
+    stripped="$(printf '%s' "$text" | sed -E $'s/\x1B\[[0-9;]*[[:alpha:]]//g; s/\x1B\([0-9A-Za-z]//g')"
 
     visible_len=${#stripped}
     padding=$((box_width - visible_len))

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# debian/.local/share/dotfiles/motd/dotfiles-debian-motd
+# os/debian/.local/share/dotfiles/motd/dotfiles-debian-motd
 #
 # Purpose:
 #   Render a custom Debian MOTD with personalization and quick system health.

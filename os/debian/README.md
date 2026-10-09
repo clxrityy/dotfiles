@@ -1,4 +1,4 @@
-# `~/.dotfiles/debian`
+# `~/.dotfiles/os/debian`
 
 ## Files included
 
@@ -31,7 +31,7 @@ bash install.sh
 To run only the Debian steps (without stow), from the repo root:
 
 ```bash
-bash debian/install.sh
+bash os/debian/install.sh
 ```
 
 ## Notes

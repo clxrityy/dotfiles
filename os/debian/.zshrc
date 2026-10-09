@@ -1,4 +1,4 @@
-# debian/.zshrc
+# os/debian/.zshrc
 #
 # Purpose:
 #   Lean Zsh configuration for Debian workstations.

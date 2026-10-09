@@ -6,7 +6,7 @@
 #
 # Notes:
 #   - Keep this minimal and cross-platform.
-#   - If you want OS-specific prompt differences, override in fedora/ or macos/
+#   - If you want OS-specific prompt differences, override in os/fedora/ or os/macos/
 #     with a more specific stow package (or use ~/.config/starship.local.toml).
 #
 # Reference:

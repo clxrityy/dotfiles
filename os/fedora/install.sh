@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# fedora/install.sh
+# os/fedora/install.sh
 #
 # Purpose:
 #   Fedora-specific installer invoked by the root ./install.sh orchestrator.
@@ -22,7 +22,7 @@ set -euo pipefail
 
 # Resolve directories.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+REPO_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
 # Shared libraries (colors/logging/args/run/prompt/etc.).
 LIB_DIR="$REPO_DIR/scripts/lib"

@@ -1,5 +1,5 @@
 #!/bin/bash
-# fedora/.bashrc
+# os/fedora/.bashrc
 #
 # Purpose:
 #   Bash configuration specific to Fedora.

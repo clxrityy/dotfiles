@@ -10,6 +10,15 @@ if command -v shellcheck >/dev/null 2>&1; then
   while IFS= read -r -d '' relative; do
     [[ "$relative" == *.sh ]] || continue
     file="$REPO_DIR/$relative"
+
+    # When files are moved or deleted in the working tree, `git ls-files`
+    # can still report their tracked paths until the rename is staged.
+    # Skip those missing paths so lint validates the current workspace state.
+    if [[ ! -f "$file" ]]; then
+      printf '  [SKIP] missing file: %s\n' "$relative"
+      continue
+    fi
+
     # Library files export globals consumed by sourcing scripts;
     # SC2034 (unused variable) is a false positive for them
     extra_args=()

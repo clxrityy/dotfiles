@@ -1,4 +1,4 @@
-# `~/.dotfiles/macos`
+# `~/.dotfiles/os/macos`
 
 ## Files included
 
@@ -17,14 +17,14 @@
   - Applications
 - [`.vscode/settings.json`](./.vscode/settings.json) - Visual Studio Code user settings
   - Customizes editor behavior and appearance for macOS environment
-- [`prompts/`](../prompts/) - Custom copilot agents & instructions for development tasks
+- [`copilot/`](../../copilot/) - Custom Copilot agents, instructions, and skills for development tasks
   - **Agents**: Designed to assist with coding, project management, and learning.
-    - [`primary.agent.md`](../prompts/primary.agent.md): Main agent for project assistance and explanations.
-    - [`explain.agent.md`](../prompts/explain.agent.md): Agent focused on providing detailed explanations / follow-ups.
+    - [`primary.agent.md`](../../copilot/agents/primary.agent.md): Main agent for project assistance and explanations.
+    - [`explain.agent.md`](../../copilot/agents/explain.agent.md): Agent focused on providing detailed explanations / follow-ups.
   - **Instructions**: Guidelines to ensure clarity, accuracy, and relevance in responses.
-    - [`main.instructions.md`](../prompts/main.instructions.md): General instructions for all responses.
-    - [`check.instructions.md`](../prompts/check.instructions.md): Checklist to verify response quality before sending.
-    - [`planner.instructions.md`](../prompts/planner.instructions.md): Specific instructions for planning-related tasks.
+    - [`main.instructions.md`](../../copilot/instructions/main.instructions.md): General instructions for all responses.
+    - [`check.instructions.md`](../../copilot/instructions/check.instructions.md): Checklist to verify response quality before sending.
+    - [`planner.instructions.md`](../../copilot/instructions/planner.instructions.md): Specific instructions for planning-related tasks.
 
 ### Utilities
 >
@@ -64,9 +64,5 @@ bash install.sh
 To run only the macOS steps (without stow), from the repo root:
 
 ```bash
-bash macos/install.sh
+bash os/macos/install.sh
 ```
-
----
-
-![Example](./example.gif)
