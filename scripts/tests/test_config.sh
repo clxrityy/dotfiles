@@ -43,6 +43,9 @@ assert_success "nested stow ignore file matches root" cmp -s "$REPO_DIR/.stow-lo
 assert_success "macOS zprofile exists" test -f "$REPO_DIR/os/macos/.zprofile"
 assert_success "macOS zprofile has Intel Homebrew fallback" grep -q '/usr/local/bin/brew' "$REPO_DIR/os/macos/.zprofile"
 assert_success "macOS zprofile guards brew init" grep -q 'if \[\[ -x /opt/homebrew/bin/brew \]\]; then' "$REPO_DIR/os/macos/.zprofile"
+assert_success "Rocky installer exists" test -f "$REPO_DIR/os/rocky/install.sh"
+assert_success "Rocky package manifest exists" test -f "$REPO_DIR/os/rocky/dnf-packages.txt"
+assert_success "Rocky zshrc exists" test -f "$REPO_DIR/os/rocky/.zshrc"
 
 i=0
 # shellcheck disable=SC2154

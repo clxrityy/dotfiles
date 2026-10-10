@@ -46,7 +46,7 @@ ${BOLD}Usage:${RESET}
 
 ${BOLD}Description:${RESET}
   Root dotfiles installer. Detects OS, runs GNU Stow, then delegates to the
-  OS-specific installer under ${BLUE}./os/macos${RESET}, ${BLUE}./os/fedora${RESET}, or ${BLUE}./os/debian${RESET}.
+  OS-specific installer under ${BLUE}./os/macos${RESET}, ${BLUE}./os/fedora${RESET}, ${BLUE}./os/rocky${RESET}, or ${BLUE}./os/debian${RESET}.
 
 ${BOLD}Options:${RESET}
 $(print_common_flags_help)
@@ -56,7 +56,8 @@ ${BOLD}Notes:${RESET}
   - For OS-specific help:
       ${GREEN}./os/macos/install.sh --help${RESET}
       ${GREEN}./os/fedora/install.sh --help${RESET}
-  ${GREEN}./os/debian/install.sh --help${RESET}
+      ${GREEN}./os/rocky/install.sh --help${RESET}
+      ${GREEN}./os/debian/install.sh --help${RESET}
 EOF
 }
 
@@ -89,6 +90,13 @@ main() {
         bash "$REPO_DIR/os/debian/install.sh" \
           "${os_common_args[@]+"${os_common_args[@]}"}" \
           --bootstrap-packages
+    elif [[ "$os" == "fedora" || "$os" == "rocky" ]]; then
+      if ! command -v stow >/dev/null 2>&1; then
+        log_info "Bootstrapping $os packages required before GNU Stow..."
+        bash "$REPO_DIR/os/$os/install.sh" \
+          "${os_common_args[@]+"${os_common_args[@]}"}" \
+          --bootstrap-packages
+      fi
     fi
 
     # Stow dotfiles first (common to all OS).
@@ -114,6 +122,12 @@ main() {
               "${os_common_args[@]+"${os_common_args[@]}"}" \
               "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"
             ;;
+        rocky)
+            log_info "Running Rocky Linux-specific installation..."
+            bash "$REPO_DIR/os/rocky/install.sh" \
+              "${os_common_args[@]+"${os_common_args[@]}"}" \
+              "${REMAINING_ARGS[@]+"${REMAINING_ARGS[@]}"}"
+            ;;
         debian)
             log_info "Running Debian-specific installation..."
             bash "$REPO_DIR/os/debian/install.sh" \
@@ -122,7 +136,7 @@ main() {
             ;;
         *)
             log_error "Unsupported OS: $os (${OSTYPE:-unknown})"
-            log_error "Supported: macOS, Fedora, Debian"
+          log_error "Supported: macOS, Fedora, Rocky Linux, Debian"
             exit 1
             ;;
     esac
