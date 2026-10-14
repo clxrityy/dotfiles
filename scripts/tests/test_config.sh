@@ -46,6 +46,7 @@ assert_success "macOS zprofile guards brew init" grep -q 'if \[\[ -x /opt/homebr
 assert_success "Rocky installer exists" test -f "$REPO_DIR/os/rocky/install.sh"
 assert_success "Rocky package manifest exists" test -f "$REPO_DIR/os/rocky/dnf-packages.txt"
 assert_success "Rocky zshrc exists" test -f "$REPO_DIR/os/rocky/.zshrc"
+assert_success "Rocky login banner exists" test -f "$REPO_DIR/os/rocky/.local/share/dotfiles/rocky/login-banner.sh"
 
 i=0
 # shellcheck disable=SC2154
