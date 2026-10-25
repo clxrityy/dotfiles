@@ -32,3 +32,5 @@ id_ed25519*
 *history*
 copilot/config.json
 argv.json
+*.db*
+*/run/

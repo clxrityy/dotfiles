@@ -35,6 +35,9 @@ brew 'htop' # Interactive process viewer
 brew 'ffmpeg' # Multimedia framework
 brew 'fastfetch' # System information tool
 
+# Fixes
+brew 'removemacai'
+
 # Applications / Casks
 cask 'visual-studio-code' # Code editor
 cask 'iterm2' # Terminal emulator

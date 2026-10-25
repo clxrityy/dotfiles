@@ -2,7 +2,7 @@
 name: explain
 description: This custom agent provides detailed explanations of the reasoning behind previous assistance or actions taken.
 argument-hint: A request for a detailed explanation of the reasoning behind a previous assistance or action.
-model: [GPT-5.4 (copilot), GPT-5.4 mini (copilot)]
+model: ['Claude Sonnet 5.5 (copilot)']
 tools: ['read', 'agent', 'web', 'search']
 target: vscode
 ---
