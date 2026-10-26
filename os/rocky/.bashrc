@@ -7,7 +7,7 @@
 #
 # Notes:
 #   - Keep this file Rocky-centric; put shared shell config in shell/.
-#   - Starship can be enabled explicitly, but is not forced by default.
+#   - Starship is the default prompt; set DOTFILES_PROMPT_STYLE=builtin to opt out.
 
 case $- in
   *i*) ;;
@@ -32,9 +32,11 @@ fi
 
 if [[ -f "$HOME/.config/starship.local.toml" ]]; then
   export STARSHIP_CONFIG="$HOME/.config/starship.local.toml"
+elif [[ -f "$HOME/.config/starship.rocky.toml" ]]; then
+  export STARSHIP_CONFIG="$HOME/.config/starship.rocky.toml"
 fi
 
-: "${DOTFILES_PROMPT_STYLE:=builtin}"
+: "${DOTFILES_PROMPT_STYLE:=starship}"
 
 if [[ "$DOTFILES_PROMPT_STYLE" == "starship" ]] && command -v starship >/dev/null 2>&1; then
   eval "$(starship init bash)"

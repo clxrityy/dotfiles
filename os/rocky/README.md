@@ -36,6 +36,6 @@ bash os/rocky/install.sh
 
 - This profile is intentionally headless: no GNOME or desktop defaults are applied.
 - The package list starts conservative because server roles tend to drift; extend `dnf-packages.txt` as this VPS gains responsibilities.
-- `ls` color support is restored via `dircolors`, and the default Rocky prompt is a built-in colored shell prompt.
-- Set `DOTFILES_PROMPT_STYLE=starship` in `~/.zshrc.local` or `~/.bashrc.local` if you want Starship back as the active prompt.
-- Prompt customization belongs in `~/.config/starship.local.toml`, `~/.zshrc.local`, or `~/.bashrc.local` to keep the tracked config clean.
+- `ls` color support is restored via `dircolors`, and the default prompt is Starship using [`.config/starship.rocky.toml`](./.config/starship.rocky.toml) (two-line, git branch/status/metrics; needs a Nerd Font in your local terminal).
+- Set `DOTFILES_PROMPT_STYLE=builtin` in `~/.zshrc.local` or `~/.bashrc.local` to fall back to the built-in prompt (also used automatically if `starship` is not installed).
+- Prompt customization belongs in `~/.config/starship.local.toml` (takes precedence over the tracked file), `~/.zshrc.local`, or `~/.bashrc.local`.

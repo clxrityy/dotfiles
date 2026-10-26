@@ -38,7 +38,7 @@ if command -v fastfetch >/dev/null 2>&1; then
   alias fetch='fastfetch'
 fi
 
-: "${DOTFILES_PROMPT_STYLE:=builtin}"
+: "${DOTFILES_PROMPT_STYLE:=starship}"
 : "${DOTFILES_PROMPT_SYMBOL:=›}"
 : "${DOTFILES_PROMPT_USER_COLOR:=244}"
 : "${DOTFILES_PROMPT_HOST_COLOR:=109}"
@@ -68,6 +68,8 @@ build_dotfiles_prompt() {
 
 if [[ -f "$HOME/.config/starship.local.toml" ]]; then
   export STARSHIP_CONFIG="$HOME/.config/starship.local.toml"
+elif [[ -f "$HOME/.config/starship.rocky.toml" ]]; then
+  export STARSHIP_CONFIG="$HOME/.config/starship.rocky.toml"
 fi
 
 if [[ "$DOTFILES_PROMPT_STYLE" == "starship" ]] && command -v starship >/dev/null 2>&1; then

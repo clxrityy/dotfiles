@@ -1,0 +1,71 @@
+# os/rocky/.config/starship.rocky.toml
+#
+# Purpose:
+#   Rocky VPS Starship prompt: two lines, git-focused. Needs a Nerd Font in the
+#   local terminal (glyphs render client-side over SSH).
+#   Override per machine with ~/.config/starship.local.toml (takes precedence).
+
+command_timeout = 500
+add_newline = true
+
+format = """
+$username$hostname$directory$git_branch$git_commit$git_state$git_status$git_metrics$cmd_duration
+$character"""
+
+[username]
+format = "[$user]($style)"
+style_user = "244"
+style_root = "bold red"
+
+[hostname]
+ssh_only = true
+format = "[@$hostname]($style) "
+style = "109"
+
+[directory]
+style = "111"
+truncation_length = 3
+truncate_to_repo = true
+format = "[$path]($style)[$read_only]($read_only_style) "
+
+[git_branch]
+symbol = " "
+style = "bold #0088ff"
+format = "[$symbol$branch(:$remote_branch)]($style) "
+
+[git_commit]
+only_detached = true
+tag_disabled = false
+format = "[\\($hash$tag\\)]($style) "
+style = "bold #335af3"
+
+[git_state]
+style = "bold yellow"
+format = "[\\($state( $progress_current/$progress_total)\\)]($style) "
+
+[git_status]
+style = "bold yellow"
+format = '([\[$all_status$ahead_behind\]]($style) )'
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+conflicted = "=${count}"
+staged = "+${count}"
+modified = "!${count}"
+untracked = "?${count}"
+stashed = "$${count}"
+deleted = "✘${count}"
+renamed = "»${count}"
+
+[git_metrics]
+disabled = false
+format = "[+$added]($added_style)/[-$deleted]($deleted_style) "
+
+[cmd_duration]
+min_time = 2000
+format = "[took $duration]($style) "
+style = "244"
+
+[character]
+success_symbol = "[›](yellow)"
+error_symbol = "[›](red)"
