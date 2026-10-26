@@ -46,6 +46,7 @@ init_colors
 
 # Fedora-specific flag.
 SKIP_PACKAGES=false
+BOOTSTRAP_PACKAGES_ONLY=false
 
 # =====================================================
 # Usage/help function
@@ -60,6 +61,7 @@ ${BOLD}Description:${RESET}
 
 ${BOLD}Options:${RESET}
 $(print_common_flags_help)
+    ${BLUE}--bootstrap-packages${RESET} Install only essential Fedora packages needed before stowing dotfiles
     ${BLUE}--skip-packages${RESET}    Skip package installation
 
 ${BOLD}Examples:${RESET}
@@ -74,10 +76,18 @@ EOF
 # =====================================================
 # Parse common flags first, then parse Fedora-specific flags from the remainder.
 parse_common_flags "$@"
-set -- "${REMAINING_ARGS[@]}"
+if [[ "${REMAINING_ARGS+x}" ]]; then
+    set -- "${REMAINING_ARGS[@]}"
+else
+    set --
+fi
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --bootstrap-packages)
+            BOOTSTRAP_PACKAGES_ONLY=true
+            shift
+            ;;
         --skip-packages)
             SKIP_PACKAGES=true
             shift
@@ -105,8 +115,17 @@ fi
 # =====================================================
 # Execution context validation
 # =====================================================
-validate_context() {
+validate_package_context() {
     require_fedora
+
+    if [[ ! -f "$SCRIPT_DIR/dnf-packages.txt" ]]; then
+        log_error "Missing expected file: $SCRIPT_DIR/dnf-packages.txt"
+        exit 1
+    fi
+}
+
+validate_context() {
+    validate_package_context
 
     if [[ ! -f "$SCRIPT_DIR/.fedora" ]]; then
         log_error "Missing expected file: $SCRIPT_DIR/.fedora"
@@ -267,6 +286,14 @@ print_post_install() {
 # Main script execution
 # =====================================================
 main() {
+    if [[ "$BOOTSTRAP_PACKAGES_ONLY" == true ]]; then
+        validate_package_context
+        log_info "Bootstrapping Fedora packages required before stowing dotfiles..."
+        install_essentials
+        log_success "Fedora package bootstrap complete"
+        return 0
+    fi
+
     validate_context
     print_banner
     confirm_or_exit "Proceed with installation?"

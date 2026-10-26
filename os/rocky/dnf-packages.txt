@@ -1,0 +1,28 @@
+# os/rocky/dnf-packages.txt
+#
+# Purpose:
+#   Base package set for a headless Rocky Linux VPS.
+#
+# Notes:
+#   - Keep this list conservative and server-friendly.
+#   - Add workload-specific packages here as the host evolves.
+
+git
+chrony
+stow
+zsh
+curl
+python3
+python3-pip
+tmux
+dnf-plugins-core
+docker-buildx-plugin
+docker-compose-plugin
+podman
+podman-docker
+gzip
+zip
+yum
+tar
+tailscale
+make

@@ -29,17 +29,20 @@ Each OS folder under `os/` contains specific configurations, scripts, and instal
 
 - [macOS](./os/macos/README.md)
 - [Fedora](./os/fedora/README.md)
+- [Rocky Linux](./os/rocky/README.md)
 - [Debian](./os/debian/README.md)
 
 <table>
   <tr style="text-align:center;">
     <th><a href="./os/macos/README.md"><img src="https://img.shields.io/badge/macOS-os?style=for-the-badge&logo=apple&logoColor=%23000000&color=%23ffffff" alt="macOS"></a></th>
     <th><a href="./os/fedora/README.md"><img src="https://img.shields.io/badge/fedora-os?style=for-the-badge&logo=fedora&logoColor=%2351A2DA&color=%23ffffff" alt="Fedora"></a></th>
+    <th><a href="./os/rocky/README.md"><img src="https://img.shields.io/badge/Rocky_Linux-os?style=for-the-badge&logo=rockylinux&logoColor=%2310B981&color=%23ffffff" alt="Rocky Linux"></a></th>
     <th><a href="./os/debian/README.md"><img src="https://img.shields.io/badge/Debian-os?style=for-the-badge&logo=debian&logoColor=%23A81D33&color=%23ffffff" alt="Debian"></a></th>
   </tr>
   <tr>
     <td><img src="./.github/img/macos.gif" alt="macOS Example" width="200"/></td>
     <td><img src="./.github/img/fedora.png" alt="Fedora Example" width="200"/></td>
+    <td><img src="./.github/img/rocky.png" alt="Rocky Linux Example" width="200"/></td>
     <td><img src="./.github/img/debian.png" alt="Debian Example" width="200"/></td>
   </tr>
 </table>
