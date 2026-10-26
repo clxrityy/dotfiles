@@ -7,3 +7,5 @@ starship
 nerdfont-hack
 vscode
 nano
+htop
+fastfetch
