@@ -6,3 +6,4 @@ microsoft-windows-terminal
 starship
 nerdfont-hack
 vscode
+bash
