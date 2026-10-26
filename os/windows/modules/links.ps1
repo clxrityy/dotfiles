@@ -8,8 +8,9 @@ function Invoke-LinksModule {
     $docs = [Environment]::GetFolderPath('MyDocuments')
 
     # Windows Terminal (Store package path; the folder may not exist before first launch).
+    # Copied, not linked: the Terminal fails to load a symlinked settings.json.
     $wtDir = Join-Path $env:LOCALAPPDATA 'Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState'
-    New-Link (Join-Path $wtDir 'settings.json') (Join-Path $cfg 'windows-terminal.settings.json')
+    Copy-Config (Join-Path $wtDir 'settings.json') (Join-Path $cfg 'windows-terminal.settings.json')
 
     # PowerShell 7 profile (starship init lives there).
     New-Link (Join-Path $docs 'PowerShell\Microsoft.PowerShell_profile.ps1') (Join-Path $cfg 'Microsoft.PowerShell_profile.ps1')

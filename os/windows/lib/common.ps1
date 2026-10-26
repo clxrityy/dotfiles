@@ -82,6 +82,36 @@ function New-Link {
     }
 }
 
+# Copy $Target to $Path for apps that can't follow symlinks (e.g. Windows Terminal); backs up a differing real file.
+function Copy-Config {
+    param([string]$Path, [string]$Target)
+
+    if (-not (Test-Path $Target)) {
+        Write-Warn "Copy source missing, skipping: $Target"
+        return
+    }
+
+    $item = Get-Item -LiteralPath $Path -Force -ErrorAction SilentlyContinue
+    if ($item -and -not $item.LinkType -and ((Get-FileHash $Path).Hash -eq (Get-FileHash $Target).Hash)) {
+        Write-Debug2 "Already up to date: $Path"
+        return
+    }
+
+    Invoke-Step "copy $Target -> $Path" {
+        New-Item -ItemType Directory -Force -Path (Split-Path -Parent $Path) | Out-Null
+        if ($item) {
+            if ($item.LinkType) {
+                Remove-Item -LiteralPath $Path -Force
+            } else {
+                $backup = "$Path.bak-$($global:Dotfiles.Stamp)"
+                Move-Item -LiteralPath $Path -Destination $backup -Force
+                Write-Info "Backed up existing file: $backup"
+            }
+        }
+        Copy-Item -LiteralPath $Target -Destination $Path -Force
+    }
+}
+
 # Pick up PATH changes made by installers without opening a new shell.
 function Update-SessionPath {
     $machine = [Environment]::GetEnvironmentVariable('Path', 'Machine')
