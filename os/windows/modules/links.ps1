@@ -14,6 +14,9 @@ function Invoke-LinksModule {
     # PowerShell 7 profile (starship init lives there).
     New-Link (Join-Path $docs 'PowerShell\Microsoft.PowerShell_profile.ps1') (Join-Path $cfg 'Microsoft.PowerShell_profile.ps1')
 
+    # Git Bash login config (default terminal profile).
+    New-Link (Join-Path $HOME '.bash_profile') (Join-Path $cfg '.bash_profile')
+
     # Shared starship config from the common package.
     New-Link (Join-Path $HOME '.config\starship.toml') (Join-Path $root 'common\.config\starship.toml')
 

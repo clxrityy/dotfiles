@@ -20,7 +20,7 @@
   "window.closeWhenEmpty": true,
   "workbench.editor.labelFormat": "short",
   "workbench.editor.tabSizing": "shrink",
-  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
   "terminal.integrated.fontFamily": "Hack Nerd Font",
   "terminal.integrated.cursorStyle": "underline",
   "terminal.integrated.cursorBlinking": true
