@@ -47,4 +47,5 @@ cask 'wireshark-app' # Network protocol analyzer
 cask 'prismlauncher' # Minecraft launcher
 cask 'gyazo' # Screenshot tool
 cask 'utm' # VM manager for macOS
-# cask 'crystalfetch' # Windows ISO image utility for macOS
+cask 'crystalfetch' # Windows ISO image utility for macOS
+cask 'powershell' # Cross-platform task automation and configuration management framework
