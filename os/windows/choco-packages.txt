@@ -1,0 +1,8 @@
+# One Chocolatey package id per line.
+git
+gh
+powershell-core
+microsoft-windows-terminal
+starship
+nerdfont-hack
+vscode

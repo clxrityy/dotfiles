@@ -13,11 +13,11 @@ assert_ne "detect_os_key returns non-empty" "" "$result"
 
 # Should be one of the known keys
 case "$result" in
-  macos|fedora|debian|arch|linux|unknown)
+  macos|windows|fedora|debian|arch|linux|unknown)
     assert_eq "detect_os_key returns valid key" "$result" "$result"
     ;;
   *)
-    assert_eq "detect_os_key returns valid key" "one of: macos|fedora|debian|arch|linux|unknown" "$result"
+    assert_eq "detect_os_key returns valid key" "one of: macos|windows|fedora|debian|arch|linux|unknown" "$result"
     ;;
 esac
 
@@ -41,5 +41,12 @@ esac
 
   # Root installer should route Debian explicitly.
   assert_success "root installer routes Debian" grep -q 'debian)' "$REPO_DIR/install.sh"
+
+  # Windows detection is keyed off OSTYPE and routed to install.ps1.
+  for ostype in msys cygwin win32; do
+    assert_eq "detect_os_key maps OSTYPE=$ostype to windows" "windows" \
+      "$(OSTYPE=$ostype bash -c "source '$LIB_DIR/os.sh'; detect_os_key")"
+  done
+  assert_success "root installer routes Windows" grep -q 'os/windows/install.ps1' "$REPO_DIR/install.sh"
 
 test_summary

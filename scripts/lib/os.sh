@@ -9,7 +9,7 @@
 #   - OS installers use `require_macos` / `require_fedora`.
 
 # Returns one of:
-#   macos, fedora, debian, arch, linux, unknown
+#   macos, windows, fedora, debian, arch, linux, unknown
 # This intentionally mirrors common dotfiles patterns.
 # Reference:
 #   - OSTYPE variable: https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html
@@ -18,6 +18,10 @@ detect_os_key() {
   case "${OSTYPE:-}" in
     darwin*)
       printf '%s' "macos"
+      ;;
+    msys*|cygwin*|win32*)
+      # Git Bash / MSYS2 / Cygwin on native Windows.
+      printf '%s' "windows"
       ;;
     linux*)
       if [[ -f /etc/fedora-release ]]; then
@@ -53,6 +57,13 @@ require_fedora() {
 require_debian() {
   if [[ ! -f /etc/debian_version ]]; then
     log_error "This script is for Debian only."
+    exit 1
+  fi
+}
+
+require_windows() {
+  if [[ "$(detect_os_key)" != "windows" ]]; then
+    log_error "This script is for Windows (Git Bash/MSYS2) only."
     exit 1
   fi
 }

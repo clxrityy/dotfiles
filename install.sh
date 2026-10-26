@@ -47,6 +47,7 @@ ${BOLD}Usage:${RESET}
 ${BOLD}Description:${RESET}
   Root dotfiles installer. Detects OS, runs GNU Stow, then delegates to the
   OS-specific installer under ${BLUE}./os/macos${RESET}, ${BLUE}./os/fedora${RESET}, or ${BLUE}./os/debian${RESET}.
+  On Windows (Git Bash) Stow is skipped and ${BLUE}./os/windows/install.ps1${RESET} is run instead.
 
 ${BOLD}Options:${RESET}
 $(print_common_flags_help)
@@ -83,6 +84,24 @@ main() {
     if [[ "$FORCE" == "true" ]]; then os_common_args+=("--force"); fi
     if [[ "$VERBOSE" == "true" ]]; then os_common_args+=("--verbose"); fi
     if [[ "$DRY_RUN" == "true" ]]; then os_common_args+=("--dry-run"); fi
+
+    if [[ "$os" == "windows" ]]; then
+        # Stow is unreliable on Git Bash; install.ps1 creates its own symlinks.
+        log_info "Running Windows-specific installation..."
+        local ps_script ps_exe
+        ps_script="$(cygpath -w "$REPO_DIR/os/windows/install.ps1")"
+        # Windows PowerShell 5.1 is always present and ships the Appx/DISM modules debloat needs.
+        ps_exe="powershell.exe"
+
+        local -a ps_args=()
+        if [[ "$FORCE" == "true" ]]; then ps_args+=("-Force"); fi
+        if [[ "$VERBOSE" == "true" ]]; then ps_args+=("-VerboseLog"); fi
+        if [[ "$DRY_RUN" == "true" ]]; then ps_args+=("-DryRun"); fi
+
+        "$ps_exe" -NoProfile -ExecutionPolicy Bypass -File "$ps_script" \
+          "${ps_args[@]+"${ps_args[@]}"}"
+        return
+    fi
 
     if [[ "$os" == "debian" ]]; then
         log_info "Bootstrapping Debian packages required before GNU Stow..."

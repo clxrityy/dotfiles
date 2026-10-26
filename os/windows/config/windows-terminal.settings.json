@@ -1,0 +1,18 @@
+{
+  "$schema": "https://aka.ms/terminal-profiles-schema",
+  "defaultProfile": "{574e775e-4f2a-5b96-ac1e-a2962a402336}",
+  "theme": "dark",
+  "copyOnSelect": true,
+  "confirmCloseAllTabs": false,
+  "profiles": {
+    "defaults": {
+      "colorScheme": "Solarized Dark",
+      "cursorShape": "underscore",
+      "padding": "8",
+      "font": {
+        "face": "Hack Nerd Font",
+        "size": 11
+      }
+    }
+  }
+}
