@@ -1,0 +1,43 @@
+{
+  "$schema": "https://aka.ms/terminal-profiles-schema",
+  "defaultProfile": "{2ece5bfe-50ed-5f3a-ab87-5cd4baafed2b}",
+  "theme": "dark",
+  "copyOnSelect": true,
+  "confirmCloseAllTabs": false,
+  "profiles": {
+    "defaults": {
+      "colorScheme": "Midnight Vibrant",
+      "cursorShape": "underscore",
+      "padding": "8",
+      "font": {
+        "face": "Hack Nerd Font",
+        "size": 11
+      }
+    }
+  },
+  "schemes": [
+    {
+      "name": "Midnight Vibrant",
+      "background": "#0A0C10",
+      "foreground": "#F1F1F0",
+      "cursorColor": "#FFFFFF",
+      "selectionBackground": "#2A3A5C",
+      "black": "#1B1F27",
+      "red": "#FF5C57",
+      "green": "#5AF78E",
+      "yellow": "#F3F99D",
+      "blue": "#57C7FF",
+      "purple": "#FF6AC1",
+      "cyan": "#9AEDFE",
+      "white": "#F1F1F0",
+      "brightBlack": "#6B7280",
+      "brightRed": "#FF6E67",
+      "brightGreen": "#69FF94",
+      "brightYellow": "#FFFFA5",
+      "brightBlue": "#6BCBFF",
+      "brightPurple": "#FF92DF",
+      "brightCyan": "#A4FFFF",
+      "brightWhite": "#FFFFFF"
+    }
+  ]
+}

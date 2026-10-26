@@ -7,7 +7,6 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
-  "workbench.startupEditor": "readme",
   "[css]": {
     "editor.defaultFormatter": "vscode.css-language-features"
   },
@@ -136,7 +135,8 @@
   "python.createEnvironment.trigger": "off",
   "git.openRepositoryInParentFolders": "always",
   "yaml.schemas": {
-    "file://${HOME}/.vscode/extensions/continue.continue-1.1.76-darwin-arm64/config-yaml-schema.json": ".continue/**/*.yaml"
+    "file://${HOME}/.vscode/extensions/continue.continue-1.1.76-darwin-arm64/config-yaml-schema.json": ".continue/**/*.yaml",
+    "file:///Users/clarity/.vscode/extensions/docsmsft.docs-yaml-1.0.6/dist/toc.schema.json": "/toc\\.yml/i"
   },
   "go.toolsManagement.autoUpdate": true,
   "editor.inlineSuggest.edits.showCollapsed": true,
@@ -379,5 +379,18 @@
   "chat.editing.confirmEditRequestRemoval": false,
   "chat.viewSessions.orientation": "stacked",
   "security.workspace.trust.untrustedFiles": "open",
-  "workbench.preferredDarkColorTheme": "Bearded Theme Black & Amethyst",
+  "workbench.preferredDarkColorTheme": "Bearded Theme Anthracite",
+  "docsYaml.telemetry.enableTelemetry": false,
+  "java.import.gradle.java.home": "/Users/clarity/.sdkman/candidates/java/8.0.492-zulu",
+  "hoconPro.format.spaceAroundOperators": false,
+  "hoconPro.format.spaceBeforeOpeningBrace": false,
+  "hoconPro.format.mode": "standard",
+  "debug.openDebug": "openOnDebugBreak",
+  "editor.tabCompletion": "off",
+  "powershell.integratedConsole.focusConsoleOnExecute": true,
+  "files.defaultLanguage": "",
+  "editor.wordSeparators": "`~!@#$%^&*()-=+[{]}\\|;:'\",.<>/?",
+  "powershell.buttons.showPanelMovementButtons": false,
+  "powershell.codeFolding.showLastLine": true,
+  "powershell.sideBar.CommandExplorerVisibility": false,
 }
