@@ -24,10 +24,11 @@ Existing clone (Git Bash):
 - [`modules/settings.ps1`](./modules/settings.ps1) - Explorer, taskbar, dark mode, telemetry/ads, Bing search, long paths, Developer Mode
 - [`modules/links.ps1`](./modules/links.ps1) - Symlinks for terminal, pwsh profile, starship, VS Code; git config
 - [`modules/debloat.ps1`](./modules/debloat.ps1) - Removes a fixed Appx list, OneDrive (unless Known Folder Move is active), Copilot, Cortana; Edge policies
-- [`config/`](./config) - Files that get linked (Windows Terminal uses the Solarized Dark scheme)
+- [`config/`](./config) - Files that get linked (Windows Terminal uses the custom "Midnight Vibrant" dark scheme)
 
 ## Notes
 
+- Git Bash (installed with Git) is the default profile in Windows Terminal and VS Code; PowerShell 7 stays available as a profile.
 - Debloat writes every removal to `%LOCALAPPDATA%\dotfiles\debloat-<timestamp>.log`.
 - Edge shows "managed by your organization" once the Edge policies are set.
 - Git identity is not set; run `make setup-git-access` from Git Bash.
