@@ -31,6 +31,7 @@ Each OS folder under `os/` contains specific configurations, scripts, and instal
 - [Fedora](./os/fedora/README.md)
 - [Rocky Linux](./os/rocky/README.md)
 - [Debian](./os/debian/README.md)
+- [Windows](./os/windows/README.md)
 
 <table>
   <tr style="text-align:center;">
