@@ -118,7 +118,7 @@ bash install.sh
 ## TO-DO
 
 - [x] CI
-- [ ] Windows
+- [x] Windows
 - [x] Debian
 - [ ] Ventoy USB setup
 - [x] Package migration script
