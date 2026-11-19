@@ -7,6 +7,8 @@ brew 'stow' # Symlink manager for dotfiles
 brew 'bash' # Unix shell
 brew 'gnupg' # GNU Privacy Guard for encryption and signing
 brew 'unar' # Unarchiving tool for various archive formats
+brew 'bat' # Cat clone with syntax highlighting
+brew 'fio' # Flexible I/O tester
 
 # Backup management
 # cask 'macfuse' # File system extension for macOS
