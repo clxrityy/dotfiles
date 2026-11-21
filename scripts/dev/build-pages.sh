@@ -116,6 +116,8 @@ stamp_bootstrap() {
 
 rm -rf "$OUT_DIR"
 mkdir -p "$OUT_DIR"
+# Absolute, so steps that cd elsewhere (zip) still write to the right place.
+OUT_DIR="$(cd "$OUT_DIR" && pwd)"
 
 printf 'Building bundles (%s) -> %s\n' "$COMMIT" "$OUT_DIR"
 
