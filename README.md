@@ -86,44 +86,36 @@ make help
 
 ## Installation
 
-### Clone the repository
 
-<details>
-  <summary><b>SSH</b> (alternative)</summary>
-  <br>
-  <blockquote>
-    Cloning with SSH requires that you have your SSH keys set up with GitHub.
-  </blockquote>
-
-###### See [Connecting to GitHub with SSH](https://docs.github.com/en/authentication/connecting-to-github-with-ssh) for instructions
-
-  ```bash
-  git clone git@github.com:clxrityy/dotfiles.git ~/.dotfiles
-  ```
-
-</details>
-
-##### Using HTTPS (recommended for most users)
+The bootstrap downloads **only** your OS's files, verifies them against `SHA256SUMS`, extracts them to `~/.dotfiles`, and runs `install.sh`.
 
 ```bash
-# Clone the repository (HTTPS)
-git clone https://github.com/clxrityy/dotfiles.git ~/.dotfiles
-# Navigate to the dotfiles directory
-cd ~/.dotfiles
+# Auto-detect OS 
+curl -fsSL https://clxrityy.github.io/dotfiles/install.sh | bash
+
+# Pin an OS and pass installer flags
+curl -fsSL https://clxrityy.github.io/dotfiles/macos.sh | bash -s -- --dry-run --verbose
+
+# Download/extract only, run the installer later
+curl -fsSL https://clxrityy.github.io/dotfiles/install.sh | bash -s -- --no-install
+
+# Read it first
+curl -fsSL https://clxrityy.github.io/dotfiles/install.sh | less
 ```
 
-#### Run the installation script
+Windows 11 (elevated PowerShell):
 
-```bash
-# Show help
-bash install.sh --help
-
-# Run installation as a dry-run with verbose output
-bash install.sh --dry-run --verbose
-
-# Run installation (auto-detects OS, runs GNU Stow, then runs OS-specific steps)
-bash install.sh
+```powershell
+irm https://clxrityy.github.io/dotfiles/install.ps1 | iex
+# with flags:
+& ([scriptblock]::Create((irm https://clxrityy.github.io/dotfiles/install.ps1))) -DryRun
 ```
+
+> [!NOTE]
+>
+> - Bootstrap options: `--os <key>`, `--dir <path>` (default `~/.dotfiles`), `--no-install`. Everything else goes to `install.sh`.
+> - Re-running updates the bundle in place and keeps `~/.dotfiles/private/`. It refuses to touch a directory that is a git clone or isn't a bundle.
+> - Build the site locally with `make pages` (output in `dist/`).
 
 ---
 
@@ -134,6 +126,7 @@ bash install.sh
 - [x] Debian
 - [ ] Ventoy USB setup
 - [x] Package migration script
+- [x] Quick install via GitHub Pages
 - [ ] Development-specific environments
 - [ ] VPN configurations
 - [ ] SSH config management

@@ -1,0 +1,85 @@
+name: Pages
+
+# Builds per-OS dotfiles bundles and publishes them to GitHub Pages so a
+# machine can bootstrap without cloning:
+#   curl -fsSL https://clxrityy.github.io/dotfiles/install.sh | bash
+#
+# One-time setup: Settings -> Pages -> Build and deployment -> Source: GitHub Actions.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - install.sh
+      - packages.conf
+      - .stowrc
+      - .stow-local-ignore
+      - common/**
+      - shell/**
+      - git/**
+      - os/**
+      - scripts/**
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y shellcheck stow zip
+
+      - name: Run tests
+        run: bash scripts/tests/run
+
+  build:
+    name: Build bundles
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install zip
+        run: sudo apt-get update && sudo apt-get install -y zip
+
+      - id: pages
+        uses: actions/configure-pages@v5
+
+      - name: Build site
+        run: bash scripts/dev/build-pages.sh --out dist --base-url "${{ steps.pages.outputs.base_url }}"
+
+      - name: Smoke test bootstrap (Debian bundle, no install)
+        run: |
+          cd dist && python3 -m http.server 8000 >/dev/null 2>&1 &
+          sleep 2
+          curl -fsSL http://localhost:8000/install.sh \
+            | bash -s -- --base-url http://localhost:8000 --dir "$RUNNER_TEMP/dotfiles" --no-install
+          test -f "$RUNNER_TEMP/dotfiles/os/debian/install.sh"
+          test ! -e "$RUNNER_TEMP/dotfiles/private"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

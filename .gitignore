@@ -34,3 +34,6 @@ copilot/config.json
 argv.json
 *.db*
 */run/
+
+# GitHub Pages build output (scripts/dev/build-pages.sh)
+dist/

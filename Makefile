@@ -1,4 +1,4 @@
-.PHONY: help copy-package
+.PHONY: help copy-package pages
 
 # ~/.dotiles/Makefile
 # 	Local development commands
@@ -8,7 +8,7 @@
 SCRIPTS_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))/scripts
 DEV_DIR := $(SCRIPTS_DIR)/dev
 # Args forwarding for script-wrapper targets
-SCRIPT_ARG_TARGETS := copy-package migrate-package setup-git-access ssh2-to-openssh install
+SCRIPT_ARG_TARGETS := copy-package migrate-package setup-git-access ssh2-to-openssh install pages
 GOAL_ARGS := $(filter-out --,$(wordlist 2,$(words $(MAKECMDGOALS)), $(MAKECMDGOALS)))
 
 # Allow explicit ARGS="..." to override, otherwise fallback to goal-based args
@@ -43,6 +43,12 @@ enable-scripts: ## Make all scripts/ executable
 # ---------------------------------------
 install: enable-scripts ## Install dotfiles
 	@bash install.sh ${ARGS}
+
+# ---------------------------------------
+# GitHub Pages (clone-free bootstrap bundles)
+# ---------------------------------------
+pages: ## Build per-OS bootstrap bundles into dist/ (usage: make pages [ARGS="--base-url http://localhost:8000"])
+	@bash ${DEV_DIR}/build-pages.sh ${ARGS}
 
 # ---------------------------------------
 # Stow / package management
