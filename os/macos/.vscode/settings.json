@@ -393,4 +393,7 @@
   "powershell.buttons.showPanelMovementButtons": false,
   "powershell.codeFolding.showLastLine": true,
   "powershell.sideBar.CommandExplorerVisibility": false,
+  "claudeCode.preferredLocation": "panel",
+  "explorer.confirmPasteNative": false,
+  "claudeCode.hideOnboarding": true,
 }
